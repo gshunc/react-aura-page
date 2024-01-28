@@ -8,7 +8,7 @@ export default function GraphBox({ title, content, isLarge }) {
     >
       <div className="p-4 flex flex-col min-h-graph_height">
         <div className="font-bold text-xl">{title}</div>
-        <div className="text-base h-max">GRAPH GOES HERE</div>
+        <div className="text-base h-max w-full">{content}</div>
       </div>
     </div>
   );
