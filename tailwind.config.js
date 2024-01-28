@@ -17,6 +17,16 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      borderWidth: {
+        16: "16px",
+      },
+      width: {
+        wide_graph: "36rem",
+        regular_graph: "18rem",
+      },
+      height: {
+        graph_height: "18rem",
+      },
     },
   },
   plugins: [],
