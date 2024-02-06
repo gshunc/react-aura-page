@@ -1,5 +1,7 @@
 import GraphBox from "./components/GraphBox";
-import LineChart from "./components/LineChart";
+import StepChart from "./components/charts/StepChart";
+import StepBar from "./components/charts/StepBar";
+import ActivityProfile from "./components/charts/ActivityProfile";
 import Header from "./components/Header";
 
 export default function Home() {
@@ -12,17 +14,23 @@ export default function Home() {
             <GraphBox
               title={"Step Activity"}
               isLarge={true}
-              content={<LineChart />}
+              // content={<StepBar />}
             ></GraphBox>
             <GraphBox title={"Total Activity Level"} isLarge={true}></GraphBox>
           </div>
           <div className="flex flex-col">
-            <GraphBox title={"Total Steps"}></GraphBox>
-            <GraphBox title={"Standing Time"}></GraphBox>
+            <GraphBox
+              title={"Total Steps"}
+              isLarge={true}
+              content={<StepChart />}
+            ></GraphBox>
+            <GraphBox
+              title={"Activity Profile"}
+              isLarge={true}
+              content={<ActivityProfile />}
+            ></GraphBox>
           </div>
-          <div className="flex flex-col">
-            <GraphBox title={"Activity Profile"}></GraphBox>
-          </div>
+          <div className="flex flex-col"></div>
         </div>
       </main>
     </>

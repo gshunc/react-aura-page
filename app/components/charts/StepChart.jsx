@@ -5,6 +5,7 @@ import { Line } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 
 ChartJS.register(CategoryScale, ...registerables);
+ChartJS.defaults.font.size = 8;
 
 const getProfileInfoById = async (id) => {
   try {
@@ -23,6 +24,21 @@ const getProfileInfoById = async (id) => {
   }
 };
 
+const formatDate = (raw_date) => {
+  const str_date = String(raw_date);
+  const formattedDate = new Date(str_date).toLocaleString("en-US", {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+    hour12: false,
+  });
+  return formattedDate;
+};
+
 const formatDataForChart = async (info) => {
   var activity_history = info?.response?.activity;
   if (
@@ -32,35 +48,33 @@ const formatDataForChart = async (info) => {
   ) {
     throw new Error("Data is not available or incomplete");
   }
-  var e_probabilities = [];
-  var w_probabilities = [];
-  var r_probabilities = [];
-  var j_probabilities = [];
-  var l_probabilities = [];
-  var s_probabilities = [];
-  var c_probabilities = [];
-  var g_probabilities = [];
+  var step_data = [];
   var times = [];
+  var step_count = 0;
 
   for (let i = 0; i < activity_history?.length; i++) {
-    e_probabilities.push(Number(activity_history[i]["probabilities"][0]));
-    w_probabilities.push(Number(activity_history[i]["probabilities"][1]));
-    r_probabilities.push(activity_history[i]["probabilities"][2]);
-    j_probabilities.push(activity_history[i]["probabilities"][3]);
-    l_probabilities.push(activity_history[i]["probabilities"][4]);
-    s_probabilities.push(activity_history[i]["probabilities"][5]);
-    c_probabilities.push(activity_history[i]["probabilities"][6]);
-    g_probabilities.push(activity_history[i]["probabilities"][7]);
+    var probabilities = activity_history[i]["probabilities"];
+    var numbers = probabilities.map((value) => +value);
+    var max = Math.max(...numbers);
 
-    times.push(String(activity_history[i]["time"]));
+    if (Number(activity_history[i]["probabilities"][1]) === max) {
+      step_count += 8;
+      step_data.push(step_count);
+    } else if (Number(activity_history[i]["probabilities"][2] === max)) {
+      step_count += 12;
+      step_data.push(step_count);
+    } else {
+      step_data.push(step_count);
+    }
+    times.push(formatDate(activity_history[i]["time"]));
   }
   const labels = times;
   const data = {
     labels,
     datasets: [
       {
-        label: "Probabilities",
-        data: e_probabilities,
+        label: "Step Count",
+        data: step_data,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
@@ -69,7 +83,7 @@ const formatDataForChart = async (info) => {
   return data;
 };
 
-function LineChart() {
+function StepChart() {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -85,10 +99,11 @@ function LineChart() {
     fetchData();
   }, []);
   if (!data) {
-    // You can return a loading indicator or null while data is being fetched
-    return <div>{"Loading!"}</div>;
+    return <div className="text-bold font-large">{"Loading..."}</div>;
   }
-  console.log(data);
-  return data && <Line data={data} />;
+  var options = {
+    scales: {},
+  };
+  return data && <Line data={data} options={options} />;
 }
-export default LineChart;
+export default StepChart;
