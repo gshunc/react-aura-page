@@ -3,6 +3,7 @@ import StepChart from "./components/charts/StepChart";
 import StepBar from "./components/charts/StepBar";
 import ActivityProfile from "./components/charts/ActivityProfile";
 import Header from "./components/Header";
+import generateTimeSeriesData from "./data/fakerdata";
 
 export default function Home() {
   return (
@@ -20,7 +21,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col">
             <GraphBox
-              title={"Total Steps"}
+              title={"Total Daily Steps"}
               isLarge={true}
               content={<StepChart />}
             ></GraphBox>

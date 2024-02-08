@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
+import fakeData from "@/app/data/fakerdata";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -25,11 +26,12 @@ const getProfileInfoById = async (id) => {
 };
 
 const formatDataForChart = async (info) => {
-  var activity_history = info?.response?.activity;
+  //var activity_history = info?.response?.activity;
+  var activity_history = info.activity;
   if (
     !activity_history ||
     activity_history.length === 0 ||
-    !activity_history[0]?.probabilities
+    !activity_history[0].probabilities
   ) {
     throw new Error("Data is not available or incomplete");
   }
@@ -108,7 +110,8 @@ function ActivityProfile() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const info = await getProfileInfoById("debug1");
+        //const info = await getProfileInfoById("debug1");
+        const info = fakeData;
         const formattedData = await formatDataForChart(info);
         setData(formattedData);
       } catch (error) {
