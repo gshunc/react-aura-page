@@ -50,6 +50,13 @@ const formatDataForChart = async (info) => {
   ) {
     throw new Error("Data is not available or incomplete");
   }
+  var current_date = Date.now();
+  var midnight = new Date();
+  midnight.setHours(0, 0, 0, 0);
+  var offset = Math.floor((current_date - midnight.getTime()) / 10000);
+  console.log(activity_history.length);
+  activity_history = activity_history.slice(activity_history.length - offset);
+  console.log(activity_history.length);
   var step_data = [];
   var times = [];
   var step_count = 0;
