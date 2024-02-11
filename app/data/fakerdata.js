@@ -1,19 +1,31 @@
 import { faker } from "@faker-js/faker";
 
 const generateTimeSeriesData = () => {
-  const generateRandomDistribution = () => {
-    const randomArray = Array.from({ length: 8 }, () => faker.number.float());
+  const generateRandomDistribution = (previous) => {
+    var weights = [1, 2, 1.2, 1, 3, 1, 1, 1];
+    if (previous != -1) {
+      weights[previous] += 100;
+    }
+    const randomArray = weights.map((value) => value * Math.random());
     const sum = randomArray.reduce((acc, value) => acc + value, 0);
     const normalizedArray = randomArray.map((value) => value / sum);
     return normalizedArray;
   };
   var activity = [];
+  var previous = -1;
   for (var i = -500000; i < 0; i += 10) {
+    let probabilities = generateRandomDistribution(previous);
+    previous = probabilities.reduce(
+      (maxIndex, currentValue, currentIndex, array) =>
+        currentValue > array[maxIndex] ? currentIndex : maxIndex,
+      0
+    );
     activity.push({
-      probabilities: generateRandomDistribution(),
+      probabilities,
       time: new Date(Date.now() + i * 1000),
     });
   }
+
   return activity;
 };
 const generateFakeData = () => {

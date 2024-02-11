@@ -35,6 +35,7 @@ const formatDataForChart = async (info) => {
   ) {
     throw new Error("Data is not available or incomplete");
   }
+  var empty_count = 0;
   var walking_count = 0;
   var running_count = 0;
   var jumping_count = 0;
@@ -46,8 +47,9 @@ const formatDataForChart = async (info) => {
     var probabilities = activity_history[i]["probabilities"];
     var numbers = probabilities.map((value) => +value);
     var max = Math.max(...numbers);
-
-    if (Number(activity_history[i]["probabilities"][1]) === max) {
+    if (Number(activity_history[i]["probabilities"][0]) === max) {
+      empty_count += 1;
+    } else if (Number(activity_history[i]["probabilities"][1]) === max) {
       walking_count += 1;
     } else if (Number(activity_history[i]["probabilities"][2] === max)) {
       running_count += 1;
@@ -55,13 +57,15 @@ const formatDataForChart = async (info) => {
       jumping_count += 1;
     } else if (Number(activity_history[i]["probabilities"][4] === max)) {
       sitting_standing_count += 1;
-    } else if (Number(activity_history[i]["probabilities"][5] === max)) {
-      arm_count += 1;
     } else if (Number(activity_history[i]["probabilities"][6] === max)) {
+      arm_count += 1;
+    } else if (Number(activity_history[i]["probabilities"][7] === max)) {
       falling_count += 1;
     }
   }
+  console.log(walking_count);
   const labels = [
+    "Empty",
     "Walking",
     "Running",
     "Jumping",
@@ -75,6 +79,7 @@ const formatDataForChart = async (info) => {
       {
         label: "Times Detected",
         data: [
+          empty_count,
           walking_count,
           running_count,
           jumping_count,
@@ -83,6 +88,7 @@ const formatDataForChart = async (info) => {
           falling_count,
         ],
         backgroundColor: [
+          "rgba(255,255,132,0.2)",
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
           "rgba(255, 206, 86, 0.2)",
@@ -91,6 +97,7 @@ const formatDataForChart = async (info) => {
           "rgba(255, 159, 64, 0.2)",
         ],
         borderColor: [
+          "rgba(255,255,132,1)",
           "rgba(255, 99, 132, 1)",
           "rgba(54, 162, 235, 1)",
           "rgba(255, 206, 86, 1)",

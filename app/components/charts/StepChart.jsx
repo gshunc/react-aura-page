@@ -112,7 +112,12 @@ function StepChart() {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
   var options = {
-    scales: {},
+    spanGaps: true,
+    datasets: {
+      line: {
+        pointRadius: 0,
+      },
+    },
   };
   return data && <Line data={data} options={options} />;
 }

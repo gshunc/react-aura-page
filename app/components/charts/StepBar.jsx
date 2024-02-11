@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
+import fakeData from "@/app/data/fakerdata";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -67,7 +68,8 @@ function StepBar() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const info = await getProfileInfoById("debug1");
+        //const info = await getProfileInfoById("debug1");
+        const info = fakeData;
         const formattedData = await formatDataForChart(info);
         setData(formattedData);
       } catch (error) {
