@@ -28,6 +28,7 @@ const generateTimeSeriesData = () => {
 
   return activity;
 };
+
 const generateFakeData = () => {
   const response = {
     userid: "fakedata",

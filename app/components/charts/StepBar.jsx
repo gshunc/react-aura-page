@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-//import fakeData from "@/app/data/fakerdata";
 import { pullData, formatDate } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
@@ -75,20 +74,23 @@ const formatDataForChart = (info) => {
   return getChartData(activity_history);
 };
 
-function StepBar(selectedDate) {
+function StepBar(unformattedData) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const info = await pullData("debug1", selectedDate.selectedDate);
-        const formattedData = await formatDataForChart(info, selectedDate);
-        setData(formattedData);
+        if (unformattedData?.unformattedData) {
+          const formattedData = formatDataForChart(
+            unformattedData.unformattedData
+          );
+          setData(formattedData);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [selectedDate.selectedDate]);
+  }, [unformattedData.unformattedData]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }

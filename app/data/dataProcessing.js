@@ -1,4 +1,5 @@
 const getProfileInfoById = async (id) => {
+  //Simple API call.
   try {
     let res = await fetch(`http://localhost:3000/api/analytics/${id}`, {
       cache: "no-store",
@@ -56,7 +57,7 @@ export const pullData = async (id, date) => {
         time_series[i].probabilities
       );
     }
-    //Time adjustment here may lead to lost steps if we, for example, have walking detected at (three second interval) + 1, and (three second interval) + 2.
+    //Time adjustment here may lead to lost steps if we, for example, have walking detected at (three second interval) + 1, and (three second interval) + 2. This is hard to fix because of the nature of the data being probabilities and not step counts, thus we can't sum anything.
   }
   //Filling in empty times, checking if a timestamp was found in the database and updating probabilities accordingly, else we assume the sensor detected empty.
   var res = [];

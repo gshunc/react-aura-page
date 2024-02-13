@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-//import fakeData from "@/app/data/fakerdata";
 import { pullData, formatDate } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const formatDataForChart = async (info) => {
+const formatDataForChart = (info) => {
+  //Takes raw activity data and finds counts of different activities over 15 minute intervals for chart data. Complexity O(N), where N is length of activity history (up to 28800 data points).
   var activity_history = info;
   if (
     !activity_history ||
@@ -19,10 +19,12 @@ const formatDataForChart = async (info) => {
     throw new Error("Data is not available or incomplete");
   }
 
+  //Creating arrays to track 15 minute intervals, assign colors and times to each interval.
   var intervals = [];
   var colors = [];
   var borders = [];
   var times = [];
+  //Iterate through all data points to categorize.
   for (let i = 0; i < activity_history?.length - 300; i += 300) {
     var empty_count = 0;
     var walking_count = 0;
@@ -31,6 +33,7 @@ const formatDataForChart = async (info) => {
     var sitting_standing_count = 0;
     var arm_count = 0;
     var falling_count = 0;
+    //Looping through in chunks of 300 data points = 15 minutes of real time. 300 3 second intervals = 900 1 second intervals = 15 minutes. Each index in probabilities is equal to one type of activity.
     for (let j = i; j < i + 300; j++) {
       var probabilities = activity_history[j]["probabilities"];
       var numbers = probabilities.map((value) => +value);
@@ -51,10 +54,14 @@ const formatDataForChart = async (info) => {
         falling_count += 1;
       }
     }
+
+    //Finding proportion of active to inactive for Y variable in each bar.
     let active =
       walking_count + running_count + jumping_count + arm_count + falling_count;
     let inactive = empty_count + sitting_standing_count;
     let proportion = active / (active + inactive);
+
+    //Categorizing color by proportion. Semi arbitrary, could be improved by user testing.
     if (proportion >= 0.66) {
       colors.push("rgba(75, 192, 192, 0.6)");
       borders.push("rgba(75, 192, 192, 1)");
@@ -65,6 +72,7 @@ const formatDataForChart = async (info) => {
       colors.push("rgba(255, 79, 120,0.6)");
       borders.push("rgba(255, 79, 120,1)");
     }
+
     intervals.push(proportion);
     times.push(formatDate(activity_history[i]["time"]));
   }
@@ -81,23 +89,28 @@ const formatDataForChart = async (info) => {
       },
     ],
   };
+
   return data;
 };
 
-function ActivityBar(selectedDate) {
+function ActivityBar(unformattedData) {
+  //Activity level bar chart component. Fetches user data for the selected date and processes accordingly.
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const info = await pullData("debug1", selectedDate?.selectedDate);
-        const formattedData = await formatDataForChart(info, selectedDate);
-        setData(formattedData);
+        if (unformattedData?.unformattedData) {
+          const formattedData = formatDataForChart(
+            unformattedData.unformattedData
+          );
+          setData(formattedData);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [selectedDate.selectedDate]);
+  }, [unformattedData.unformattedData]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
@@ -127,6 +140,7 @@ function ActivityBar(selectedDate) {
       },
     },
   };
+
   return data && <Bar data={data} options={options} />;
 }
 export default ActivityBar;

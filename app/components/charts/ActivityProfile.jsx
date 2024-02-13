@@ -3,13 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-//import fakeData from "@/app/data/fakerdata";
-import { pullData } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const formatDataForChart = async (info) => {
+const formatDataForChart = (info) => {
   var activity_history = info;
   if (
     !activity_history ||
@@ -45,6 +43,10 @@ const formatDataForChart = async (info) => {
     } else if (Number(activity_history[i]["probabilities"][7] === max)) {
       falling_count += 1;
     }
+  }
+  var isEmpty = false;
+  if (empty_count == activity_history?.length) {
+    isEmpty = true;
   }
   const labels = [
     "Walking",
@@ -86,37 +88,37 @@ const formatDataForChart = async (info) => {
         borderWidth: 1,
       },
     ],
+    isEmpty: isEmpty,
   };
   return data;
 };
 
-function ActivityProfile(selectedDate) {
+function ActivityProfile(unformattedData) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const info = await pullData("debug1", selectedDate?.selectedDate);
-        const formattedData = await formatDataForChart(info, selectedDate);
-        setData(formattedData);
+        if (unformattedData?.unformattedData) {
+          const formattedData = formatDataForChart(
+            unformattedData.unformattedData
+          );
+          setData(formattedData);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
-  }, [selectedDate.selectedDate]);
+  }, [unformattedData.unformattedData]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
-  var options = {
-    scales: {},
-  };
-  return (
-    data && (
-      <div className="h-container">
-        <Doughnut data={data} options={options} />
-      </div>
-    )
+  return data && !data.isEmpty ? (
+    <div className="h-container">
+      <Doughnut data={data} options={{}} />
+    </div>
+  ) : (
+    <div className="min-h-full">{"No activity detected!!"}</div>
   );
 }
 export default ActivityProfile;

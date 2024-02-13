@@ -21,6 +21,7 @@ module.exports = {
       },
       height: {
         graph_height: "20rem",
+        graph_box_height: "22rem",
       },
     },
   },
