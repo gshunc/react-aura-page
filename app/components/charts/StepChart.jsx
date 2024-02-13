@@ -28,9 +28,6 @@ const getProfileInfoById = async (id) => {
 const formatDate = (raw_date) => {
   const str_date = String(raw_date);
   const formattedDate = new Date(str_date).toLocaleString("en-US", {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -40,7 +37,7 @@ const formatDate = (raw_date) => {
   return formattedDate;
 };
 
-const formatDataForChart = async (info) => {
+const formatDataForChart = async (info, selectedDate) => {
   //var activity_history = info?.response?.activity;
   var activity_history = info.activity;
   if (
@@ -50,17 +47,28 @@ const formatDataForChart = async (info) => {
   ) {
     throw new Error("Data is not available or incomplete");
   }
-  var current_date = Date.now();
-  var midnight = new Date();
+
+  var current_date = selectedDate.selectedDate;
+  if (current_date.getDate() != new Date(Date.now()).getDate()) {
+    current_date.setHours(23, 59, 59, 999);
+  }
+
+  var midnight = new Date(current_date);
   midnight.setHours(0, 0, 0, 0);
-  var offset = Math.floor((current_date - midnight.getTime()) / 10000);
-  console.log(activity_history.length);
-  activity_history = activity_history.slice(activity_history.length - offset);
-  console.log(activity_history.length);
+
+  var difference = Math.floor((Date.now() - current_date) / 10000);
+  var offset =
+    activity_history.length -
+    Math.floor((current_date - midnight.getTime()) / 10000);
+
+  activity_history = activity_history.slice(
+    offset - difference,
+    activity_history.length - difference
+  );
+
   var step_data = [];
   var times = [];
   var step_count = 0;
-
   for (let i = 0; i < activity_history?.length; i++) {
     var probabilities = activity_history[i]["probabilities"];
     var numbers = probabilities.map((value) => +value);
@@ -92,22 +100,21 @@ const formatDataForChart = async (info) => {
   return data;
 };
 
-function StepChart() {
+function StepChart(selectedDate) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
         //const info = await getProfileInfoById("debug1");
         const info = fakeData;
-        const formattedData = await formatDataForChart(info);
+        const formattedData = await formatDataForChart(info, selectedDate);
         setData(formattedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
-  }, []);
+  }, [selectedDate]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
@@ -119,6 +126,7 @@ function StepChart() {
       },
     },
   };
+
   return data && <Line data={data} options={options} />;
 }
 export default StepChart;

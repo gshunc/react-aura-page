@@ -4,6 +4,7 @@ import { Chart as ChartJS } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import fakeData from "@/app/data/fakerdata";
+import pullData from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -25,9 +26,9 @@ const getProfileInfoById = async (id) => {
   }
 };
 
-const formatDataForChart = async (info) => {
+const formatDataForChart = async (info, selectedDate) => {
   //var activity_history = info?.response?.activity;
-  var activity_history = info.activity;
+  var activity_history = info;
   if (
     !activity_history ||
     activity_history.length === 0 ||
@@ -35,6 +36,21 @@ const formatDataForChart = async (info) => {
   ) {
     throw new Error("Data is not available or incomplete");
   }
+  var current_date = selectedDate?.selectedDate;
+  if (current_date?.getDate() != new Date(Date.now()).getDate()) {
+    current_date?.setHours(23, 59, 59, 999);
+  }
+  var midnight = new Date(current_date);
+  midnight.setHours(0, 0, 0, 0);
+  var difference = Math.floor((Date.now() - current_date) / 3000);
+  var offset =
+    activity_history.length -
+    Math.floor((current_date - midnight.getTime()) / 3000);
+  activity_history = activity_history?.slice(
+    offset - difference,
+    activity_history.length - difference
+  );
+
   var empty_count = 0;
   var walking_count = 0;
   var running_count = 0;
@@ -42,7 +58,6 @@ const formatDataForChart = async (info) => {
   var sitting_standing_count = 0;
   var arm_count = 0;
   var falling_count = 0;
-
   for (let i = 0; i < activity_history?.length; i++) {
     var probabilities = activity_history[i]["probabilities"];
     var numbers = probabilities.map((value) => +value);
@@ -63,7 +78,6 @@ const formatDataForChart = async (info) => {
       falling_count += 1;
     }
   }
-  console.log(walking_count);
   const labels = [
     "Empty",
     "Walking",
@@ -112,14 +126,14 @@ const formatDataForChart = async (info) => {
   return data;
 };
 
-function ActivityProfile() {
+function ActivityProfile(selectedDate) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //const info = await getProfileInfoById("debug1");
-        const info = fakeData;
-        const formattedData = await formatDataForChart(info);
+        const info = await pullData("debug1", selectedDate?.selectedDate);
+        //const info = fakeData;
+        const formattedData = await formatDataForChart(info, selectedDate);
         setData(formattedData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -127,7 +141,7 @@ function ActivityProfile() {
     };
 
     fetchData();
-  }, []);
+  }, [selectedDate]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
@@ -136,7 +150,7 @@ function ActivityProfile() {
   };
   return (
     data && (
-      <div className="w-regular_graph">
+      <div className="h-container">
         <Doughnut data={data} options={options} />
       </div>
     )

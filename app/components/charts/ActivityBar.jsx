@@ -1,0 +1,178 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import { Chart as ChartJS } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { CategoryScale, registerables } from "chart.js";
+import fakeData from "@/app/data/fakerdata";
+import pullData from "@/app/data/dataProcessing";
+
+ChartJS.register(CategoryScale, ...registerables);
+ChartJS.defaults.font.size = 8;
+
+const getProfileInfoById = async (id) => {
+  try {
+    let res = await fetch(`http://localhost:3000/api/analytics/${id}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error("Error fetching information from user.");
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error in getProfileInfoById:", error);
+    throw new Error(
+      "Error fetching information about user. Details: " + error.message
+    );
+  }
+};
+
+const formatDate = (raw_date) => {
+  const str_date = String(raw_date);
+  const formattedDate = new Date(str_date).toLocaleString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+    hour12: false,
+  });
+  return formattedDate;
+};
+
+const formatDataForChart = async (info, selectedDate) => {
+  //var activity_history = info?.response?.activity;
+  // var activity_history = info.activity;
+  var activity_history = info;
+  if (
+    !activity_history ||
+    activity_history.length === 0 ||
+    !activity_history[0]?.probabilities
+  ) {
+    throw new Error("Data is not available or incomplete");
+  }
+
+  var current_date = selectedDate.selectedDate;
+  if (current_date.getDate() != new Date(Date.now()).getDate()) {
+    current_date.setHours(23, 59, 59, 999);
+  }
+  var midnight = new Date(current_date);
+  midnight.setHours(0, 0, 0, 0);
+  var difference = Math.floor((Date.now() - current_date) / 10000);
+  var offset =
+    activity_history.length -
+    Math.floor((current_date - midnight.getTime()) / 10000);
+  activity_history = activity_history?.slice(
+    offset - difference,
+    activity_history.length - difference
+  );
+
+  var intervals = [];
+  var colors = [];
+  var borders = [];
+  var newTimes = [];
+  for (let i = 0; i < activity_history?.length - 90; i += 90) {
+    var empty_count = 0;
+    var walking_count = 0;
+    var running_count = 0;
+    var jumping_count = 0;
+    var sitting_standing_count = 0;
+    var arm_count = 0;
+    var falling_count = 0;
+    for (let j = i; j < i + 90; j++) {
+      var probabilities = activity_history[j]["probabilities"];
+      var numbers = probabilities.map((value) => +value);
+      var max = Math.max(...numbers);
+      if (Number(activity_history[j]["probabilities"][0]) === max) {
+        empty_count += 1;
+      } else if (Number(activity_history[j]["probabilities"][1]) === max) {
+        walking_count += 1;
+      } else if (Number(activity_history[j]["probabilities"][2] === max)) {
+        running_count += 1;
+      } else if (Number(activity_history[j]["probabilities"][3] === max)) {
+        jumping_count += 1;
+      } else if (Number(activity_history[j]["probabilities"][4] === max)) {
+        sitting_standing_count += 1;
+      } else if (Number(activity_history[j]["probabilities"][6] === max)) {
+        arm_count += 1;
+      } else if (Number(activity_history[j]["probabilities"][7] === max)) {
+        falling_count += 1;
+      }
+    }
+    let active =
+      walking_count + running_count + jumping_count + arm_count + falling_count;
+    let inactive = empty_count + sitting_standing_count;
+    let proportion = active / (active + inactive);
+    if (proportion >= 0.66) {
+      colors.push("rgba(75, 192, 192, 0.6)");
+      borders.push("rgba(75, 192, 192, 1)");
+    } else if (proportion >= 0.33) {
+      colors.push("rgba(255, 240, 0, 0.6)");
+      borders.push("rgba(255, 240, 0, 1)");
+    } else {
+      colors.push("rgba(255, 79, 120,0.6)");
+      borders.push("rgba(255, 79, 120,1)");
+    }
+    intervals.push(proportion);
+    newTimes.push(formatDate(activity_history[i]["time"]));
+  }
+
+  const labels = newTimes;
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Activity Levels",
+        data: intervals,
+        borderColor: borders,
+        backgroundColor: colors,
+      },
+    ],
+  };
+  return data;
+};
+
+function ActivityBar(selectedDate) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const info2 = fakeData;
+        const info = await pullData("debug1", selectedDate?.selectedDate);
+        console.log(info);
+        const formattedData = await formatDataForChart(info, selectedDate);
+        setData(formattedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [selectedDate]);
+  if (!data) {
+    return <div className="text-bold font-large">{"Loading..."}</div>;
+  }
+  var options = {
+    borderWidth: 1,
+    borderRadius: 2,
+    scales: {
+      y: {
+        ticks: {
+          callback: function (value, index, ticks) {
+            return `${index * 10}%`;
+          },
+        },
+        title: {
+          display: true,
+          text: "Percentage of Time Spent Active",
+          font: {
+            size: 12,
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+  return data && <Bar data={data} options={options} />;
+}
+export default ActivityBar;

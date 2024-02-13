@@ -4,58 +4,69 @@ import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import fakeData from "@/app/data/fakerdata";
+import pullData from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const getProfileInfoById = async (id) => {
-  try {
-    let res = await fetch(`http://localhost:3000/api/analytics/${id}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error("Error fetching information from user.");
-    }
-    return res.json();
-  } catch (error) {
-    console.error("Error in getProfileInfoById:", error);
-    throw new Error(
-      "Error fetching information about user. Details: " + error.message
-    );
-  }
-};
-
 const formatDate = (raw_date) => {
   const str_date = String(raw_date);
   const formattedDate = new Date(str_date).toLocaleString("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
     timeZoneName: "short",
     hour12: false,
   });
   return formattedDate;
 };
 
-const formatDataForChart = async (info) => {
-  var activity_history = info?.response?.activity;
-  if (
-    !activity_history ||
-    activity_history.length === 0 ||
-    !activity_history[0]?.probabilities
-  ) {
-    throw new Error("Data is not available or incomplete");
-  }
+const getChartData = (activity_history) => {
+  var step_data = [];
+  var times = [];
+  var step_count = 0;
 
+  for (let i = 0; i < activity_history?.length; i++) {
+    var probabilities = activity_history[i]["probabilities"];
+    var numbers = probabilities.map((value) => +value);
+    var max = Math.max(...numbers);
+    if (Number(activity_history[i]["probabilities"][1]) === max) {
+      step_count += 8;
+      step_data.push(step_count);
+    } else if (Number(activity_history[i]["probabilities"][2] === max)) {
+      step_count += 12;
+      step_data.push(step_count);
+    } else {
+      step_data.push(step_count);
+    }
+    times.push(formatDate(activity_history[i]["time"]));
+  }
+  var intervals = [];
+  var colors = [];
+  var borders = [];
+  var newTimes = [];
+  for (let i = 0; i < activity_history?.length - 90; i += 90) {
+    let increase = step_data[i + 90] - step_data[i];
+    intervals.push(increase);
+    newTimes.push(formatDate(activity_history[i]["time"]));
+    if (increase >= 300) {
+      colors.push("rgba(75, 192, 192, 0.6)");
+      borders.push("rgba(75, 192, 192, 1)");
+    } else if (increase >= 150) {
+      colors.push("rgba(255, 240, 0, 0.6)");
+      borders.push("rgba(255, 240, 0, 1)");
+    } else {
+      colors.push("rgba(255, 79, 120,0.6)");
+      borders.push("rgba(255, 79, 120,1)");
+    }
+  }
+  const labels = newTimes;
   const data = {
     labels,
     datasets: [
       {
-        label: "Step Activity Levels",
+        label: "Step Count",
         data: intervals,
+        borderColor: borders,
         backgroundColor: colors,
       },
     ],
@@ -63,27 +74,70 @@ const formatDataForChart = async (info) => {
   return data;
 };
 
-function StepBar() {
+const formatDataForChart = async (info, selectedDate) => {
+  // var activity_history = info.response.activity;
+  var activity_history = info.activity;
+  if (
+    !activity_history ||
+    activity_history.length === 0 ||
+    !activity_history[0]?.probabilities
+  ) {
+    throw new Error("Data is not available or incomplete");
+  }
+  var current_date = selectedDate.selectedDate;
+  if (current_date.getDate() != new Date(Date.now()).getDate()) {
+    current_date.setHours(23, 59, 59, 999);
+  }
+  var midnight = new Date(current_date);
+  midnight.setHours(0, 0, 0, 0);
+  var difference = Math.floor((Date.now() - current_date) / 10000);
+  var offset =
+    activity_history.length -
+    Math.floor((current_date - midnight.getTime()) / 10000);
+  activity_history = activity_history?.slice(
+    offset - difference,
+    activity_history.length - difference
+  );
+  return getChartData(activity_history);
+};
+
+function StepBar(selectedDate) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //const info = await getProfileInfoById("debug1");
+        //const info1 = await pullData("debug1", selectedDate);
         const info = fakeData;
-        const formattedData = await formatDataForChart(info);
+        const formattedData = await formatDataForChart(info, selectedDate);
         setData(formattedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
-  }, []);
+  }, [selectedDate]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
   var options = {
-    scales: {},
+    borderWidth: 1,
+    borderRadius: 2,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "# of Steps",
+          font: {
+            size: 12,
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
   return data && <Bar data={data} options={options} />;
 }
