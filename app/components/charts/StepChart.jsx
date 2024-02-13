@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-import fakeData from "@/app/data/fakerdata";
+//import fakeData from "@/app/data/fakerdata";
 import { pullData, formatDate } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const formatDataForChart = async (info, selectedDate) => {
+const formatDataForChart = async (info) => {
   var activity_history = info;
   if (
     !activity_history ||
@@ -18,25 +18,6 @@ const formatDataForChart = async (info, selectedDate) => {
   ) {
     throw new Error("Data is not available or incomplete");
   }
-
-  var current_date = selectedDate.selectedDate;
-  if (current_date.getDate() != new Date(Date.now()).getDate()) {
-    current_date.setHours(23, 59, 59, 999);
-  }
-
-  var midnight = new Date(current_date);
-  midnight.setHours(0, 0, 0, 0);
-
-  var difference = Math.floor((Date.now() - current_date) / 10000);
-  var offset =
-    activity_history.length -
-    Math.floor((current_date - midnight.getTime()) / 10000);
-
-  activity_history = activity_history.slice(
-    offset - difference,
-    activity_history.length - difference
-  );
-
   var step_data = [];
   var times = [];
   var step_count = 0;
@@ -84,7 +65,7 @@ function StepChart(selectedDate) {
       }
     };
     fetchData();
-  }, [selectedDate]);
+  }, [selectedDate.selectedDate]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }

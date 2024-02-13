@@ -8,7 +8,6 @@ import ActivityProfile from "./components/charts/ActivityProfile";
 import Header from "./components/Header";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import pullData from "./data/dataProcessing";
 
 const getName = async (id) => {
   try {
@@ -28,14 +27,7 @@ const getName = async (id) => {
 };
 
 export default function Home() {
-  const currentDate = new Date(Date.now());
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-  const [date, setDate] = useState(currentDate);
+  const [date, setDate] = useState(new Date(Date.now()));
   const [name, setName] = useState("Loading...");
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +41,12 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   const formattedDate = date.toLocaleDateString("en-US", options);
   return (
     <>

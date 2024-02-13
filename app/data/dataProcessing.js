@@ -6,7 +6,8 @@ const getProfileInfoById = async (id) => {
     if (!res.ok) {
       throw new Error("Error fetching information from user.");
     }
-    return res.json();
+    const result = res.json();
+    return result;
   } catch (error) {
     console.error("Error in getProfileInfoById:", error);
     throw new Error(
@@ -30,12 +31,21 @@ export const formatDate = (raw_date) => {
 export const pullData = async (id, date) => {
   // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query.
   const selectedDate = new Date(date);
+  if (
+    !(
+      selectedDate.getDate() == new Date(Date.now()).getDate() &&
+      selectedDate.getMonth() == new Date(Date.now()).getMonth()
+    )
+  ) {
+    selectedDate.setHours(23, 59, 59, 999);
+  }
   const info = await getProfileInfoById(id);
   const time_series = info?.response?.activity;
   const midnight = new Date(date);
   midnight.setHours(0, 0, 0);
   //Using hashmap to keep track of time slots with activity data to be referencenced when filling in missing data below. Times are standardized to three second intervals and times not on three second intervals are shoved onto the next three second interval timeslot.
-  var timeMap = new Map();
+  const timeMap = new Map();
+
   for (let i = 0; i < time_series?.length; i++) {
     const dateTime = new Date(time_series[i]?.time);
     const secondsOffset = 3 - (dateTime.getSeconds() % 3);

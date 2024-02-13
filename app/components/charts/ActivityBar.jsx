@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-import fakeData from "@/app/data/fakerdata";
+//import fakeData from "@/app/data/fakerdata";
 import { pullData, formatDate } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const formatDataForChart = async (info, selectedDate) => {
+const formatDataForChart = async (info) => {
   var activity_history = info;
   if (
     !activity_history ||
@@ -19,26 +19,11 @@ const formatDataForChart = async (info, selectedDate) => {
     throw new Error("Data is not available or incomplete");
   }
 
-  var current_date = selectedDate.selectedDate;
-  if (current_date.getDate() != new Date(Date.now()).getDate()) {
-    current_date.setHours(23, 59, 59, 999);
-  }
-  var midnight = new Date(current_date);
-  midnight.setHours(0, 0, 0, 0);
-  var difference = Math.floor((Date.now() - current_date) / 10000);
-  var offset =
-    activity_history.length -
-    Math.floor((current_date - midnight.getTime()) / 10000);
-  activity_history = activity_history?.slice(
-    offset - difference,
-    activity_history.length - difference
-  );
-
   var intervals = [];
   var colors = [];
   var borders = [];
-  var newTimes = [];
-  for (let i = 0; i < activity_history?.length - 90; i += 90) {
+  var times = [];
+  for (let i = 0; i < activity_history?.length - 300; i += 300) {
     var empty_count = 0;
     var walking_count = 0;
     var running_count = 0;
@@ -46,7 +31,7 @@ const formatDataForChart = async (info, selectedDate) => {
     var sitting_standing_count = 0;
     var arm_count = 0;
     var falling_count = 0;
-    for (let j = i; j < i + 90; j++) {
+    for (let j = i; j < i + 300; j++) {
       var probabilities = activity_history[j]["probabilities"];
       var numbers = probabilities.map((value) => +value);
       var max = Math.max(...numbers);
@@ -81,10 +66,10 @@ const formatDataForChart = async (info, selectedDate) => {
       borders.push("rgba(255, 79, 120,1)");
     }
     intervals.push(proportion);
-    newTimes.push(formatDate(activity_history[i]["time"]));
+    times.push(formatDate(activity_history[i]["time"]));
   }
 
-  const labels = newTimes;
+  const labels = times;
   const data = {
     labels,
     datasets: [
@@ -112,7 +97,7 @@ function ActivityBar(selectedDate) {
       }
     };
     fetchData();
-  }, [selectedDate]);
+  }, [selectedDate.selectedDate]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
