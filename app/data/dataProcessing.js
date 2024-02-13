@@ -29,6 +29,28 @@ export const formatDate = (raw_date) => {
   return formattedDate;
 };
 
+export const countSteps = (activity_history) => {
+  var step_array = [];
+  var times = [];
+  var step_count = 0;
+  for (let i = 0; i < activity_history?.length; i++) {
+    var probabilities = activity_history[i]["probabilities"];
+    var numbers = probabilities.map((value) => +value);
+    var max = Math.max(...numbers);
+    if (Number(activity_history[i]["probabilities"][1]) === max) {
+      step_count += 8;
+      step_array.push(step_count);
+    } else if (Number(activity_history[i]["probabilities"][2] === max)) {
+      step_count += 12;
+      step_array.push(step_count);
+    } else {
+      step_array.push(step_count);
+    }
+    times.push(formatDate(activity_history[i]["time"]));
+  }
+  return { step_array, times };
+};
+
 export const pullData = async (id, date) => {
   // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query.
   const selectedDate = new Date(date);

@@ -97,16 +97,12 @@ function ActivityBar(unformattedData) {
   //Activity level bar chart component. Fetches user data for the selected date and processes accordingly.
   const [data, setData] = useState(null);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (unformattedData?.unformattedData) {
-          const formattedData = formatDataForChart(
-            unformattedData.unformattedData
-          );
-          setData(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+    const fetchData = () => {
+      if (unformattedData?.unformattedData) {
+        const formattedData = formatDataForChart(
+          unformattedData.unformattedData
+        );
+        setData(formattedData);
       }
     };
     fetchData();

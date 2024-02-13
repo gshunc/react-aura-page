@@ -8,32 +8,28 @@ import { pullData, formatDate } from "@/app/data/dataProcessing";
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const getChartData = (activity_history) => {
-  var step_data = [];
-  var times = [];
-  var step_count = 0;
+const formatDataForChart = (info, step_data) => {
+  //Formats data for the step bar chart by binning step amounts into 15 minute sections.
+  var activity_history = info;
 
-  for (let i = 0; i < activity_history?.length; i++) {
-    var probabilities = activity_history[i]["probabilities"];
-    var numbers = probabilities.map((value) => +value);
-    var max = Math.max(...numbers);
-    if (Number(activity_history[i]["probabilities"][1]) === max) {
-      step_count += 8;
-      step_data.push(step_count);
-    } else if (Number(activity_history[i]["probabilities"][2] === max)) {
-      step_count += 12;
-      step_data.push(step_count);
-    } else {
-      step_data.push(step_count);
-    }
-    times.push(formatDate(activity_history[i]["time"]));
+  if (
+    !activity_history ||
+    activity_history.length === 0 ||
+    !activity_history[0]?.probabilities
+  ) {
+    throw new Error("Data is not available or incomplete");
   }
+
+  //Looping through activity_history to count step events, same as stepchart but adding .
+
+  const step_array = step_data?.step_array;
+
   var intervals = [];
   var colors = [];
   var borders = [];
   var newTimes = [];
   for (let i = 0; i < activity_history?.length - 300; i += 300) {
-    let increase = step_data[i + 300] - step_data[i];
+    let increase = step_array[i + 300] - step_array[i];
     intervals.push(increase);
     newTimes.push(formatDate(activity_history[i]["time"]));
     if (increase >= 300) {
@@ -62,35 +58,18 @@ const getChartData = (activity_history) => {
   return data;
 };
 
-const formatDataForChart = (info) => {
-  var activity_history = info;
-  if (
-    !activity_history ||
-    activity_history.length === 0 ||
-    !activity_history[0]?.probabilities
-  ) {
-    throw new Error("Data is not available or incomplete");
-  }
-  return getChartData(activity_history);
-};
-
-function StepBar(unformattedData) {
+function StepBar(props) {
+  const { unformattedData, step_data } = props;
   const [data, setData] = useState(null);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (unformattedData?.unformattedData) {
-          const formattedData = formatDataForChart(
-            unformattedData.unformattedData
-          );
-          setData(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+    const fetchData = () => {
+      if (unformattedData && step_data) {
+        const formattedData = formatDataForChart(unformattedData, step_data);
+        setData(formattedData);
       }
     };
     fetchData();
-  }, [unformattedData.unformattedData]);
+  }, [unformattedData, step_data]);
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }

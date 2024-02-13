@@ -8,6 +8,7 @@ ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
 const formatDataForChart = (info) => {
+  //Formats data for display in the activity doughnut chart. Categorizes all data into counts of each activity type in an array in a simple for loop. O(N) with N = length of activity_history.
   var activity_history = info;
   if (
     !activity_history ||
@@ -44,10 +45,12 @@ const formatDataForChart = (info) => {
       falling_count += 1;
     }
   }
+  //Checking if counts are all zero and then displaying that no activity has been detected to the user.
   var isEmpty = false;
   if (empty_count == activity_history?.length) {
     isEmpty = true;
   }
+
   const labels = [
     "Walking",
     "Running",
@@ -90,35 +93,38 @@ const formatDataForChart = (info) => {
     ],
     isEmpty: isEmpty,
   };
+
   return data;
 };
 
 function ActivityProfile(unformattedData) {
   const [data, setData] = useState(null);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (unformattedData?.unformattedData) {
-          const formattedData = formatDataForChart(
-            unformattedData.unformattedData
-          );
-          setData(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+    const fetchData = () => {
+      if (unformattedData?.unformattedData) {
+        const formattedData = formatDataForChart(
+          unformattedData.unformattedData
+        );
+        setData(formattedData);
       }
     };
     fetchData();
   }, [unformattedData.unformattedData]);
+
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
+
   return data && !data.isEmpty ? (
     <div className="h-container">
       <Doughnut data={data} options={{}} />
     </div>
   ) : (
-    <div className="min-h-full">{"No activity detected!!"}</div>
+    <div className="min-h-full flex flex-col justify-center">
+      <div className="bg-carolina/25 p-10 rounded-md border-blue-900 border-2">
+        {"No activity detected!"}
+      </div>
+    </div>
   );
 }
 export default ActivityProfile;

@@ -8,7 +8,8 @@ import { pullData, formatDate } from "@/app/data/dataProcessing";
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const formatDataForChart = (info) => {
+const formatDataForChart = (info, step_data) => {
+  //Formats data by counting every walking or running event as steps. Step amounts are somewhat arbitrary and can be improved with better stats on walking rates and info about users. O(N) with N = length of activity_history.
   var activity_history = info;
   if (
     !activity_history ||
@@ -17,32 +18,18 @@ const formatDataForChart = (info) => {
   ) {
     throw new Error("Data is not available or incomplete");
   }
-  var step_data = [];
-  var times = [];
-  var step_count = 0;
-  for (let i = 0; i < activity_history?.length; i++) {
-    var probabilities = activity_history[i]["probabilities"];
-    var numbers = probabilities.map((value) => +value);
-    var max = Math.max(...numbers);
 
-    if (Number(activity_history[i]["probabilities"][1]) === max) {
-      step_count += 8;
-      step_data.push(step_count);
-    } else if (Number(activity_history[i]["probabilities"][2] === max)) {
-      step_count += 12;
-      step_data.push(step_count);
-    } else {
-      step_data.push(step_count);
-    }
-    times.push(formatDate(activity_history[i]["time"]));
-  }
+  //Looping through all activity_history points and adding steps for running and walking.
+  const step_array = step_data?.step_array;
+  const times = step_data?.times;
+
   const labels = times;
   const data = {
     labels,
     datasets: [
       {
         label: "Step Count",
-        data: step_data,
+        data: step_array,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
@@ -51,26 +38,23 @@ const formatDataForChart = (info) => {
   return data;
 };
 
-function StepChart(unformattedData) {
+function StepChart(props) {
+  const { unformattedData, step_data } = props;
   const [data, setData] = useState(null);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (unformattedData?.unformattedData) {
-          const formattedData = formatDataForChart(
-            unformattedData.unformattedData
-          );
-          setData(formattedData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+    const fetchData = () => {
+      if (unformattedData && step_data) {
+        const formattedData = formatDataForChart(unformattedData, step_data);
+        setData(formattedData);
       }
     };
     fetchData();
-  }, [unformattedData.unformattedData]);
+  }, [unformattedData, step_data]);
+
   if (!data) {
     return <div className="text-bold font-large">{"Loading..."}</div>;
   }
+
   var options = {
     spanGaps: true,
     datasets: {

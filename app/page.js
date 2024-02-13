@@ -7,7 +7,7 @@ import ActivityBar from "./components/charts/ActivityBar";
 import ActivityProfile from "./components/charts/ActivityProfile";
 import Header from "./components/Header";
 import DatePicker from "react-datepicker";
-import { pullData } from "./data/dataProcessing";
+import { pullData, countSteps } from "./data/dataProcessing";
 import "react-datepicker/dist/react-datepicker.css";
 
 const getName = async (id) => {
@@ -33,6 +33,7 @@ export default function Home() {
   const [date, setDate] = useState(new Date(Date.now()));
   const [name, setName] = useState("Loading...");
   const [data, setData] = useState(null);
+  const [steps, setSteps] = useState(null);
   useEffect(() => {
     const fetchName = async () => {
       try {
@@ -49,6 +50,7 @@ export default function Home() {
     const fetchActivity = async () => {
       try {
         const res = await pullData("debug1", date);
+        setSteps(countSteps(res));
         setData(res);
       } catch (error) {
         console.error("Error fetching user actvity", error);
@@ -64,6 +66,7 @@ export default function Home() {
     day: "numeric",
   };
   const formattedDate = date.toLocaleDateString("en-US", options);
+
   return (
     <>
       <main className="flex min-h-screen flex-col mb-5">
@@ -74,6 +77,7 @@ export default function Home() {
           <DatePicker
             selected={date}
             onChange={(date) => setDate(date)}
+            maxDate={new Date(Date.now())}
             className="rounded"
           />
         </div>
@@ -81,7 +85,7 @@ export default function Home() {
           <div className="flex flex-col">
             <GraphBox
               title={"Step Activity"}
-              content={<StepBar unformattedData={data} />}
+              content={<StepBar unformattedData={data} step_data={steps} />}
             ></GraphBox>
             <GraphBox
               title={"Total Activity Level"}
@@ -91,7 +95,7 @@ export default function Home() {
           <div className="flex flex-col">
             <GraphBox
               title={`Total Daily Steps - ${formattedDate}`}
-              content={<StepChart unformattedData={data} />}
+              content={<StepChart unformattedData={data} step_data={steps} />}
             ></GraphBox>
             <GraphBox
               title={"Activity Profile"}
