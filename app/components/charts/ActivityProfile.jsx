@@ -4,30 +4,12 @@ import { Chart as ChartJS } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import fakeData from "@/app/data/fakerdata";
-import pullData from "@/app/data/dataProcessing";
+import { pullData } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const getProfileInfoById = async (id) => {
-  try {
-    let res = await fetch(`http://localhost:3000/api/analytics/${id}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error("Error fetching information from user.");
-    }
-    return res.json();
-  } catch (error) {
-    console.error("Error in getProfileInfoById:", error);
-    throw new Error(
-      "Error fetching information about user. Details: " + error.message
-    );
-  }
-};
-
 const formatDataForChart = async (info, selectedDate) => {
-  //var activity_history = info?.response?.activity;
   var activity_history = info;
   if (
     !activity_history ||
@@ -79,7 +61,6 @@ const formatDataForChart = async (info, selectedDate) => {
     }
   }
   const labels = [
-    "Empty",
     "Walking",
     "Running",
     "Jumping",
@@ -93,7 +74,6 @@ const formatDataForChart = async (info, selectedDate) => {
       {
         label: "Times Detected",
         data: [
-          empty_count,
           walking_count,
           running_count,
           jumping_count,
@@ -102,7 +82,6 @@ const formatDataForChart = async (info, selectedDate) => {
           falling_count,
         ],
         backgroundColor: [
-          "rgba(255,255,132,0.2)",
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
           "rgba(255, 206, 86, 0.2)",
@@ -111,7 +90,6 @@ const formatDataForChart = async (info, selectedDate) => {
           "rgba(255, 159, 64, 0.2)",
         ],
         borderColor: [
-          "rgba(255,255,132,1)",
           "rgba(255, 99, 132, 1)",
           "rgba(54, 162, 235, 1)",
           "rgba(255, 206, 86, 1)",
@@ -132,7 +110,6 @@ function ActivityProfile(selectedDate) {
     const fetchData = async () => {
       try {
         const info = await pullData("debug1", selectedDate?.selectedDate);
-        //const info = fakeData;
         const formattedData = await formatDataForChart(info, selectedDate);
         setData(formattedData);
       } catch (error) {

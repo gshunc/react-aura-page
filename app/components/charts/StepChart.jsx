@@ -4,42 +4,13 @@ import { Chart as ChartJS } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import fakeData from "@/app/data/fakerdata";
+import { pullData, formatDate } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const getProfileInfoById = async (id) => {
-  try {
-    let res = await fetch(`http://localhost:3000/api/analytics/${id}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error("Error fetching information from user.");
-    }
-    return res.json();
-  } catch (error) {
-    console.error("Error in getProfileInfoById:", error);
-    throw new Error(
-      "Error fetching information about user. Details: " + error.message
-    );
-  }
-};
-
-const formatDate = (raw_date) => {
-  const str_date = String(raw_date);
-  const formattedDate = new Date(str_date).toLocaleString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    timeZoneName: "short",
-    hour12: false,
-  });
-  return formattedDate;
-};
-
 const formatDataForChart = async (info, selectedDate) => {
-  //var activity_history = info?.response?.activity;
-  var activity_history = info.activity;
+  var activity_history = info;
   if (
     !activity_history ||
     activity_history.length === 0 ||
@@ -105,8 +76,7 @@ function StepChart(selectedDate) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //const info = await getProfileInfoById("debug1");
-        const info = fakeData;
+        const info = await pullData("debug1", selectedDate.selectedDate);
         const formattedData = await formatDataForChart(info, selectedDate);
         setData(formattedData);
       } catch (error) {
@@ -123,6 +93,12 @@ function StepChart(selectedDate) {
     datasets: {
       line: {
         pointRadius: 0,
+      },
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 1000,
       },
     },
   };

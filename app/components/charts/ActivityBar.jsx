@@ -4,42 +4,12 @@ import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import fakeData from "@/app/data/fakerdata";
-import pullData from "@/app/data/dataProcessing";
+import { pullData, formatDate } from "@/app/data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const getProfileInfoById = async (id) => {
-  try {
-    let res = await fetch(`http://localhost:3000/api/analytics/${id}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error("Error fetching information from user.");
-    }
-    return res.json();
-  } catch (error) {
-    console.error("Error in getProfileInfoById:", error);
-    throw new Error(
-      "Error fetching information about user. Details: " + error.message
-    );
-  }
-};
-
-const formatDate = (raw_date) => {
-  const str_date = String(raw_date);
-  const formattedDate = new Date(str_date).toLocaleString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZoneName: "short",
-    hour12: false,
-  });
-  return formattedDate;
-};
-
 const formatDataForChart = async (info, selectedDate) => {
-  //var activity_history = info?.response?.activity;
-  // var activity_history = info.activity;
   var activity_history = info;
   if (
     !activity_history ||
@@ -134,9 +104,7 @@ function ActivityBar(selectedDate) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const info2 = fakeData;
         const info = await pullData("debug1", selectedDate?.selectedDate);
-        console.log(info);
         const formattedData = await formatDataForChart(info, selectedDate);
         setData(formattedData);
       } catch (error) {
@@ -153,6 +121,7 @@ function ActivityBar(selectedDate) {
     borderRadius: 2,
     scales: {
       y: {
+        max: 1,
         ticks: {
           callback: function (value, index, ticks) {
             return `${index * 10}%`;
