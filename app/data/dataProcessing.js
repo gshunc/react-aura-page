@@ -1,7 +1,7 @@
 const getProfileInfoById = async (id) => {
   //Simple API call.
   try {
-    let res = await fetch(`https://localhost:3000/api/analytics/${id}`, {
+    let res = await fetch(`/api/analytics/${id}`, {
       cache: "no-store",
     });
     if (!res.ok) {
