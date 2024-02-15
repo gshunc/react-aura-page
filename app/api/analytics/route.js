@@ -1,6 +1,6 @@
 import connectMongoDB from "../../../libs/mongoDB";
 import Personal from "../../../models/Personal";
-import { NextApiRequest, NextApiResponse } from "next/server";
+import { NextApiResponse } from "next/server";
 
 export async function GET() {
   await connectMongoDB();
