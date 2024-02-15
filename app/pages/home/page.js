@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import GraphBox from "../../components/GraphBox";
 import StepChart from "../../components/charts/StepChart";
 import StepBar from "../../components/charts/StepBar";
@@ -30,7 +30,7 @@ const getName = async (id) => {
   }
 };
 
-export default function Home() {
+function HomeContent() {
   //Base component of project. Hosts all graphs, page header, etc. Also keeps track of date state from DatePicker.
   const [date, setDate] = useState(new Date(Date.now()));
   const [name, setName] = useState("Loading...");
@@ -50,7 +50,7 @@ export default function Home() {
       }
     };
     fetchName();
-  }, []);
+  }, [userid]);
 
   useEffect(() => {
     const fetchActivity = async () => {
@@ -113,5 +113,13 @@ export default function Home() {
     </>
   ) : (
     router.push("/")
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
