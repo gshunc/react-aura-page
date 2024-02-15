@@ -13,6 +13,10 @@ var personalSchema = new Schema({
     type: String,
     required: true,
   },
+  uiPass: {
+    type: String,
+    required: true,
+  },
 
   clientId: { type: String },
   clientSecret: { type: String },

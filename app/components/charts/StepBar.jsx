@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-import { pullData, formatDate } from "@/app/data/dataProcessing";
+import { formatDate } from "../../data/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
