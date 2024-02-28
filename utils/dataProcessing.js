@@ -95,7 +95,8 @@ export const processData = async (info, date) => {
 };
 
 export const pullData = async (id, date) => {
+  console.log(date);
   // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query
-  const res = await getProfileInfoById(id, date - 18000000);
+  const res = await getProfileInfoById(id, date);
   return res.response;
 };
