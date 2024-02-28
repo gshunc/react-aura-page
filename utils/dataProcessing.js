@@ -52,16 +52,20 @@ export const countSteps = (activity_history) => {
 };
 
 export const processData = async (info, date, timezone) => {
+  const offset = Number(timezone);
   const selectedDate = new Date(date);
   if (
     selectedDate.getDate() != new Date(Date.now()).getDate() ||
     selectedDate.getMonth() != new Date(Date.now()).getMonth()
   ) {
-    selectedDate.setHours(23 + timezone, 59, 59, 999);
+    selectedDate.setHours(23 + offset, 59, 59, 999);
   }
   const time_series = info?.activity;
   const midnight = new Date(date);
   midnight.setHours(timezone, 0, 0);
+  console.log(selectedDate);
+  console.log(midnight);
+  console.log(timezone);
   //Using hashmap to keep track of time slots with activity data to be referencenced when filling in missing data below. Times are standardized to three second intervals and times not on three second intervals are shoved onto the next three second interval timeslot.
   const timeMap = new Map();
 
