@@ -1,11 +1,3 @@
-const currentTimeETTimestamp = new Date().toLocaleString("en-US", {
-  timeZone: "America/New_York",
-});
-
-export const currentTimeETMilliseconds = new Date(
-  currentTimeETTimestamp
-).getTime();
-
 const getProfileInfoById = async (id, date) => {
   //Simple API call.
   try {
@@ -33,6 +25,7 @@ export const formatDate = (raw_date) => {
     minute: "2-digit",
     timeZoneName: "short",
     hour12: false,
+    day: "2-digit",
   });
   return formattedDate;
 };
@@ -63,8 +56,8 @@ export const processData = async (info, date) => {
   const selectedDate = new Date(date);
   if (
     !(
-      selectedDate.getDate() == new Date(currentTimeETMilliseconds).getDate() &&
-      selectedDate.getMonth() == new Date(currentTimeETMilliseconds).getMonth()
+      selectedDate.getDate() == new Date(Date.now()).getDate() &&
+      selectedDate.getMonth() == new Date(Date.now()).getMonth()
     )
   ) {
     selectedDate.setHours(23, 59, 59, 999);
