@@ -62,7 +62,7 @@ export const processData = async (info, date) => {
   }
   const time_series = info?.activity;
   const midnight = new Date(date);
-  midnight.setHours(0, 0, 0);
+  midnight.setHours(selectedDate.getHours(), 0, 0);
   console.log(date);
   console.log(midnight);
   console.log(selectedDate);
