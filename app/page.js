@@ -1,7 +1,6 @@
 "use client";
 import Header from "./components/Header";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import "react-datepicker/dist/react-datepicker.css";
 
 async function login(password) {

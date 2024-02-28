@@ -1,7 +1,7 @@
-const getProfileInfoById = async (id) => {
+const getProfileInfoById = async (id, date) => {
   //Simple API call.
   try {
-    let res = await fetch(`/api/analytics/${id}`, {
+    let res = await fetch(`/api/analytics/${id}/${date}`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -51,8 +51,7 @@ export const countSteps = (activity_history) => {
   return { step_array, times };
 };
 
-export const pullData = async (id, date) => {
-  // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query.
+export const processData = async (info, date) => {
   const selectedDate = new Date(date);
   if (
     !(
@@ -62,8 +61,7 @@ export const pullData = async (id, date) => {
   ) {
     selectedDate.setHours(23, 59, 59, 999);
   }
-  const info = await getProfileInfoById(id);
-  const time_series = info?.response?.activity;
+  const time_series = info?.activity;
   const midnight = new Date(date);
   midnight.setHours(0, 0, 0);
   //Using hashmap to keep track of time slots with activity data to be referencenced when filling in missing data below. Times are standardized to three second intervals and times not on three second intervals are shoved onto the next three second interval timeslot.
@@ -95,4 +93,10 @@ export const pullData = async (id, date) => {
     currentTime.setMilliseconds(currentTime.getMilliseconds() + interval);
   }
   return res;
+};
+
+export const pullData = async (id, date) => {
+  // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query
+  const res = await getProfileInfoById(id, date);
+  return res.response;
 };
