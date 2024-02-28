@@ -65,6 +65,7 @@ export const processData = async (info, date) => {
   const time_series = info?.activity;
   const midnight = new Date(date);
   midnight.setHours(0, 0, 0);
+  console.log(midnight);
   //Using hashmap to keep track of time slots with activity data to be referencenced when filling in missing data below. Times are standardized to three second intervals and times not on three second intervals are shoved onto the next three second interval timeslot.
   const timeMap = new Map();
 
