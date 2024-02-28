@@ -55,14 +55,17 @@ export const countSteps = (activity_history) => {
 export const processData = async (info, date) => {
   const selectedDate = new Date(date);
   if (
-    selectedDate.getDate() != new Date(Date.now() - 18000000).getDate() ||
-    selectedDate.getMonth() != new Date(Date.now() - 18000000).getMonth()
+    selectedDate.getDate() != new Date(Date.now()).getDate() ||
+    selectedDate.getMonth() != new Date(Date.now()).getMonth()
   ) {
     selectedDate.setHours(23, 59, 59, 999);
   }
   const time_series = info?.activity;
   const midnight = new Date(date);
   midnight.setHours(0, 0, 0);
+  console.log(date);
+  console.log(midnight);
+  console.log(selectedDate);
   //Using hashmap to keep track of time slots with activity data to be referencenced when filling in missing data below. Times are standardized to three second intervals and times not on three second intervals are shoved onto the next three second interval timeslot.
   const timeMap = new Map();
 
@@ -95,7 +98,6 @@ export const processData = async (info, date) => {
 };
 
 export const pullData = async (id, date) => {
-  console.log(date);
   // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query
   const res = await getProfileInfoById(id, date);
   return res.response;
