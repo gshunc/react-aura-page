@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { currentTimeETMilliseconds } from "../utils/dataProcessing";
 
 var personalSchema = new Schema({
   userid: {
@@ -27,12 +28,15 @@ var personalSchema = new Schema({
   provider: [{ type: String }],
 
   temperature: [
-    { value: { type: Number }, time: { type: Date, default: Date.now() } },
+    {
+      value: { type: Number },
+      time: { type: Date, default: currentTimeETMilliseconds },
+    },
   ],
   activity: [
     {
       probabilities: [{ type: Number }],
-      time: { type: Date, default: Date.now() },
+      time: { type: Date, default: currentTimeETMilliseconds },
     },
   ],
 
@@ -46,7 +50,10 @@ var personalSchema = new Schema({
 
   messages: [{ from: String, msg: String }],
   events: [
-    { time: { type: Date, default: Date.now() }, event: { type: String } },
+    {
+      time: { type: Date, default: currentTimeETMilliseconds },
+      event: { type: String },
+    },
   ],
 
   virtual_buttons: {
@@ -59,23 +66,23 @@ var personalSchema = new Schema({
 
   fall_notification: {
     status: { type: String },
-    time: { type: Date, default: Date.now() },
+    time: { type: Date, default: currentTimeETMilliseconds },
   },
   food_notification: {
     status: { type: String },
-    time: { type: Date, default: Date.now() },
+    time: { type: Date, default: currentTimeETMilliseconds },
   },
   water_notification: {
     status: { type: String },
-    time: { type: Date, default: Date.now() },
+    time: { type: Date, default: currentTimeETMilliseconds },
   },
   movement_notification: {
     status: { type: String },
-    time: { type: Date, default: Date.now() },
+    time: { type: Date, default: currentTimeETMilliseconds },
   },
   heart_notification: {
     status: { type: String },
-    time: { type: Date, default: Date.now() },
+    time: { type: Date, default: currentTimeETMilliseconds },
   },
 });
 

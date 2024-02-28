@@ -8,14 +8,18 @@ import ActivityProfile from "../../components/graphing/charts/ActivityProfile";
 import NameLabel from "../../components/homeComponents/NameLabel";
 import Header from "../../components/Header";
 import DatePicker from "react-datepicker";
-import { pullData, countSteps } from "../../../utils/dataProcessing";
+import {
+  pullData,
+  countSteps,
+  currentTimeETMilliseconds,
+} from "../../../utils/dataProcessing";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 
 function HomeContent() {
   //Base component of project. Hosts all graphs, page header, etc. Also keeps track of date state from DatePicker.
-  const [date, setDate] = useState(new Date(Date.now()));
+  const [date, setDate] = useState(new Date(currentTimeETMilliseconds));
   const [data, setData] = useState(null);
   const [steps, setSteps] = useState(null);
   const router = useRouter();
@@ -53,7 +57,7 @@ function HomeContent() {
           <DatePicker
             selected={date}
             onChange={(date) => setDate(date)}
-            maxDate={new Date(Date.now())}
+            maxDate={new Date(currentTimeETMilliseconds)}
             className="rounded"
           />
         </div>
