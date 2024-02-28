@@ -1,15 +1,7 @@
-const currentTimeETTimestamp = new Date().toLocaleString("en-US", {
-  timeZone: "America/New_York",
-});
-
-export const currentTimeETMilliseconds = new Date(
-  currentTimeETTimestamp
-).getTime();
-
-const getProfileInfoById = async (id, date) => {
+const getProfileInfoById = async (id, date, offset) => {
   //Simple API call.
   try {
-    let res = await fetch(`/api/analytics/${id}/${date}`, {
+    let res = await fetch(`/api/analytics/${id}/${date}/${offset}`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -29,9 +21,9 @@ export const formatDate = (raw_date) => {
   //Helper function used in multiple graphing components.
   const str_date = String(raw_date);
   const formattedDate = new Date(str_date).toLocaleString("en-US", {
+    timezone: "UTC",
     hour: "2-digit",
     minute: "2-digit",
-    timeZoneName: "short",
     hour12: false,
   });
   return formattedDate;
@@ -59,19 +51,18 @@ export const countSteps = (activity_history) => {
   return { step_array, times };
 };
 
-export const processData = async (info, date) => {
+export const processData = async (info, date, timezone) => {
+  const offset = Number(timezone);
   const selectedDate = new Date(date);
   if (
-    !(
-      selectedDate.getDate() == new Date(currentTimeETMilliseconds).getDate() &&
-      selectedDate.getMonth() == new Date(currentTimeETMilliseconds).getMonth()
-    )
+    selectedDate.getDate() != new Date(Date.now()).getDate() ||
+    selectedDate.getMonth() != new Date(Date.now()).getMonth()
   ) {
-    selectedDate.setHours(23, 59, 59, 999);
+    selectedDate.setHours(23 + offset, 59, 59, 999);
   }
   const time_series = info?.activity;
   const midnight = new Date(date);
-  midnight.setHours(0, 0, 0);
+  midnight.setHours(timezone, 0, 0);
   //Using hashmap to keep track of time slots with activity data to be referencenced when filling in missing data below. Times are standardized to three second intervals and times not on three second intervals are shoved onto the next three second interval timeslot.
   const timeMap = new Map();
 
@@ -104,7 +95,8 @@ export const processData = async (info, date) => {
 };
 
 export const pullData = async (id, date) => {
+  const offset = new Date(date).getTimezoneOffset() / 60;
   // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query
-  const res = await getProfileInfoById(id, date);
+  const res = await getProfileInfoById(id, date, offset);
   return res.response;
 };
