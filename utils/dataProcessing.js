@@ -8,7 +8,6 @@ const getProfileInfoById = async (id, date, offset) => {
       throw new Error("Error fetching information from user.");
     }
     const result = res.json();
-    console.log(result);
     return result;
   } catch (error) {
     console.error("Error in getProfileInfoById:", error);
