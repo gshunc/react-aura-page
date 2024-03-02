@@ -98,5 +98,6 @@ export const pullData = async (id, date) => {
   const offset = new Date(date).getTimezoneOffset() / 60;
   // Pulls down time series data from MongoDB. Schema already has projection to minimize useless information. Could consider cleaning up query to reduce number of datapoints coming across the wire, adding time based query
   const res = await getProfileInfoById(id, date, offset);
+  console.log(res.response);
   return res.response;
 };
