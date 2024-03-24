@@ -60,7 +60,7 @@ export const processData = async (info, date, timezone) => {
   ) {
     selectedDate.setHours(23 + offset, 59, 59, 999);
   }
-  const time_series = info?.activity;
+  const time_series = info;
   const midnight = new Date(date);
   midnight.setHours(timezone, 0, 0);
   //Using hashmap to keep track of time slots with activity data to be referencenced when filling in missing data below. Times are standardized to three second intervals and times not on three second intervals are shoved onto the next three second interval timeslot.
@@ -76,7 +76,6 @@ export const processData = async (info, date, timezone) => {
         time_series[i].probabilities
       );
     }
-    //Time adjustment here may lead to lost steps if we, for example, have walking detected at (three second interval) + 1, and (three second interval) + 2. This is hard to fix because of the nature of the data being probabilities and not step counts, thus we can't sum anything.
   }
   //Filling in empty times, checking if a timestamp was found in the database and updating probabilities accordingly, else we assume the sensor detected empty.
   var res = [];
