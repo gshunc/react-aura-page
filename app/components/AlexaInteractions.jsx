@@ -8,7 +8,6 @@ ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
 const formatDataForChart = (info) => {
-  console.log(info);
   //Takes raw activity data and finds counts of different activities over 15 minute intervals for chart data. Complexity O(N), where N is length of activity history (up to 28800 data points).
   if (!info || info.length === 0) {
     throw new Error("Data is not available or incomplete");
@@ -43,7 +42,7 @@ const formatDataForChart = (info) => {
 const AlexaInteractions = (unformattedData) => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (unformattedData?.unformattedData) {
+    if (unformattedData?.unformattedData.length != 0) {
       const formattedData = formatDataForChart(
         unformattedData?.unformattedData
       );

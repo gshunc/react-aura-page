@@ -101,7 +101,6 @@ export const processAlexaData = async (data, date, timezone) => {
   const interval = 3000;
   while (currentTime < selectedDate.getTime()) {
     if (timeSet.has(currentTime)) {
-      console.log("1");
     }
     res.push({
       events: timeSet.has(currentTime) ? 1 : 0,
