@@ -9,9 +9,6 @@ ChartJS.defaults.font.size = 8;
 
 const formatDataForChart = (info) => {
   //Takes raw activity data and finds counts of different activities over 15 minute intervals for chart data. Complexity O(N), where N is length of activity history (up to 28800 data points).
-  if (!info || info.length === 0) {
-    throw new Error("Data is not available or incomplete");
-  }
 
   //Creating arrays to track 15 minute intervals, assign colors and times to each interval.
   var intervals = [];
@@ -44,7 +41,7 @@ const AlexaInteractions = (unformattedData) => {
   useEffect(() => {
     if (unformattedData?.unformattedData) {
       if (unformattedData?.unformattedData.length != 0) {
-        const formattedData = formatDataForChart(
+        var formattedData = formatDataForChart(
           unformattedData?.unformattedData
         );
       }
