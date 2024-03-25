@@ -1,6 +1,6 @@
 import connectMongoDB from "../../../../../../libs/mongoDB";
 import Personal from "../../../../../../models/Personal";
-import { processUserData } from "../../../../../../utils/dataProcessing";
+import { processAlexaData } from "../../../../../../utils/dataProcessing";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
@@ -11,7 +11,7 @@ export async function GET(request, { params }) {
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
   endOfDay.setHours(0, 0, 0);
 
-  let activity = await Personal.aggregate([
+  let events = await Personal.aggregate([
     {
       $match: {
         userid: id,
@@ -19,9 +19,9 @@ export async function GET(request, { params }) {
     },
     {
       $project: {
-        activity: {
+        events: {
           $filter: {
-            input: "$activity",
+            input: "$events",
             cond: {
               $and: [
                 {
@@ -37,7 +37,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-  activity = activity.length > 0 ? activity[0].activity : [];
-  activity = await processUserData(activity, date, timezone);
-  return Response.json({ response: activity }, { status: 200 });
+  events = events.length > 0 ? events[0].events : [];
+  events = await processAlexaData(events, date, timezone);
+  return Response.json({ response: events }, { status: 200 });
 }

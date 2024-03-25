@@ -8,15 +8,21 @@ import ActivityProfile from "../../components/graphing/charts/ActivityProfile";
 import NameLabel from "../../components/homeComponents/NameLabel";
 import Header from "../../components/Header";
 import DatePicker from "react-datepicker";
-import { pullData, countSteps } from "../../../utils/dataProcessing";
+import {
+  pullUserData,
+  countSteps,
+  pullAlexaData,
+} from "../../../utils/dataProcessing";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
+import AlexaInteractions from "../../components/AlexaInteractions";
 
 function HomeContent() {
   //Base component of project. Hosts all graphs, page header, etc. Also keeps track of date state from DatePicker.
   const [date, setDate] = useState(new Date(Date.now()));
   const [data, setData] = useState(null);
+  const [alexaData, setAlexaData] = useState(null);
   const [steps, setSteps] = useState(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -25,7 +31,9 @@ function HomeContent() {
   useEffect(() => {
     const fetchActivity = async () => {
       try {
-        const res = await pullData(userid, date);
+        const res = await pullUserData(userid, date);
+        const alexaRes = await pullAlexaData(userid, date);
+        setAlexaData(alexaRes);
         setSteps(countSteps(res));
         setData(res);
       } catch (error) {
@@ -67,6 +75,10 @@ function HomeContent() {
               title={"Total Activity Level"}
               content={<ActivityBar unformattedData={data} />}
             ></GraphBox>
+            <GraphBox
+              title={"Alexa Interactions"}
+              content={<AlexaInteractions unformattedData={alexaData} />}
+            />
           </div>
           <div className="flex flex-col">
             <GraphBox
