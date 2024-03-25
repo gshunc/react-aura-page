@@ -23,7 +23,6 @@ const formatDataForChart = (info) => {
     for (let j = i; j < i + 300; j++) {
       count += info[j]["events"];
     }
-    console.log(count);
     intervals.push(count);
     times.push(formatDate(info[i]["time"]));
   }
@@ -44,10 +43,13 @@ const AlexaInteractions = (unformattedData) => {
   const [data, setData] = useState(null);
   useEffect(() => {
     if (unformattedData?.unformattedData) {
-      const formattedData = formatDataForChart(unformattedData.unformattedData);
+      console.log(unformattedData);
+      const formattedData = formatDataForChart(
+        unformattedData?.unformattedData
+      );
       setData(formattedData);
     }
-  }, [unformattedData.unformattedData]);
+  }, [unformattedData?.unformattedData]);
   var options = {
     borderWidth: 1,
     borderRadius: 2,
