@@ -42,10 +42,12 @@ const formatDataForChart = (info) => {
 const AlexaInteractions = (unformattedData) => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (unformattedData?.unformattedData.length != 0) {
-      const formattedData = formatDataForChart(
-        unformattedData?.unformattedData
-      );
+    if (unformattedData?.unformattedData) {
+      if (unformattedData?.unformattedData.length != 0) {
+        const formattedData = formatDataForChart(
+          unformattedData?.unformattedData
+        );
+      }
       setData(formattedData);
     }
   }, [unformattedData?.unformattedData]);
