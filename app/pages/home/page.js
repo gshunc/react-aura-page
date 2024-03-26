@@ -1,107 +1,105 @@
 "use client";
-import { useState, useEffect, Suspense } from "react";
-import GraphBox from "../../components/graphing/GraphBox";
-import StepChart from "../../components/graphing/charts/StepChart";
-import StepBar from "../../components/graphing/charts/StepBar";
-import ActivityBar from "../../components/graphing/charts/ActivityBar";
-import ActivityProfile from "../../components/graphing/charts/ActivityProfile";
-import NameLabel from "../../components/homeComponents/NameLabel";
-import Header from "../../components/Header";
-import DatePicker from "react-datepicker";
-import {
-  pullUserData,
-  countSteps,
-  pullAlexaData,
-} from "../../../utils/dataProcessing";
+import NameLabel from "../../components/home/NameLabel";
+import HomeBox from "../../components/home/HomeBox";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import "react-datepicker/dist/react-datepicker.css";
-import AlexaInteractions from "../../components/AlexaInteractions";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
-function HomeContent() {
-  //Base component of project. Hosts all graphs, page header, etc. Also keeps track of date state from DatePicker.
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [data, setData] = useState(null);
-  const [alexaData, setAlexaData] = useState(null);
-  const [steps, setSteps] = useState(null);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const userid = searchParams.get("userid") ?? "";
+const getName = async (id) => {
+  //Makes call to API to fetch username.
+  try {
+    let res = await fetch(`/api/user_info/${id}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error("Error fetching user data.");
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error in getProfileInfoById:", error);
+    throw new Error(
+      "Error fetching information about user. Details: " + error.message
+    );
+  }
+};
 
-  useEffect(() => {
-    const fetchActivity = async () => {
-      try {
-        const res = await pullUserData(userid, date);
-        const alexaRes = await pullAlexaData(userid, date);
-        setAlexaData(alexaRes);
-        setSteps(countSteps(res));
-        setData(res);
-      } catch (error) {
-        console.error("Error fetching user actvity", error);
-      }
-    };
-    fetchActivity();
-  }, [date, userid]);
+function AnalyticsContent({ name }) {
+  return (
+    <div className="flex flex-col align-center justify-center mb-5 ml-3 mr-3 text-center">
+      <div>
+        {"Patient data and activity visualizations for "}
+        {name}
+        {"."}
+      </div>
+      <div className="mt-5">
+        {
+          "Visualizations include step counts, activity levels, classificiations of activity, and number of Alexa interactions"
+        }
+      </div>
+    </div>
+  );
+}
 
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-  const formattedDate = date.toLocaleDateString("en-US", options);
-
-  return userid !== "" ? (
-    <>
-      <main className="flex min-h-screen flex-col mb-5">
-        <Header />
-        <div className="flex flex-row items-center mt-5">
-          <NameLabel userid={userid} />
-          <div className="font-semibold text-lg ml-10 mr-2">{`Choose your date: `}</div>
-          <DatePicker
-            selected={date}
-            onChange={(date) => setDate(date)}
-            maxDate={new Date(Date.now())}
-            className="rounded"
-          />
-        </div>
-        <div className="flex flex-row justify-around">
-          <div className="flex flex-col">
-            <GraphBox
-              title={"Step Activity"}
-              content={<StepBar unformattedData={data} step_data={steps} />}
-            ></GraphBox>
-            <GraphBox
-              title={"Total Activity Level"}
-              content={<ActivityBar unformattedData={data} />}
-            ></GraphBox>
-            <GraphBox
-              title={"Alexa Interactions"}
-              content={<AlexaInteractions unformattedData={alexaData} />}
-            />
-          </div>
-          <div className="flex flex-col">
-            <GraphBox
-              title={`Total Daily Steps - ${formattedDate}`}
-              content={<StepChart unformattedData={data} step_data={steps} />}
-            ></GraphBox>
-            <GraphBox
-              title={"Activity Profile"}
-              content={<ActivityProfile unformattedData={data} />}
-            ></GraphBox>
-          </div>
-        </div>
-      </main>
-    </>
-  ) : (
-    router.push("/")
+function AlexaContent({ name }) {
+  return (
+    <div className="flex flex-col align-center justify-center mb-5 ml-3 mr-3 text-center">
+      <div>
+        {"Alexa interaction visualizations, statistics, and breakdowns for "}
+        {name}
+        {"."}
+      </div>
+    </div>
   );
 }
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const userid = searchParams.get("userid") ?? "";
+  const [username, setUsername] = useState("Loading...");
+  useEffect(() => {
+    const fetchName = async () => {
+      try {
+        const res = await getName(userid);
+        setUsername(res?.response?.name);
+      } catch (error) {
+        console.error("Error fetching user actvity", error);
+      }
+    };
+    fetchName();
+  }, [userid]);
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <HomeContent />
-    </Suspense>
+    <>
+      <main className="flex min-h-screen flex-col mb-5">
+        <div className="font-bold text-3xl ml-10 mr-2 mt-3 underline">
+          {"Home"}
+        </div>
+        <div className="mt-5">
+          <NameLabel userid={userid} />
+          <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
+            <Link
+              className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
+              href={`/pages/analytics?userid=${encodeURIComponent(userid)}`}
+            >
+              <HomeBox
+                title={"Patient Analytics"}
+                content={<AnalyticsContent name={username} />}
+              />
+            </Link>
+            <Link
+              className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
+              href={`/pages/alexainteractions?userid=${encodeURIComponent(
+                userid
+              )}`}
+            >
+              <HomeBox
+                title={"Alexa Interactions"}
+                content={<AlexaContent name={username} />}
+              />
+            </Link>
+          </div>
+        </div>
+      </main>
+    </>
   );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
 export default function NameLabel({ userid }) {
@@ -33,5 +35,7 @@ export default function NameLabel({ userid }) {
     fetchName();
   }, []);
 
-  return <div className="font-bold text-2xl ml-10">{`Welcome ${name}!`}</div>;
+  return (
+    <div className="font-semibold text-2xl ml-10">{`Welcome ${name}!`}</div>
+  );
 }
