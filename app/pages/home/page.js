@@ -68,7 +68,7 @@ export default function Home() {
     fetchName();
   }, [userid]);
 
-  return (
+  return userid !== "" ? (
     <Suspense fallback={"Loading..."}>
       <>
         <main className="flex min-h-screen flex-col mb-5">
@@ -103,5 +103,7 @@ export default function Home() {
         </main>
       </>
     </Suspense>
+  ) : (
+    router.push("/")
   );
 }
