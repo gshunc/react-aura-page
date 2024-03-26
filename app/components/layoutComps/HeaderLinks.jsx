@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 
 const HeaderLinksContent = () => {
   const searchParams = useSearchParams();
   const userid = searchParams.get("userid") ?? "";
+  const router = useRouter();
   return userid !== "" ? (
     <div className="text-blue-900 font-semibold underline space-x-5 mr-5">
       <Link href={`/pages/home?userid=${encodeURIComponent(userid)}`}>

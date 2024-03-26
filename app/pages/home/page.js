@@ -1,7 +1,7 @@
 "use client";
 import NameLabel from "../../components/home/NameLabel";
 import HomeBox from "../../components/home/HomeBox";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 
@@ -56,6 +56,7 @@ const HomeContent = () => {
   const searchParams = useSearchParams();
   const userid = searchParams.get("userid") ?? "";
   const [username, setUsername] = useState("Loading...");
+  const router = useRouter();
   useEffect(() => {
     const fetchName = async () => {
       try {

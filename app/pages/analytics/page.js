@@ -11,8 +11,7 @@ import {
   countSteps,
   pullAlexaData,
 } from "../../../utils/dataProcessing";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 import AlexaInteractions from "../../components/alexa/AlexaInteractionsGraph";
 
