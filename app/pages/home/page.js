@@ -2,7 +2,7 @@
 import NameLabel from "../../components/home/NameLabel";
 import HomeBox from "../../components/home/HomeBox";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 
 const getName = async (id) => {
@@ -69,37 +69,39 @@ export default function Home() {
   }, [userid]);
 
   return (
-    <>
-      <main className="flex min-h-screen flex-col mb-5">
-        <div className="font-bold text-3xl ml-10 mr-2 mt-3 underline">
-          {"Home"}
-        </div>
-        <div className="mt-5">
-          <NameLabel userid={userid} />
-          <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
-            <Link
-              className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
-              href={`/pages/analytics?userid=${encodeURIComponent(userid)}`}
-            >
-              <HomeBox
-                title={"Patient Analytics"}
-                content={<AnalyticsContent name={username} />}
-              />
-            </Link>
-            <Link
-              className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
-              href={`/pages/alexainteractions?userid=${encodeURIComponent(
-                userid
-              )}`}
-            >
-              <HomeBox
-                title={"Alexa Interactions"}
-                content={<AlexaContent name={username} />}
-              />
-            </Link>
+    <Suspense fallback={"Loading..."}>
+      <>
+        <main className="flex min-h-screen flex-col mb-5">
+          <div className="font-bold text-3xl ml-10 mr-2 mt-3 underline">
+            {"Home"}
           </div>
-        </div>
-      </main>
-    </>
+          <div className="mt-5">
+            <NameLabel userid={userid} />
+            <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
+              <Link
+                className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
+                href={`/pages/analytics?userid=${encodeURIComponent(userid)}`}
+              >
+                <HomeBox
+                  title={"Patient Analytics"}
+                  content={<AnalyticsContent name={username} />}
+                />
+              </Link>
+              <Link
+                className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
+                href={`/pages/alexainteractions?userid=${encodeURIComponent(
+                  userid
+                )}`}
+              >
+                <HomeBox
+                  title={"Alexa Interactions"}
+                  content={<AlexaContent name={username} />}
+                />
+              </Link>
+            </div>
+          </div>
+        </main>
+      </>
+    </Suspense>
   );
 }
