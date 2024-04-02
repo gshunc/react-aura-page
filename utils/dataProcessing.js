@@ -62,6 +62,8 @@ export const processUserData = async (info, date, timezone) => {
   var res = [];
   const interval = 3000;
   let currentTime = new Date(midnight.setMilliseconds(0));
+  console.log(currentTime.getTime() < selectedDate.getTime());
+  console.log(timeMap);
   while (currentTime.getTime() < selectedDate.getTime()) {
     res.push({
       probabilities: timeMap.get(currentTime.getTime()) || [
