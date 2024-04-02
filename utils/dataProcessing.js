@@ -71,6 +71,7 @@ export const processUserData = async (info, date, timezone) => {
     });
     currentTime.setMilliseconds(currentTime.getMilliseconds() + interval);
   }
+  console.log(currentTime);
   console.log(selectedDate);
   return res;
 };
