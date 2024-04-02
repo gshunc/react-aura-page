@@ -49,49 +49,55 @@ function AnalyticsContent() {
   const formattedDate = date.toLocaleDateString("en-US", options);
 
   return userid !== "" ? (
-    <>
-      <main className="flex min-h-screen flex-col mb-5">
-        <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
-          {"Patient Analytics"}
-        </div>
-        <div className="flex flex-row items-center mt-5">
-          {" "}
-          <div className="font-semibold text-lg ml-10 mr-2">{`Choose your date: `}</div>
-          <DatePicker
-            selected={date}
-            onChange={(date) => setDate(date)}
-            maxDate={new Date(Date.now())}
-            className="rounded border-2 border-transparent hover:border-blue-900 focus:border-blue-900"
-          />
-        </div>
-        <div className="flex flex-row justify-around">
-          <div className="flex flex-col space-y-5 mt-5">
-            <GraphBox
-              title={"Step Activity"}
-              content={<StepBar unformattedData={data} step_data={steps} />}
-            ></GraphBox>
-            <GraphBox
-              title={"Total Activity Level"}
-              content={<ActivityBar unformattedData={data} />}
-            ></GraphBox>
-            <GraphBox
-              title={"Alexa Interactions"}
-              content={<AlexaInteractions unformattedData={alexaData} />}
+    data ? (
+      <>
+        <main className="flex min-h-screen flex-col mb-5">
+          <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
+            {"Patient Analytics"}
+          </div>
+          <div className="flex flex-row items-center mt-5">
+            {" "}
+            <div className="font-semibold text-lg ml-10 mr-2">{`Choose your date: `}</div>
+            <DatePicker
+              selected={date}
+              onChange={(date) => setDate(date)}
+              maxDate={new Date(Date.now())}
+              className="rounded border-2 border-transparent hover:border-blue-900 focus:border-blue-900"
             />
           </div>
-          <div className="flex flex-col space-y-5 mt-5">
-            <GraphBox
-              title={`Total Daily Steps - ${formattedDate}`}
-              content={<StepChart unformattedData={data} step_data={steps} />}
-            ></GraphBox>
-            <GraphBox
-              title={"Activity Profile"}
-              content={<ActivityProfile unformattedData={data} />}
-            ></GraphBox>
+          <div className="flex flex-row justify-around">
+            <div className="flex flex-col space-y-5 mt-5">
+              <GraphBox
+                title={"Step Activity"}
+                content={<StepBar unformattedData={data} step_data={steps} />}
+              ></GraphBox>
+              <GraphBox
+                title={"Total Activity Level"}
+                content={<ActivityBar unformattedData={data} />}
+              ></GraphBox>
+              <GraphBox
+                title={"Alexa Interactions"}
+                content={<AlexaInteractions unformattedData={alexaData} />}
+              />
+            </div>
+            <div className="flex flex-col space-y-5 mt-5">
+              <GraphBox
+                title={`Total Daily Steps - ${formattedDate}`}
+                content={<StepChart unformattedData={data} step_data={steps} />}
+              ></GraphBox>
+              <GraphBox
+                title={"Activity Profile"}
+                content={<ActivityProfile unformattedData={data} />}
+              ></GraphBox>
+            </div>
           </div>
-        </div>
-      </main>
-    </>
+        </main>
+      </>
+    ) : (
+      <>
+        <p>Loading...</p>
+      </>
+    )
   ) : (
     router.push("/")
   );

@@ -99,7 +99,7 @@ function ActivityBar(unformattedData) {
     const fetchData = () => {
       if (unformattedData?.unformattedData) {
         const formattedData = formatDataForChart(
-          unformattedData.unformattedData
+          unformattedData?.unformattedData
         );
         setData(formattedData);
       }
