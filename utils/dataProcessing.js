@@ -62,6 +62,9 @@ export const processUserData = async (info, date, timezone) => {
   var res = [];
   const interval = 3000;
   let currentTime = new Date(midnight.setMilliseconds(0));
+  if (currentTime.getTime() >= selectedDate.getTime()) {
+    currentTime.setTime(currentTime.getTime() - 86400000);
+  }
   while (currentTime.getTime() < selectedDate.getTime()) {
     res.push({
       probabilities: timeMap.get(currentTime.getTime()) || [
@@ -71,6 +74,7 @@ export const processUserData = async (info, date, timezone) => {
     });
     currentTime.setMilliseconds(currentTime.getMilliseconds() + interval);
   }
+  console.log(res);
   return res;
 };
 
@@ -98,6 +102,9 @@ export const processAlexaData = async (data, date, timezone) => {
   }
   var res = [];
   let currentTime = new Date(midnight.setMilliseconds(0)).getTime();
+  if (currentTime >= selectedDate.getTime()) {
+    currentTime -= 86400000;
+  }
   const interval = 3000;
   while (currentTime < selectedDate.getTime()) {
     if (timeSet.has(currentTime)) {

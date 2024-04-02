@@ -1,7 +1,5 @@
 "use client";
-import Header from "./components/Header";
 import { useRouter } from "next/navigation";
-import "react-datepicker/dist/react-datepicker.css";
 
 async function login(password) {
   try {
@@ -20,7 +18,7 @@ async function login(password) {
   }
 }
 
-export default function Home() {
+export default function Login() {
   const router = useRouter();
   async function onSubmit(event) {
     event.preventDefault();
@@ -40,7 +38,6 @@ export default function Home() {
   return (
     <>
       <main className="flex min-h-screen flex-col mb-5">
-        <Header />
         <div>
           <form onSubmit={onSubmit} className="flex flex-col w-wide_graph ml-5">
             <input

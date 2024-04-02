@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-import { formatDate } from "../../../../utils/dataProcessing";
+import { formatDate } from "../../../../../utils/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -62,7 +62,7 @@ function StepBar(props) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = () => {
-      if (unformattedData && step_data) {
+      if (unformattedData.length != 0 && step_data) {
         const formattedData = formatDataForChart(unformattedData, step_data);
         setData(formattedData);
       }

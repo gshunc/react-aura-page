@@ -17,11 +17,12 @@ module.exports = {
       },
       width: {
         wide_graph: "36rem",
-        regular_graph: "18rem",
+        home_box_width: "36rem",
       },
       height: {
         graph_height: "20rem",
         graph_box_height: "22rem",
+        home_box_height: "10rem",
       },
     },
   },

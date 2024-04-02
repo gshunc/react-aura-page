@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
-import { formatDate } from "../../utils/dataProcessing";
+import { formatDate } from "../../../utils/dataProcessing";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -36,11 +36,11 @@ const formatDataForChart = (info) => {
 
   return data;
 };
-const AlexaInteractions = (unformattedData) => {
+const AlexaInteractionsGraph = (unformattedData) => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (unformattedData?.unformattedData) {
-      if (unformattedData?.unformattedData.length != 0) {
+    if (unformattedData) {
+      if (unformattedData.unformattedData?.length != 0) {
         var formattedData = formatDataForChart(
           unformattedData?.unformattedData
         );
@@ -73,4 +73,4 @@ const AlexaInteractions = (unformattedData) => {
   }
   return data && <Bar data={data} options={options} />;
 };
-export default AlexaInteractions;
+export default AlexaInteractionsGraph;

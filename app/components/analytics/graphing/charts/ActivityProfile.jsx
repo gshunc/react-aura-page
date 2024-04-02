@@ -100,7 +100,7 @@ function ActivityProfile(unformattedData) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = () => {
-      if (unformattedData?.unformattedData) {
+      if (unformattedData.unformattedData?.length != 0) {
         const formattedData = formatDataForChart(
           unformattedData.unformattedData
         );
