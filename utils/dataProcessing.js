@@ -102,8 +102,8 @@ export const processAlexaData = async (data, date, timezone) => {
   }
   var res = [];
   let currentTime = new Date(midnight.setMilliseconds(0)).getTime();
-  if (currentTime.getTime() >= selectedDate.getTime()) {
-    currentTime.setTime(currentTime.getTime() - 86400000);
+  if (currentTime >= selectedDate.getTime()) {
+    currentTime -= 86400000;
   }
   const interval = 3000;
   while (currentTime < selectedDate.getTime()) {
