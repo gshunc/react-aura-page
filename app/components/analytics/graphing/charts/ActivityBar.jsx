@@ -98,7 +98,7 @@ function ActivityBar(unformattedData) {
   useEffect(() => {
     const fetchData = () => {
       if (unformattedData?.length != 0) {
-        console.log(unformattedData.unformattedData);
+        console.log(unformattedData);
         const formattedData = formatDataForChart(
           unformattedData.unformattedData
         );
