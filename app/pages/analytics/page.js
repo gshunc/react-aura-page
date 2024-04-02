@@ -94,9 +94,9 @@ function AnalyticsContent() {
         </main>
       </>
     ) : (
-      <>
-        <p>Loading...</p>
-      </>
+      <div className="ml-10 mt-3 font-bold text-3xl">
+        {"Retrieving user data..."}
+      </div>
     )
   ) : (
     router.push("/")
