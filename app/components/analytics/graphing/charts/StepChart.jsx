@@ -42,7 +42,8 @@ function StepChart(props) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = () => {
-      if (unformattedData.unformattedData?.length != 0 && step_data) {
+      if (unformattedData.length != 0 && step_data) {
+        console.log(unformattedData);
         const formattedData = formatDataForChart(unformattedData, step_data);
         setData(formattedData);
       }
