@@ -14,7 +14,6 @@ const formatDataForChart = (info, step_data) => {
     activity_history.length === 0 ||
     !activity_history[0]?.probabilities
   ) {
-    console.log("2");
     throw new Error("Data is not available or incomplete");
   }
 
@@ -43,7 +42,6 @@ function StepChart(props) {
   useEffect(() => {
     const fetchData = () => {
       if (unformattedData.length != 0 && step_data) {
-        console.log(unformattedData);
         const formattedData = formatDataForChart(unformattedData, step_data);
         setData(formattedData);
       }
