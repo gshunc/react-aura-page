@@ -39,8 +39,8 @@ const formatDataForChart = (info) => {
 const AlexaInteractionsGraph = (unformattedData) => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (unformattedData?.unformattedData) {
-      if (unformattedData?.unformattedData.length != 0) {
+    if (unformattedData) {
+      if (unformattedData?.length != 0) {
         var formattedData = formatDataForChart(
           unformattedData?.unformattedData
         );
