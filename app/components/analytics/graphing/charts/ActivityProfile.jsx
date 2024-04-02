@@ -14,7 +14,6 @@ const formatDataForChart = (info) => {
     activity_history.length === 0 ||
     !activity_history[0].probabilities
   ) {
-    console.log("Activity Profile");
     throw new Error("Data is not available or incomplete");
   }
 
@@ -101,7 +100,7 @@ function ActivityProfile(unformattedData) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = () => {
-      if (unformattedData?.unformattedData) {
+      if (unformattedData.unformattedData != []) {
         const formattedData = formatDataForChart(
           unformattedData?.unformattedData
         );
