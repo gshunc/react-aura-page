@@ -16,6 +16,7 @@ const formatDataForChart = (info, step_data) => {
     activity_history.length === 0 ||
     !activity_history[0]?.probabilities
   ) {
+    console.log("4");
     throw new Error("Data is not available or incomplete");
   }
 
