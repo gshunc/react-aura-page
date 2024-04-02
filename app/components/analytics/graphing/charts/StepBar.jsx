@@ -62,7 +62,7 @@ function StepBar(props) {
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = () => {
-      if (unformattedData.unformattedData != [] && step_data) {
+      if (unformattedData != [] && step_data) {
         const formattedData = formatDataForChart(
           unformattedData.unformattedData,
           step_data
