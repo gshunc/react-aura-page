@@ -15,6 +15,7 @@ const formatDataForChart = (info) => {
     activity_history.length === 0 ||
     !activity_history[0]?.probabilities
   ) {
+    console.log("Activity Bar");
     throw new Error("Data is not available or incomplete");
   }
 
