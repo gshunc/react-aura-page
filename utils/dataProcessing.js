@@ -138,7 +138,25 @@ const getProfileInfoById = async (id, date, offset) => {
 
 const getAlexaInfoById = async (id, date, offset) => {
   try {
-    let res = await fetch(`/api/alexa/${id}/${date}/${offset}`, {
+    let res = await fetch(`/api/alexaGraph/${id}/${date}/${offset}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error("Error fetching information from user.");
+    }
+    const result = res.json();
+    return result;
+  } catch (error) {
+    console.error("Error in getProfileInfoById:", error);
+    throw new Error(
+      "Error fetching information about user. Details: " + error.message
+    );
+  }
+};
+
+const getAlexaInteractionsById = async (id, date, offset) => {
+  try {
+    let res = await fetch(`/api/alexaInteractions/${id}/${date}/${offset}`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -160,8 +178,14 @@ export const pullUserData = async (id, date) => {
   return res.response;
 };
 
-export const pullAlexaData = async (id, date) => {
+export const pullAlexaGraphData = async (id, date) => {
   const offset = new Date(date).getTimezoneOffset() / 60;
   const res = await getAlexaInfoById(id, date, offset);
+  return res.response;
+};
+
+export const pullAlexaInteractions = async (id, date) => {
+  const offset = new Date(date).getTimezoneOffset() / 60;
+  const res = await getAlexaInteractionsById(id, date, offset);
   return res.response;
 };

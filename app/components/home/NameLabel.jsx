@@ -8,9 +8,7 @@ export default function NameLabel({ userid }) {
   const getName = async (id) => {
     //Makes call to API to fetch username.
     try {
-      let res = await fetch(`/api/user_info/${id}`, {
-        cache: "no-store",
-      });
+      let res = await fetch(`/api/user_info/${id}`);
       if (!res.ok) {
         throw new Error("Error fetching user data.");
       }

@@ -7,13 +7,13 @@ import ActivityBar from "../../components/analytics/graphing/charts/ActivityBar"
 import ActivityProfile from "../../components/analytics/graphing/charts/ActivityProfile";
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
+import LoadingSpinner from "../../components/misc/LoadingSpinner";
 import {
   pullUserData,
   countSteps,
-  pullAlexaData,
+  pullAlexaGraphData,
 } from "../../../utils/dataProcessing";
 import { useSearchParams, useRouter } from "next/navigation";
-import "react-datepicker/dist/react-datepicker.css";
 import AlexaInteractions from "../../components/alexa/AlexaInteractionsGraph";
 
 function AnalyticsContent() {
@@ -32,7 +32,7 @@ function AnalyticsContent() {
       try {
         setLoading(true);
         const res = await pullUserData(userid, date);
-        const alexaRes = await pullAlexaData(userid, date);
+        const alexaRes = await pullAlexaGraphData(userid, date);
         setAlexaData(alexaRes);
         setData(res);
         setSteps(countSteps(res));
@@ -59,7 +59,9 @@ function AnalyticsContent() {
           <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
             {"Patient Analytics"}
           </div>
-          <DateComponent date={date} onChange={setDate} />
+          <div className="ml-10">
+            <DateComponent date={date} onChange={setDate} />
+          </div>
           <div className="flex flex-row justify-around">
             <div className="flex flex-col space-y-5 mt-5">
               <GraphBox
@@ -119,8 +121,14 @@ function AnalyticsContent() {
         </main>
       </>
     ) : (
-      <div className="ml-10 mt-3 font-bold text-3xl">
-        {"Retrieving user data..."}
+      <div className="flex min-h-screen flex-col mb-5">
+        <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
+          {"Patient Analytics"}
+        </div>
+        <div className="ml-10 mt-3 font-bold text-3xl flex flex-row">
+          {"Retrieving user data..."}
+          <LoadingSpinner />
+        </div>
       </div>
     )
   ) : (

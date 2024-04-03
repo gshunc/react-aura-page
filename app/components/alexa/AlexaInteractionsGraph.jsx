@@ -55,6 +55,7 @@ const AlexaInteractionsGraph = (unformattedData) => {
   var options = {
     borderWidth: 1,
     borderRadius: 2,
+
     scales: {
       y: {
         title: {
@@ -62,6 +63,14 @@ const AlexaInteractionsGraph = (unformattedData) => {
           text: "# of Alexa Interactions",
           font: {
             size: 12,
+          },
+        },
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) {
+            if (value % 1 === 0) {
+              return value;
+            }
           },
         },
       },
