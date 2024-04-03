@@ -3,6 +3,7 @@ import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import { formatDate } from "../../../utils/dataProcessing";
+import LoadingComponent from "../misc/LoadingComponent";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -37,8 +38,10 @@ const formatDataForChart = (info) => {
   return data;
 };
 const AlexaInteractionsGraph = (unformattedData) => {
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   useEffect(() => {
+    setLoading(true);
     if (unformattedData) {
       if (unformattedData.unformattedData?.length != 0) {
         var formattedData = formatDataForChart(
@@ -46,6 +49,7 @@ const AlexaInteractionsGraph = (unformattedData) => {
         );
       }
       setData(formattedData);
+      setLoading(false);
     }
   }, [unformattedData?.unformattedData]);
   var options = {
@@ -69,8 +73,15 @@ const AlexaInteractionsGraph = (unformattedData) => {
     },
   };
   if (!data) {
-    return <div className="text-bold font-large">{"Loading..."}</div>;
+    return (
+      <div className="text-bold font-large">
+        <LoadingComponent />
+      </div>
+    );
   }
-  return data && <Bar data={data} options={options} />;
+  return (
+    data &&
+    (!loading ? <Bar data={data} options={options} /> : <LoadingComponent />)
+  );
 };
 export default AlexaInteractionsGraph;

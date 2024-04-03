@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart as ChartJS } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
+import LoadingComponent from "@/app/components/misc/LoadingComponent";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -50,7 +51,11 @@ function StepChart(props) {
   }, [unformattedData, step_data]);
 
   if (!data) {
-    return <div className="text-bold font-large">{"Loading..."}</div>;
+    return (
+      <div className="text-bold font-large">
+        <LoadingComponent />
+      </div>
+    );
   }
 
   var options = {
