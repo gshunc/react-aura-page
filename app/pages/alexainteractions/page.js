@@ -32,18 +32,29 @@ function AlexaInteractionsContent() {
         </div>
 
         <DateComponent date={date} onChange={setDate} />
-        <div className="font-heavy text-lg mr-2 mt-5 mb-5 w-128">
+        <div className="font-heavy text-lg mr-2 mt-5 mb-5 w-128 text-gray-700 italic">
           {"Boxes contain descriptions of all Alexa interactions of patients."}
         </div>
-        {data?.map((entry) => {
-          return (
-            <AlexaBox
-              date={entry?.time}
-              content={entry.event}
-              key={entry.time}
-            />
-          );
-        })}
+        {data?.length != 0 ? (
+          data?.map((entry) => {
+            return (
+              <AlexaBox
+                date={entry?.time}
+                content={entry.event}
+                key={entry.time}
+              />
+            );
+          })
+        ) : (
+          <div className="font-bold flex flex-col rounded-xl bg-carolina border-4 border-blue-900 bg-opacity-60 w-96 p-6 self-center justify-center text-center text-2xl text-gray-800">
+            {"No user interactions with Alexa on this day"}
+            <br></br>
+            <br></br>
+            <div className="italic font-medium">
+              {"Check another date or engage with your Alexa"}
+            </div>
+          </div>
+        )}
       </main>
     </>
   );
