@@ -5,20 +5,22 @@ import StepChart from "../../components/analytics/graphing/charts/StepChart";
 import StepBar from "../../components/analytics/graphing/charts/StepBar";
 import ActivityBar from "../../components/analytics/graphing/charts/ActivityBar";
 import ActivityProfile from "../../components/analytics/graphing/charts/ActivityProfile";
-import DatePicker from "react-datepicker";
+import DateComponent from "../../components/misc/DateComponent";
+import LoadingComponent from "../../components/misc/LoadingComponent";
+import LoadingSpinner from "../../components/misc/LoadingSpinner";
 import {
   pullUserData,
   countSteps,
-  pullAlexaData,
+  pullAlexaGraphData,
 } from "../../../utils/dataProcessing";
 import { useSearchParams, useRouter } from "next/navigation";
-import "react-datepicker/dist/react-datepicker.css";
 import AlexaInteractions from "../../components/alexa/AlexaInteractionsGraph";
 
 function AnalyticsContent() {
   //Base component of project. Hosts all graphs, page header, etc. Also keeps track of date state from DatePicker.
   const [date, setDate] = useState(new Date(Date.now()));
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [alexaData, setAlexaData] = useState(null);
   const [steps, setSteps] = useState(null);
   const router = useRouter();
@@ -28,11 +30,13 @@ function AnalyticsContent() {
   useEffect(() => {
     const fetchActivity = async () => {
       try {
+        setLoading(true);
         const res = await pullUserData(userid, date);
-        const alexaRes = await pullAlexaData(userid, date);
+        const alexaRes = await pullAlexaGraphData(userid, date);
         setAlexaData(alexaRes);
         setData(res);
         setSteps(countSteps(res));
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user actvity", error);
       }
@@ -55,47 +59,76 @@ function AnalyticsContent() {
           <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
             {"Patient Analytics"}
           </div>
-          <div className="flex flex-row items-center mt-5">
-            {" "}
-            <div className="font-semibold text-lg ml-10 mr-2">{`Choose your date: `}</div>
-            <DatePicker
-              selected={date}
-              onChange={(date) => setDate(date)}
-              maxDate={new Date(Date.now())}
-              className="rounded border-2 border-transparent hover:border-blue-900 focus:border-blue-900"
-            />
+          <div className="ml-10">
+            <DateComponent date={date} onChange={setDate} />
           </div>
           <div className="flex flex-row justify-around">
             <div className="flex flex-col space-y-5 mt-5">
               <GraphBox
                 title={"Step Activity"}
-                content={<StepBar unformattedData={data} step_data={steps} />}
+                content={
+                  !loading ? (
+                    <StepBar unformattedData={data} step_data={steps} />
+                  ) : (
+                    <LoadingComponent />
+                  )
+                }
               ></GraphBox>
               <GraphBox
                 title={"Total Activity Level"}
-                content={<ActivityBar unformattedData={data} />}
+                content={
+                  !loading ? (
+                    <ActivityBar unformattedData={data} />
+                  ) : (
+                    <LoadingComponent />
+                  )
+                }
               ></GraphBox>
               <GraphBox
                 title={"Alexa Interactions"}
-                content={<AlexaInteractions unformattedData={alexaData} />}
+                content={
+                  !loading ? (
+                    <AlexaInteractions unformattedData={alexaData} />
+                  ) : (
+                    <LoadingComponent />
+                  )
+                }
               />
             </div>
             <div className="flex flex-col space-y-5 mt-5">
               <GraphBox
                 title={`Total Daily Steps - ${formattedDate}`}
-                content={<StepChart unformattedData={data} step_data={steps} />}
+                content={
+                  !loading ? (
+                    <StepChart unformattedData={data} step_data={steps} />
+                  ) : (
+                    <LoadingComponent />
+                  )
+                }
               ></GraphBox>
               <GraphBox
                 title={"Activity Profile"}
-                content={<ActivityProfile unformattedData={data} />}
+                content={
+                  !loading ? (
+                    <ActivityProfile unformattedData={data} />
+                  ) : (
+                    <LoadingComponent />
+                  )
+                }
               ></GraphBox>
             </div>
           </div>
         </main>
       </>
     ) : (
-      <div className="ml-10 mt-3 font-bold text-3xl">
-        {"Retrieving user data..."}
+      <div className="flex min-h-screen flex-col mb-5">
+        <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
+          {"Patient Analytics"}
+        </div>
+        <div className="ml-10 mt-3 font-bold text-3xl flex flex-row">
+          {"Retrieving user data..."}
+          <LoadingSpinner />
+        </div>
       </div>
     )
   ) : (
@@ -105,7 +138,7 @@ function AnalyticsContent() {
 
 export default function Analytics() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingComponent />}>
       <AnalyticsContent />
     </Suspense>
   );

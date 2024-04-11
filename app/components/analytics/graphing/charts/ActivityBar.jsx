@@ -3,6 +3,7 @@ import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import { formatDate } from "../../../../../utils/dataProcessing";
+import LoadingComponent from "@/app/components/misc/LoadingComponent";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
@@ -98,7 +99,6 @@ function ActivityBar(unformattedData) {
   useEffect(() => {
     const fetchData = () => {
       if (unformattedData.unformattedData?.length != 0) {
-        console.log(unformattedData);
         const formattedData = formatDataForChart(
           unformattedData.unformattedData
         );
@@ -108,7 +108,11 @@ function ActivityBar(unformattedData) {
     fetchData();
   }, [unformattedData.unformattedData]);
   if (!data) {
-    return <div className="text-bold font-large">{"Loading..."}</div>;
+    return (
+      <div className="text-bold font-large">
+        <LoadingComponent />
+      </div>
+    );
   }
   var options = {
     borderWidth: 1,
