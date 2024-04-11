@@ -8,7 +8,7 @@ const HeaderLinksContent = () => {
   const userid = searchParams.get("userid") ?? "";
   const router = useRouter();
   return userid !== "" ? (
-    <div className="text-blue-900 font-semibold underline space-x-5 mr-5">
+    <div className="text-blue-900 font-medium text-lg underline space-x-5 mr-5">
       <Link href={`/pages/home?userid=${encodeURIComponent(userid)}`}>
         {"Home"}
       </Link>
