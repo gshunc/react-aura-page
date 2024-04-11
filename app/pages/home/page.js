@@ -79,7 +79,7 @@ const HomeContent = () => {
           <NameLabel userid={userid} />
           <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
             <Link
-              className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
+              className="rounded-lg border-2 hover:border-blue-900 max-h-{min}"
               href={`/pages/analytics?userid=${encodeURIComponent(userid)}`}
             >
               <HomeBox
@@ -88,7 +88,7 @@ const HomeContent = () => {
               />
             </Link>
             <Link
-              className="rounded-lg border-4 hover:border-blue-900 max-h-{min}"
+              className="rounded-lg border-2 hover:border-blue-900 max-h-{min}"
               href={`/pages/alexainteractions?userid=${encodeURIComponent(
                 userid
               )}`}

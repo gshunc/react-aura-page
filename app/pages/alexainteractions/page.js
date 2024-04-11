@@ -25,8 +25,8 @@ function AlexaInteractionsContent() {
   }, [date, userid]);
 
   return (
-    <>
-      <main className="flex min-h-screen flex-col mb-5 ml-10">
+    <main>
+      <div className="flex min-h-screen flex-col mb-5 ml-10">
         <div className="font-semibold text-3xl mr-2 mt-3 underline">
           {"Alexa Interactions"}
         </div>
@@ -46,17 +46,17 @@ function AlexaInteractionsContent() {
             );
           })
         ) : (
-          <div className="font-bold flex flex-col rounded-xl bg-carolina border-4 border-blue-900 bg-opacity-60 w-96 p-6 self-center justify-center text-center text-2xl text-gray-800">
+          <div className="font-medium flex flex-col rounded-xl bg-carolina border-2 border-blue-900 bg-opacity-60 w-96 p-6 self-center justify-center text-center text-2xl text-gray-800">
             {"No user interactions with Alexa on this day"}
             <br></br>
             <br></br>
-            <div className="italic font-medium">
+            <div className="font-medium">
               {"Check another date or engage with your Alexa"}
             </div>
           </div>
         )}
-      </main>
-    </>
+      </div>
+    </main>
   );
 }
 

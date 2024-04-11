@@ -17,17 +17,17 @@ export default function AlexaBox(props) {
       className={`group w-home_box_width min-h-home_box_height bg-white rounded-lg mb-4`}
     >
       <div className="p-4 flex flex-col">
-        <div className="font-bold flex flex-row rounded bg-carolina border-2 border-blue-900 bg-opacity-60 pl-3">
+        <div className="font-semibold flex flex-row rounded bg-carolina border-2 border-blue-900 bg-opacity-60 pl-3">
           {"Interaction at"}
           &nbsp;
           <span>{new Date(date)?.toLocaleTimeString("en-US")}</span>
         </div>
         <div className="flex flex-col justify-start text-base w-full mt-3 space-y-3">
-          <div className="font-bold">
+          <div className="font-semibold">
             {"Origin:"}&nbsp;
             <span className="font-normal">{origin}</span>
           </div>
-          <div className="font-bold">
+          <div className="font-semibold">
             {"Content:"}&nbsp;
             <span className="font-normal">{message}</span>
           </div>
