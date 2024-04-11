@@ -73,7 +73,7 @@ const formatDataForChart = (info) => {
       borders.push("rgba(255, 79, 120,1)");
     }
 
-    intervals.push(proportion);
+    intervals.push(proportion * 15);
     times.push(formatDate(activity_history[i]["time"]));
   }
 
@@ -119,15 +119,18 @@ function ActivityBar(unformattedData) {
     borderRadius: 2,
     scales: {
       y: {
-        max: 1,
+        suggestedMax: 3,
+        min: 0,
         ticks: {
           callback: function (value, index, ticks) {
-            return `${index * 10}%`;
+            return value > 0.999999
+              ? `${value} minutes`
+              : `${value * 60} seconds`;
           },
         },
         title: {
           display: true,
-          text: "Percentage of Time Spent Active",
+          text: "Time Spent Active Per 15 Minute Period",
           font: {
             size: 12,
           },
@@ -137,6 +140,24 @@ function ActivityBar(unformattedData) {
     plugins: {
       legend: {
         display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || "";
+            if (label) {
+              label += ": ";
+            }
+            if (context.parsed.y !== null && context.parsed.y > 1) {
+              label += context.parsed.y + " Minutes";
+            } else if (context.parsed.y !== null && context.parsed.y == 1) {
+              label += context.parsed.y + " Minute";
+            } else {
+              label += context.parsed.y * 60 + " Seconds";
+            }
+            return label;
+          },
+        },
       },
     },
   };

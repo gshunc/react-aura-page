@@ -83,7 +83,7 @@ function StepBar(props) {
     scales: {
       y: {
         min: 0,
-        max: 1000,
+        suggestedMax: 100,
         title: {
           display: true,
           text: "# of Steps",
@@ -96,6 +96,21 @@ function StepBar(props) {
     plugins: {
       legend: {
         display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || "";
+
+            if (label) {
+              label += ": ";
+            }
+            if (context.parsed.y !== null) {
+              label += context.parsed.y + " Steps";
+            }
+            return label;
+          },
+        },
       },
     },
   };
