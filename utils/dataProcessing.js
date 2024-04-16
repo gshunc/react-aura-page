@@ -29,7 +29,7 @@ export const countSteps = (activity_history) => {
     }
     times.push(formatDate(activity_history[i]["time"]));
   }
-  return { step_array, times };
+  return { step_array, times, step_count };
 };
 
 export const processUserData = async (info, date, timezone) => {

@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
 import GraphBox from "../../components/analytics/graphing/GraphBox";
+import SmallGraphBox from "../../components/analytics/graphing/SmallGraphBox";
 import StepChart from "../../components/analytics/graphing/charts/StepChart";
 import StepBar from "../../components/analytics/graphing/charts/StepBar";
 import ActivityBar from "../../components/analytics/graphing/charts/ActivityBar";
-import ActivityProfile from "../../components/analytics/graphing/charts/ActivityProfile";
+import ActivityProfileContainer from "../../components/analytics/graphing/ActivityProfileContainer";
+import StatProfile from "../../components/analytics/graphing/StatProfile";
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
@@ -114,12 +116,17 @@ function AnalyticsContent() {
                 title={"Activity Profile"}
                 content={
                   !loading ? (
-                    <ActivityProfile unformattedData={data} />
+                    <>
+                      <ActivityProfileContainer
+                        unformattedData={data}
+                        steps={steps}
+                      />
+                    </>
                   ) : (
                     <LoadingComponent />
                   )
                 }
-                about="This profile displays the proportion of activity that the user engaged in on the selected day."
+                about="This profile displays the proportions of the different activities that the user engaged in on the selected day."
               ></GraphBox>
             </div>
           </div>

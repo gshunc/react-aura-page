@@ -24,7 +24,7 @@ export default function AlexaBox(props) {
       message = [`${userid} achieved their step goal.`];
     } else {
       origin = "System";
-      message = content;
+      message = [content];
     }
   } else {
     if (content_array[0] == "d") {

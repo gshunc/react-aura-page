@@ -16,12 +16,12 @@ module.exports = {
         16: "16px",
       },
       width: {
-        wide_graph: "36rem",
-        home_box_width: "36rem",
+        wide_graph: "40rem",
+        home_box_width: "40rem",
       },
       height: {
         graph_height: "20rem",
-        graph_box_height: "22rem",
+        graph_box_height: "20rem",
         home_box_height: "10rem",
       },
     },

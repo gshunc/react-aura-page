@@ -34,6 +34,9 @@ export default function NameLabel({ userid }) {
   }, []);
 
   return (
-    <div className="font-semibold text-2xl ml-10">{`Welcome ${name}!`}</div>
+    <div className="flex flex-row mr-10">
+      <div className="font-semibold text-lg ml-10">{`Welcome,`}&nbsp;</div>
+      <span className="text-white font-normal">{name}</span>
+    </div>
   );
 }
