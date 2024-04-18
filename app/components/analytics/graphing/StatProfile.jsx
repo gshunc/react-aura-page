@@ -61,13 +61,14 @@ function StatProfile(props) {
           </>
         ) : (
           <div className="text-xs min-h-4 w-fit pl-2 pr-2 bg-graph_pink/20 border-2 border-graph_pink rounded-sm">
-            Active Time: {active_time / 60} minute, {active_time % 60} seconds
+            Active Time: {Math.floor(active_time / 60)} minutes,{" "}
+            {active_time % 60} seconds
           </div>
         )}
         <div className="text-xs mt-4 min-h-4 w-fit pl-2 pr-2 bg-graph_blue/20 border-2 border-graph_blue rounded-sm">
           Steps: {step_data.step_count}
         </div>
-        <div className="self-center mt-6">
+        <div className="self-center mt-6 max-h-56">
           <Doughnut
             data={data}
             options={{

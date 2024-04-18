@@ -10,6 +10,7 @@ function AlexaInteractionsContent() {
   const userid = searchParams.get("userid") ?? "";
   const [date, setDate] = useState(new Date(Date.now()));
   const [data, setData] = useState(null);
+  console.log(date);
 
   useEffect(() => {
     const fetchActivity = async () => {
