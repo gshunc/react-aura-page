@@ -1,5 +1,4 @@
 "use client";
-import NameLabel from "../../components/home/NameLabel";
 import HomeBox from "../../components/home/HomeBox";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
@@ -76,7 +75,6 @@ const HomeContent = () => {
           {"Home"}
         </div>
         <div className="mt-5">
-          <NameLabel userid={userid} />
           <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
             <Link
               className="rounded-lg border-2 hover:border-blue-900 max-h-{min}"

@@ -42,6 +42,7 @@ function AlexaInteractionsContent() {
                 date={entry?.time}
                 content={entry.event}
                 key={entry.time}
+                userid={userid}
               />
             );
           })

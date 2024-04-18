@@ -68,7 +68,19 @@ function StepChart(props) {
     scales: {
       y: {
         min: 0,
-        max: 1000,
+        suggestedMax: 100,
+        title: {
+          display: true,
+          text: "# of Steps",
+          font: {
+            size: 12,
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
       },
     },
   };

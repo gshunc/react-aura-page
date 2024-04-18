@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
 import GraphBox from "../../components/analytics/graphing/GraphBox";
+import SmallGraphBox from "../../components/analytics/graphing/SmallGraphBox";
 import StepChart from "../../components/analytics/graphing/charts/StepChart";
 import StepBar from "../../components/analytics/graphing/charts/StepBar";
 import ActivityBar from "../../components/analytics/graphing/charts/ActivityBar";
-import ActivityProfile from "../../components/analytics/graphing/charts/ActivityProfile";
+import ActivityProfileContainer from "../../components/analytics/graphing/ActivityProfileContainer";
+import StatProfile from "../../components/analytics/graphing/StatProfile";
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
@@ -73,9 +75,10 @@ function AnalyticsContent() {
                     <LoadingComponent />
                   )
                 }
+                about="This graph displays 15 minute intervals of steps. For example, if from 12:15-12:30, you had 200 steps, the height of the bar at 12:30 would be 200 steps."
               ></GraphBox>
               <GraphBox
-                title={"Total Activity Level"}
+                title={"Active Time"}
                 content={
                   !loading ? (
                     <ActivityBar unformattedData={data} />
@@ -83,6 +86,7 @@ function AnalyticsContent() {
                     <LoadingComponent />
                   )
                 }
+                about="This graph displays 15 minute intervals of activity (walking, running, jumping, arm exercises, standing). The height of the bar is the amount of time spent 'active' in that 15 minute interval."
               ></GraphBox>
               <GraphBox
                 title={"Alexa Interactions"}
@@ -93,11 +97,12 @@ function AnalyticsContent() {
                     <LoadingComponent />
                   )
                 }
+                about="This graph displays 15 minute intervals of Alexa Interactions. Please see the Alexa Visualizations page for more information about these interactions."
               />
             </div>
             <div className="flex flex-col space-y-5 mt-5">
               <GraphBox
-                title={`Total Daily Steps - ${formattedDate}`}
+                title={`Total Steps`}
                 content={
                   !loading ? (
                     <StepChart unformattedData={data} step_data={steps} />
@@ -105,16 +110,23 @@ function AnalyticsContent() {
                     <LoadingComponent />
                   )
                 }
+                about="This graph displays the cumulative step count over the course of the selected day for the user."
               ></GraphBox>
               <GraphBox
                 title={"Activity Profile"}
                 content={
                   !loading ? (
-                    <ActivityProfile unformattedData={data} />
+                    <>
+                      <ActivityProfileContainer
+                        unformattedData={data}
+                        steps={steps}
+                      />
+                    </>
                   ) : (
                     <LoadingComponent />
                   )
                 }
+                about="This profile displays the proportions of the different activities that the user engaged in on the selected day."
               ></GraphBox>
             </div>
           </div>
