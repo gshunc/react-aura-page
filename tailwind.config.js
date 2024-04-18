@@ -11,6 +11,8 @@ module.exports = {
     extend: {
       colors: {
         carolina: "#56A0D3",
+        graph_blue: "rgba(54, 162, 235, 1)",
+        graph_pink: "rgba(255, 99, 132, 1)",
       },
       borderWidth: {
         16: "16px",

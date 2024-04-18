@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Chart as ChartJS } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-import { CategoryScale, registerables } from "chart.js";
 import LoadingComponent from "@/app/components/misc/LoadingComponent";
 import ActivityProfile from "./charts/ActivityProfile";
 import StatProfile from "./StatProfile";
-
-ChartJS.register(CategoryScale, ...registerables);
-ChartJS.defaults.font.size = 8;
 
 const formatDataForChart = (info) => {
   //Formats data for display in the activity doughnut chart. Categorizes all data into counts of each activity type in an array in a simple for loop. O(N) with N = length of activity_history.
@@ -132,7 +126,7 @@ function ActivityProfileContainer(props) {
     </div>
   ) : (
     <div className="min-h-full flex flex-row justify-between">
-      <div className="bg-carolina/25 p-10 rounded-md border-blue-900 border-2">
+      <div className="bg-carolina/25 h-24 self-center p-10 mb-10 rounded-md border-blue-900 border-2">
         {"No activity detected!"}
       </div>
     </div>
