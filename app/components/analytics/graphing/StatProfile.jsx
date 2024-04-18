@@ -86,7 +86,7 @@ function StatProfile(props) {
       </div>
     </>
   ) : (
-    <div className="min-h-full flex flex-col justify-center">
+    <div className="ml-4 min-h-full flex flex-col justify-center">
       <div className="bg-carolina/25 p-10 rounded-md border-blue-900 border-2">
         {"No steps detected!"}
       </div>
