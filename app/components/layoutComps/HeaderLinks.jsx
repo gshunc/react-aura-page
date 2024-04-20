@@ -2,13 +2,17 @@
 import Link from "next/link";
 import NameLabel from "../home/NameLabel";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Suspense } from "react";
 
-const HeaderLinksContent = () => {
+export default function HeaderLinks() {
   const searchParams = useSearchParams();
   const userid = searchParams.get("userid") ?? "";
   const router = useRouter();
-  return userid !== "" ? (
+
+  const handleLogout = () => {
+    router.push("/");
+  };
+
+  return userid ? (
     <div className="text-blue-900 font-medium flex flex-row text-lg space-x-5 mr-5">
       <NameLabel userid={userid} />
       <Link
@@ -17,19 +21,9 @@ const HeaderLinksContent = () => {
       >
         {"Home"}
       </Link>
-      <Link href={"/"} className="underline">
+      <button onClick={handleLogout} className="underline">
         {"Log Out"}
-      </Link>
+      </button>
     </div>
-  ) : (
-    router.push("/")
-  );
-};
-
-export default function HeaderLinks() {
-  return (
-    <Suspense>
-      <HeaderLinksContent></HeaderLinksContent>
-    </Suspense>
-  );
+  ) : null;
 }
