@@ -1,12 +1,10 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
 import GraphBox from "../../components/analytics/graphing/GraphBox";
-import SmallGraphBox from "../../components/analytics/graphing/SmallGraphBox";
 import StepChart from "../../components/analytics/graphing/charts/StepChart";
 import StepBar from "../../components/analytics/graphing/charts/StepBar";
 import ActivityBar from "../../components/analytics/graphing/charts/ActivityBar";
 import ActivityProfileContainer from "../../components/analytics/graphing/ActivityProfileContainer";
-import StatProfile from "../../components/analytics/graphing/StatProfile";
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
@@ -31,28 +29,23 @@ function AnalyticsContent() {
 
   useEffect(() => {
     const fetchActivity = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const res = await pullUserData(userid, date);
         const alexaRes = await pullAlexaGraphData(userid, date);
-        setAlexaData(alexaRes);
         setData(res);
         setSteps(countSteps(res));
+        setAlexaData(alexaRes);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching user actvity", error);
+        console.error(
+          "Error fetching user actvity at analytics page root:",
+          error
+        );
       }
     };
     fetchActivity();
   }, [date, userid]);
-
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-  const formattedDate = date.toLocaleDateString("en-US", options);
 
   return userid !== "" ? (
     data ? (

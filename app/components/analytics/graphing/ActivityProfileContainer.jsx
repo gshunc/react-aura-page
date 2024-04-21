@@ -3,7 +3,7 @@ import LoadingComponent from "@/app/components/misc/LoadingComponent";
 import ActivityProfile from "./charts/ActivityProfile";
 import StatProfile from "./StatProfile";
 
-const formatDataForChart = (info) => {
+const formatDataForActivityProfile = (info) => {
   //Formats data for display in the activity doughnut chart. Categorizes all data into counts of each activity type in an array in a simple for loop. O(N) with N = length of activity_history.
   var activity_history = info;
   if (
@@ -104,7 +104,7 @@ function ActivityProfileContainer(props) {
   useEffect(() => {
     const fetchData = () => {
       if (unformattedData.length != 0) {
-        const formattedData = formatDataForChart(unformattedData);
+        const formattedData = formatDataForActivityProfile(unformattedData);
         setData(formattedData);
       }
     };

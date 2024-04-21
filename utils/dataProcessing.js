@@ -118,7 +118,6 @@ export const processAlexaData = async (data, date, timezone) => {
 };
 
 const getProfileInfoById = async (id, date, offset) => {
-  //Simple API call.
   try {
     let res = await fetch(`/api/analytics/${id}/${date}/${offset}`, {
       cache: "no-store",
