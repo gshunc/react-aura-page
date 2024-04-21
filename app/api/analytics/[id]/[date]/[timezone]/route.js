@@ -1,6 +1,5 @@
 import connectMongoDB from "../../../../../../libs/mongoDB";
 import Personal from "../../../../../../models/Personal";
-import { processUserData } from "../../../../../../service/profile_service";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
@@ -38,6 +37,5 @@ export async function GET(request, { params }) {
     },
   ]);
   activity = activity.length > 0 ? activity[0].activity : [];
-  activity = await processUserData(activity, date, timezone);
   return Response.json({ response: activity }, { status: 200 });
 }
