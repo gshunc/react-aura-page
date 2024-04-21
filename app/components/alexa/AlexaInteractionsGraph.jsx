@@ -51,7 +51,7 @@ const AlexaInteractionsGraph = (unformattedData) => {
       setData(formattedData);
       setLoading(false);
     }
-  }, [unformattedData?.unformattedData]);
+  }, [unformattedData, unformattedData?.unformattedData]);
   var options = {
     borderWidth: 1,
     borderRadius: 2,

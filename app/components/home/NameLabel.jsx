@@ -31,7 +31,7 @@ export default function NameLabel({ userid }) {
       }
     };
     fetchName();
-  }, []);
+  }, [userid]);
 
   return (
     <div className="flex flex-row mr-10">
