@@ -17,6 +17,7 @@ function AnalyticsContent() {
   //Base component of project. Hosts all graphs, page header, etc. Also keeps track of date state from DatePicker.
   const [date, setDate] = useState(new Date(Date.now()));
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [alexaData, setAlexaData] = useState(null);
   const [steps, setSteps] = useState(null);
@@ -35,6 +36,7 @@ function AnalyticsContent() {
         setAlexaData(alexaRes);
         setLoading(false);
       } catch (error) {
+        setError(error);
         console.error(
           "Error fetching user actvity at analytics page root:",
           error
@@ -43,7 +45,16 @@ function AnalyticsContent() {
     };
     fetchActivity();
   }, [date, userid]);
-
+  if (error) {
+    return (
+      <div>
+        {
+          "There has been an error processing your user data. Please refer to the following information:"
+        }
+        {error}
+      </div>
+    );
+  }
   return userid !== "" ? (
     data ? (
       <>
