@@ -8,11 +8,8 @@ import ActivityProfileContainer from "../../components/analytics/graphing/Activi
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
-import {
-  pullUserData,
-  countSteps,
-  pullAlexaGraphData,
-} from "../../../utils/dataProcessing";
+import { pullUserData, pullAlexaGraphData } from "../../../service/api_service";
+import { countSteps } from "../../../service/profile_service";
 import { useSearchParams, useRouter } from "next/navigation";
 import AlexaInteractions from "../../components/alexa/AlexaInteractionsGraph";
 

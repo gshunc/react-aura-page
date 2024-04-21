@@ -1,6 +1,6 @@
 import connectMongoDB from "../../../../../../libs/mongoDB";
 import Personal from "../../../../../../models/Personal";
-import { processAlexaData } from "../../../../../../utils/dataProcessing";
+import { processAlexaData } from "../../../../../../service/alexa_service";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
