@@ -37,5 +37,6 @@ export async function GET(request, { params }) {
     },
   ]);
   activity = activity.length > 0 ? activity[0].activity : [];
+  console.log(activity.length);
   return Response.json({ response: activity }, { status: 200 });
 }
