@@ -51,7 +51,7 @@ function AnalyticsContent() {
         {
           "There has been an error processing your user data. Please refer to the following information:"
         }
-        {error}
+        {error.message + ""}
       </div>
     );
   }
