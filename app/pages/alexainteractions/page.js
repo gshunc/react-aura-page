@@ -2,7 +2,7 @@
 import DateComponent from "../../components/misc/DateComponent";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { pullAlexaInteractions } from "../../../utils/dataProcessing";
+import { pullAlexaInteractions } from "../../../service/api_service";
 import AlexaBox from "@/app/components/alexa/interactionVisualizations/AlexaBox";
 
 function AlexaInteractionsContent() {

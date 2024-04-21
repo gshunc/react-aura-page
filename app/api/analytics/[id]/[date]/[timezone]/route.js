@@ -1,6 +1,6 @@
 import connectMongoDB from "../../../../../../libs/mongoDB";
 import Personal from "../../../../../../models/Personal";
-import { processUserData } from "../../../../../../utils/dataProcessing";
+import { processUserData } from "../../../../../../service/profile_service";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
