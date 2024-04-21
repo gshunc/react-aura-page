@@ -13,10 +13,10 @@ export default function HeaderLinks() {
     router.push("/");
   };
 
-  return userid ? (
+  return (
     <Suspense>
       <div className="text-blue-900 font-medium flex flex-row text-lg space-x-5 mr-5">
-        <NameLabel userid={userid} />
+        {userid && <NameLabel userid={userid} />}
         <Link
           href={`/pages/home?userid=${encodeURIComponent(userid)}`}
           className="underline"
@@ -28,5 +28,5 @@ export default function HeaderLinks() {
         </button>
       </div>
     </Suspense>
-  ) : null;
+  );
 }
