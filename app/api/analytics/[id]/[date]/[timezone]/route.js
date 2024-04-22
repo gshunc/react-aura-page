@@ -4,40 +4,36 @@ import Personal from "../../../../../../models/Personal";
 export async function GET(request, { params }) {
   await connectMongoDB();
   const { id, date, timezone } = params;
-  const startOfDay = new Date(date);
-  startOfDay.setHours(timezone, 0, 0);
-  const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
-  endOfDay.setHours(0, 0, 0);
 
-  console.time();
+  // Convert the date string to a Date object
+  const dateObj = new Date(date);
+
+  // Set the timezone offset
+  const timezoneOffset = timezone * 60 * 60 * 1000; // Convert hours to milliseconds
+
+  // Calculate the start of the day in ISO format
+  const startOfDay = new Date(dateObj.getTime() + timezoneOffset);
+  startOfDay.setHours(0, 0, 0, 0);
+  const startOfDayISOString = startOfDay.toISOString();
+
+  // Calculate the end of the day in ISO format
+  const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
+  const endOfDayISOString = endOfDay.toISOString();
+
   const user = await Personal.aggregate([
-    {
-      $match: {
-        userid: id,
-      },
-    },
-    {
-      $unwind: "$activity",
-    },
+    { $match: { userid: id } },
+    { $unwind: { path: "$activity" } },
     {
       $match: {
         "activity.time": {
-          $gte: startOfDay,
-          $lt: endOfDay,
+          $gte: startOfDayISOString,
+          $lt: endOfDayISOString,
         },
       },
     },
-    {
-      $project: {
-        _id: 0,
-        activity: 1,
-      },
-    },
+    { $project: { _id: 0, activity: 1 } },
   ]);
-  console.time();
-  console.log(user.length);
 
   const activity = user ? user.map((a) => a.activity) : [];
-
   return Response.json({ response: activity }, { status: 200 });
 }
