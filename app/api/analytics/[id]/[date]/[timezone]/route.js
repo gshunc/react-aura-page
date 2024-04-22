@@ -20,6 +20,9 @@ export async function GET(request, { params }) {
   const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
   const endOfDayISOString = endOfDay.toISOString();
 
+  console.log(startOfDayISOString);
+  console.log(endOfDayISOString);
+
   const user = await Personal.aggregate([
     { $match: { userid: id } },
     { $unwind: { path: "$activity" } },
