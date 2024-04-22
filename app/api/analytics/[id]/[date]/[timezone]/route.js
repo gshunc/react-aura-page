@@ -14,14 +14,9 @@ export async function GET(request, { params }) {
   // Calculate the start of the day in ISO format
   const startOfDay = new Date(dateObj.getTime() + timezoneOffset);
   startOfDay.setHours(0, 0, 0, 0);
-  const startOfDayISOString = startOfDay.toISOString();
 
   // Calculate the end of the day in ISO format
   const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
-  const endOfDayISOString = endOfDay.toISOString();
-
-  console.log(startOfDayISOString);
-  console.log(endOfDayISOString);
 
   const user = await Personal.aggregate([
     { $match: { userid: id } },
@@ -29,8 +24,8 @@ export async function GET(request, { params }) {
     {
       $match: {
         "activity.time": {
-          $gte: new Date(startOfDayISOString),
-          $lt: new Date(endOfDayISOString),
+          $gte: startOfDay,
+          $lt: endOfDay,
         },
       },
     },
