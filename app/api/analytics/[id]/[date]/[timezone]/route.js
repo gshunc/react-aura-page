@@ -1,40 +1,43 @@
 import connectMongoDB from "../../../../../../libs/mongoDB";
 import Personal from "../../../../../../models/Personal";
+import { processUserData } from "../../../../../../service/profile_service";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
+
   const { id, date, timezone } = params;
   const startOfDay = new Date(date);
   startOfDay.setHours(timezone, 0, 0);
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
   endOfDay.setHours(0, 0, 0);
 
-  const user = await Personal.aggregate([
+  let activity = await Personal.aggregate([
     {
       $match: {
         userid: id,
       },
     },
     {
-      $unwind: { path: "$activity" },
-    },
-    {
-      $match: {
-        "activity.time": {
-          $gte: startOfDay,
-          $lt: endOfDay,
+      $project: {
+        activity: {
+          $filter: {
+            input: "$activity",
+            cond: {
+              $and: [
+                {
+                  $gte: ["$$this.time", new Date(startOfDay.toISOString())],
+                },
+                {
+                  $lt: ["$$this.time", new Date(endOfDay.toISOString())],
+                },
+              ],
+            },
+          },
         },
       },
     },
-    {
-      $project: {
-        _id: 0,
-        activity: 1,
-      },
-    },
   ]);
-
-  const activity = user ? user.map((a) => a.activity) : [];
-
+  activity = activity.length > 0 ? activity[0].activity : [];
+  activity = await processUserData(activity, date, timezone);
   return Response.json({ response: activity }, { status: 200 });
 }
