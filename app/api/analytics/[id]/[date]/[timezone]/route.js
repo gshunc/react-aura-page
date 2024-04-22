@@ -29,8 +29,8 @@ export async function GET(request, { params }) {
     {
       $match: {
         "activity.time": {
-          $gte: startOfDayISOString,
-          $lt: endOfDayISOString,
+          $gte: new Date(startOfDayISOString),
+          $lt: new Date(endOfDayISOString),
         },
       },
     },
