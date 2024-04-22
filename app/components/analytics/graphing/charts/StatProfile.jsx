@@ -11,13 +11,6 @@ function StatProfile(props) {
   const { active_time, step_data } = props;
 
   if (!step_data) {
-    return <div className="text-bold font-large">no steps</div>;
-  }
-  if (!active_time) {
-    return <div className="text-bold font-large">no steps</div>;
-  }
-
-  if (!step_data) {
     return <LoadingComponent />;
   }
 
