@@ -9,6 +9,7 @@ export async function GET(request, { params }) {
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
   endOfDay.setHours(0, 0, 0);
 
+  console.time();
   const user = await Personal.aggregate([
     {
       $match: {
@@ -33,7 +34,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-
+  console.time();
   console.log(user.length);
 
   const activity = user ? user.map((a) => a.activity) : [];
