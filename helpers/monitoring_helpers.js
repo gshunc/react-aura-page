@@ -10,6 +10,9 @@ export const processMonitoringData = async (data, date, timezone) => {
   const midnight = new Date(date);
   midnight.setHours(offset, 0, 0);
 
+  const endOfDay = new Date(date);
+  endOfDay.setHours(offset + 24, 0, 0);
+
   var timeList = [];
 
   //Creating list of all times from dataset
@@ -39,6 +42,13 @@ export const processMonitoringData = async (data, date, timezone) => {
     });
     currentTime = currentEnd;
   }
-  console.log(res);
+  while (currentTime < endOfDay) {
+    res.push({
+      time: currentTime,
+      count: 0,
+    });
+    currentTime = currentTime + 900000;
+  }
+  console.log(res.length);
   return res;
 };

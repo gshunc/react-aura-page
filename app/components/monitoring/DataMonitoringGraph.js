@@ -15,6 +15,7 @@ const formatDataForChart = (info) => {
     intervals.push(element.count);
     times.push(formatDate(new Date(element.time)));
   });
+
   const labels = times;
   const data = {
     labels,

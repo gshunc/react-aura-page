@@ -7,7 +7,7 @@ export default function DataMonitoringInformation(unformattedData) {
     <>
       <div>
         {`Datapoints Collected on ${new Date(
-          unformattedData.unformattedData[0]["time"]
+          unformattedData.unformattedData[0].time
         ).toLocaleDateString()}: `}
         <span className="font-semibold ">{count}</span>
       </div>
