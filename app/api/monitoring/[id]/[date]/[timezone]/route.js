@@ -28,8 +28,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-
-  events = events.length > 0 ? events : [];
   events = await processMonitoringData(events, date, timezone);
+  events = events.length > 0 ? events : [];
   return Response.json({ response: events }, { status: 200 });
 }
