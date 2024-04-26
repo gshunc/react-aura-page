@@ -8,9 +8,8 @@ export async function GET(request, { params }) {
   const { id, date, timezone } = params;
   const startOfDay = new Date(date);
   startOfDay.setHours(timezone, 0, 0);
-  const dateTime = startOfDay.getTime();
-  var timeZoneAsMS = (timezone * 3600000) / 2;
-  const endOfDay = new Date(dateTime + timeZoneAsMS + 86400000);
+  const dateTime = midnight.getTime();
+  const endOfDay = new Date(dateTime + 86400000);
   console.log(endOfDay);
   let events = await Activity.aggregate([
     {
