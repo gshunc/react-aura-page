@@ -10,29 +10,34 @@ export const processMonitoringData = async (data, date, timezone) => {
   const midnight = new Date(date);
   midnight.setHours(offset, 0, 0);
 
-  const timeSet = new Set();
+  var timeList = [];
 
+  //Creating list of all times from dataset
   for (let i = 0; i < data?.length; i++) {
     const dateTime = new Date(data[i]?.time);
-    const secondsOffset = 3 - (dateTime.getSeconds() % 3);
-    const adjustedTime = new Date(dateTime.getTime() + secondsOffset * 1000);
-    if (adjustedTime >= midnight) {
-      timeSet.add(new Date(adjustedTime.setMilliseconds(0)).getTime());
+    if (dateTime >= midnight) {
+      timeList.push(dateTime.getTime());
     }
   }
-
+  //Want to take a rolling count of the times from the list
   var res = [];
+  //start at midnight
   let currentTime = new Date(midnight.setMilliseconds(0)).getTime();
   if (currentTime >= selectedDate.getTime()) {
     currentTime -= 86400000;
   }
-  const interval = 3000;
-  while (currentTime < selectedDate.getTime()) {
+  for (let i = 0; i < timeList.length; i++) {
+    var count = 0;
+    var currentEnd = currentTime + 900000;
+    while (timeList[i] < currentEnd) {
+      count += 1;
+      i += 1;
+    }
     res.push({
-      events: timeSet.has(currentTime) ? 1 : 0,
-      time: new Date(currentTime),
+      time: currentTime,
+      count: count,
     });
-    currentTime += interval;
+    currentTime = currentEnd;
   }
   return res;
 };

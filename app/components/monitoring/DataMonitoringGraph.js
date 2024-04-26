@@ -9,21 +9,12 @@ ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
 const formatDataForChart = (info) => {
-  //Takes raw activity data and finds counts of different activities over 15 minute intervals for chart data. Complexity O(N), where N is length of activity history (up to 28800 data points).
-
-  //Creating arrays to track 15 minute intervals, assign colors and times to each interval.
   var intervals = [];
   var times = [];
-  //Iterate through all data points to categorize.
-  for (let i = 0; i < info?.length - 300; i += 300) {
-    var count = 0;
-    //Looping through in chunks of 300 data points = 15 minutes of real time. 300 3 second intervals = 900 1 second intervals = 15 minutes. Each index in probabilities is equal to one type of activity.
-    for (let j = i; j < i + 300; j++) {
-      count += info[j]["events"];
-    }
-    intervals.push(count);
-    times.push(formatDate(info[i]["time"]));
-  }
+  info.forEach((element) => {
+    intervals.push(element.count);
+    times.push(formatDate(new Date(element.time)));
+  });
   const labels = times;
   const data = {
     labels,
