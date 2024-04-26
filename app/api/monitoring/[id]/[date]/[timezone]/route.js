@@ -8,8 +8,8 @@ export async function GET(request, { params }) {
   const { id, date, timezone } = params;
   const startOfDay = new Date(date);
   startOfDay.setHours(timezone, 0, 0);
-  const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
-  endOfDay.setHours(0, 0, 0);
+  const endOfDay = new Date(date);
+  endOfDay.setHours(timezone + 24, 0, 0);
   let events = await Activity.aggregate([
     {
       $match: {
