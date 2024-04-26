@@ -13,6 +13,9 @@ export const processMonitoringData = async (data, date, timezone) => {
   const endOfDay = new Date(date);
   endOfDay.setHours(offset + 24, 0, 0);
 
+  console.log(midnight);
+  console.log(endofDay);
+
   var timeList = [];
 
   //Creating list of all times from dataset
