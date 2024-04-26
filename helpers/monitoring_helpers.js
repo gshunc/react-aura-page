@@ -49,6 +49,5 @@ export const processMonitoringData = async (data, date, timezone) => {
     });
     currentTime = currentTime + 900000;
   }
-  console.log(res.length);
   return res;
 };
