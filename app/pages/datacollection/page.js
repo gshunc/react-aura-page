@@ -7,6 +7,7 @@ import LoadingSpinner from "../../components/misc/LoadingSpinner";
 import { pullMonitoringData } from "../../../service/api_service";
 import { useSearchParams, useRouter } from "next/navigation";
 import DataMonitoringGraph from "@/app/components/monitoring/DataMonitoringGraph";
+import DataMonitoringInformation from "@/app/components/monitoring/DataMonitoringInformation";
 
 function DataCollectionContent() {
   const [date, setDate] = useState(new Date(Date.now()));
@@ -55,7 +56,7 @@ function DataCollectionContent() {
           <div className="ml-10">
             <DateComponent date={date} onChange={setDate} />
           </div>
-          <div className="flex flex-row justify-between mt-5 ml-2">
+          <div className="flex flex-row justify-between mt-5 ml-2 mr-2">
             <GraphBox
               title={"Data Collection"}
               content={
@@ -65,8 +66,12 @@ function DataCollectionContent() {
                   <LoadingComponent />
                 )
               }
-              about="This graph displays 15 minute intervals of Datapoints."
+              about="This graph displays 15 minute intervals of the number of datapoints collected."
             />
+            <GraphBox
+              title={"Data Collection Information"}
+              content={<DataMonitoringInformation unformattedData={data} />}
+            ></GraphBox>
           </div>
         </main>
       </>

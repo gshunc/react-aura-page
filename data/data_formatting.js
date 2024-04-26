@@ -249,7 +249,7 @@ export function formatDataForActivityBar(info) {
     labels,
     datasets: [
       {
-        label: "Activity Levels",
+        label: "Active Time",
         data: intervals,
         borderColor: borders,
         backgroundColor: colors,
