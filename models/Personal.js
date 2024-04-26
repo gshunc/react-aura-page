@@ -32,7 +32,7 @@ var personalSchema = new Schema({
   activity: [
     {
       probabilities: [{ type: Number }],
-      time: { type: Date, default: Date.now() },
+      time: { type: Date, default: Date.now(), index: true },
     },
   ],
 

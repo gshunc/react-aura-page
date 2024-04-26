@@ -3,7 +3,6 @@ import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import { formatDate } from "../../../utils/formatDate";
-import Link from "next/link";
 import LoadingComponent from "../misc/LoadingComponent";
 
 ChartJS.register(CategoryScale, ...registerables);
@@ -30,7 +29,7 @@ const formatDataForChart = (info) => {
     labels,
     datasets: [
       {
-        label: "Alexa Interaction Counts",
+        label: "Datapoints",
         data: intervals,
       },
     ],
@@ -38,7 +37,7 @@ const formatDataForChart = (info) => {
 
   return data;
 };
-const AlexaInteractionsGraph = (unformattedData, userid) => {
+const DataMonitoringGraph = (unformattedData) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -61,7 +60,7 @@ const AlexaInteractionsGraph = (unformattedData, userid) => {
       y: {
         title: {
           display: true,
-          text: "# of Alexa Interactions",
+          text: "# of Datapoints",
           font: {
             size: 12,
           },
@@ -91,23 +90,7 @@ const AlexaInteractionsGraph = (unformattedData, userid) => {
   }
   return (
     data &&
-    (!loading ? (
-      <div className="w-full h-full flex flex-col items-center">
-        <Bar data={data} options={options} />{" "}
-        <div>
-          <Link
-            href={`/pages/alexainteractions?userid=${encodeURIComponent(
-              userid
-            )}`}
-            className="underline text-blue-900"
-          >
-            {"View Alexa Interaction Breakdown"}
-          </Link>
-        </div>
-      </div>
-    ) : (
-      <LoadingComponent />
-    ))
+    (!loading ? <Bar data={data} options={options} /> : <LoadingComponent />)
   );
 };
-export default AlexaInteractionsGraph;
+export default DataMonitoringGraph;

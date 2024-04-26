@@ -9,7 +9,7 @@ import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
 import { pullUserData, pullAlexaGraphData } from "../../../service/api_service";
-import { countSteps } from "../../../service/profile_service";
+import { countSteps } from "../../../helpers/profile_helpers";
 import { useSearchParams, useRouter } from "next/navigation";
 import AlexaInteractions from "../../components/alexa/AlexaInteractionsGraph";
 
@@ -93,7 +93,10 @@ function AnalyticsContent() {
                 title={"Alexa Interactions"}
                 content={
                   !loading ? (
-                    <AlexaInteractions unformattedData={alexaData} />
+                    <AlexaInteractions
+                      unformattedData={alexaData}
+                      userid={userid}
+                    />
                   ) : (
                     <LoadingComponent />
                   )

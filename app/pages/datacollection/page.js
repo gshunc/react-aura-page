@@ -1,0 +1,95 @@
+"use client";
+import { useState, useEffect, Suspense } from "react";
+import GraphBox from "../../components/analytics/graphing/GraphBox";
+import DateComponent from "../../components/misc/DateComponent";
+import LoadingComponent from "../../components/misc/LoadingComponent";
+import LoadingSpinner from "../../components/misc/LoadingSpinner";
+import { pullMonitoringData } from "../../../service/api_service";
+import { useSearchParams, useRouter } from "next/navigation";
+import DataMonitoringGraph from "@/app/components/monitoring/DataMonitoringGraph";
+
+function DataCollectionContent() {
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const userid = searchParams.get("userid") ?? "";
+
+  useEffect(() => {
+    const fetchActivity = async () => {
+      setLoading(true);
+      try {
+        const res = await pullMonitoringData(userid, date);
+        setData(res);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        console.error(
+          "Error fetching user actvity at analytics page root:",
+          error
+        );
+      }
+    };
+    fetchActivity();
+  }, [date, userid]);
+
+  if (error) {
+    return (
+      <div>
+        {
+          "There has been an error processing your user data. Please refer to the following information:"
+        }
+        {error.message + ""}
+      </div>
+    );
+  }
+  return userid !== "" ? (
+    data ? (
+      <>
+        <main className="flex min-h-screen flex-col mb-5">
+          <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
+            {"Data Monitoring"}
+          </div>
+          <div className="ml-10">
+            <DateComponent date={date} onChange={setDate} />
+          </div>
+          <div className="flex flex-row justify-between mt-5 ml-2">
+            <GraphBox
+              title={"Data Collection"}
+              content={
+                !loading ? (
+                  <DataMonitoringGraph unformattedData={data} userid={userid} />
+                ) : (
+                  <LoadingComponent />
+                )
+              }
+              about="This graph displays 15 minute intervals of Datapoints."
+            />
+          </div>
+        </main>
+      </>
+    ) : (
+      <div className="flex min-h-screen flex-col mb-5">
+        <div className="font-semibold text-3xl ml-10 mr-2 mt-3 underline">
+          {"Data Collection"}
+        </div>
+        <div className="ml-10 mt-3 font-bold text-3xl flex flex-row">
+          {"Retrieving user data..."}
+          <LoadingSpinner />
+        </div>
+      </div>
+    )
+  ) : (
+    router.push("/")
+  );
+}
+
+export default function DataCollection() {
+  return (
+    <Suspense fallback={<LoadingComponent />}>
+      <DataCollectionContent />
+    </Suspense>
+  );
+}

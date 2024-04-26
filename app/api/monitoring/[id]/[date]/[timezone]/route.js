@@ -1,6 +1,6 @@
 import connectMongoDB from "../../../../../../libs/mongoDB";
 import Activity from "../../../../../../models/Activity";
-import { processUserData } from "../../../../../../helpers/profile_helpers";
+import { processMonitoringData } from "../../../../../../helpers/monitoring_helpers";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
@@ -30,6 +30,6 @@ export async function GET(request, { params }) {
   ]);
 
   events = events.length > 0 ? events : [];
-  events = await processUserData(events, date, timezone);
+  events = await processMonitoringData(events, date, timezone);
   return Response.json({ response: events }, { status: 200 });
 }
