@@ -1,6 +1,6 @@
 import connectMongoDB from "../../../../../../libs/mongoDB";
 import Activity from "../../../../../../models/Activity";
-import { processUserData } from "../../../../../../helpers/profile_helpers";
+import { processMonitoringData } from "../../../../../../helpers/monitoring_helpers";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
@@ -8,8 +8,9 @@ export async function GET(request, { params }) {
   const { id, date, timezone } = params;
   const startOfDay = new Date(date);
   startOfDay.setHours(timezone, 0, 0);
-  const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
-  endOfDay.setHours(0, 0, 0);
+  const dateTime = startOfDay.getTime();
+  const endOfDay = new Date(dateTime + 86400000);
+  console.log(endOfDay);
   let events = await Activity.aggregate([
     {
       $match: {
@@ -28,8 +29,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-
+  events = await processMonitoringData(events, date, timezone);
   events = events.length > 0 ? events : [];
-  events = await processUserData(events, date, timezone);
   return Response.json({ response: events }, { status: 200 });
 }

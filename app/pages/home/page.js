@@ -75,7 +75,7 @@ const HomeContent = () => {
           {"Home"}
         </div>
         <div className="mt-5">
-          <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
+          <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-between">
             <Link
               className="rounded-lg border-2 hover:border-blue-900 max-h-{min}"
               href={`/pages/analytics?userid=${encodeURIComponent(userid)}`}
@@ -97,6 +97,19 @@ const HomeContent = () => {
               />
             </Link>
           </div>
+        </div>
+        <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-between">
+          <Link
+            className="rounded-lg border-2 hover:border-blue-900 max-h-{min}"
+            href={`/pages/datacollection?userid=${encodeURIComponent(userid)}`}
+          >
+            <HomeBox
+              title={"Data Collection Monitoring"}
+              content={
+                <div className="self-center">{`Tools for monitoring patient data collection.`}</div>
+              }
+            />
+          </Link>
         </div>
       </main>
     </>

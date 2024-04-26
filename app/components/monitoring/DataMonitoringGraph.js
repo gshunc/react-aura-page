@@ -3,34 +3,25 @@ import { Chart as ChartJS } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CategoryScale, registerables } from "chart.js";
 import { formatDate } from "../../../utils/formatDate";
-import Link from "next/link";
 import LoadingComponent from "../misc/LoadingComponent";
 
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
 const formatDataForChart = (info) => {
-  //Takes raw activity data and finds counts of different activities over 15 minute intervals for chart data. Complexity O(N), where N is length of activity history (up to 28800 data points).
-
-  //Creating arrays to track 15 minute intervals, assign colors and times to each interval.
   var intervals = [];
   var times = [];
-  //Iterate through all data points to categorize.
-  for (let i = 0; i < info?.length - 300; i += 300) {
-    var count = 0;
-    //Looping through in chunks of 300 data points = 15 minutes of real time. 300 3 second intervals = 900 1 second intervals = 15 minutes. Each index in probabilities is equal to one type of activity.
-    for (let j = i; j < i + 300; j++) {
-      count += info[j]["events"];
-    }
-    intervals.push(count);
-    times.push(formatDate(info[i]["time"]));
-  }
+  info.forEach((element) => {
+    intervals.push(element.count);
+    times.push(formatDate(new Date(element.time)));
+  });
+
   const labels = times;
   const data = {
     labels,
     datasets: [
       {
-        label: "Alexa Interaction Counts",
+        label: "Datapoints",
         data: intervals,
       },
     ],
@@ -38,7 +29,7 @@ const formatDataForChart = (info) => {
 
   return data;
 };
-const AlexaInteractionsGraph = (unformattedData, userid) => {
+const DataMonitoringGraph = (unformattedData) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -61,7 +52,7 @@ const AlexaInteractionsGraph = (unformattedData, userid) => {
       y: {
         title: {
           display: true,
-          text: "# of Alexa Interactions",
+          text: "# of Datapoints",
           font: {
             size: 12,
           },
@@ -91,23 +82,7 @@ const AlexaInteractionsGraph = (unformattedData, userid) => {
   }
   return (
     data &&
-    (!loading ? (
-      <div className="w-full h-full flex flex-col items-center">
-        <Bar data={data} options={options} />{" "}
-        <div>
-          <Link
-            href={`/pages/alexainteractions?userid=${encodeURIComponent(
-              userid
-            )}`}
-            className="underline text-blue-900"
-          >
-            {"View Alexa Interaction Breakdown"}
-          </Link>
-        </div>
-      </div>
-    ) : (
-      <LoadingComponent />
-    ))
+    (!loading ? <Bar data={data} options={options} /> : <LoadingComponent />)
   );
 };
-export default AlexaInteractionsGraph;
+export default DataMonitoringGraph;
