@@ -10,6 +10,7 @@ export async function GET(request, { params }) {
   startOfDay.setHours(timezone, 0, 0);
   const dateTime = startOfDay.getTime();
   const endOfDay = new Date(dateTime + 86400000);
+  
   let events = await Activity.aggregate([
     {
       $match: {
