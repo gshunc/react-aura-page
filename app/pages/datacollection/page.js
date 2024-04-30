@@ -56,7 +56,7 @@ function DataCollectionContent() {
           <div className="ml-10">
             <DateComponent date={date} onChange={setDate} />
           </div>
-          <div className="flex flex-row justify-between mt-5 ml-2 mr-2">
+          <div className="flex flex-row justify-around mt-5 ml-2 mr-2">
             <GraphBox
               title={"Data Collection"}
               content={

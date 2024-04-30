@@ -98,7 +98,7 @@ const HomeContent = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-between">
+        <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
           <Link
             className="rounded-lg border-2 hover:border-blue-900 max-h-{min}"
             href={`/pages/datacollection?userid=${encodeURIComponent(userid)}`}

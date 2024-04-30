@@ -43,46 +43,48 @@ function StatProfile(props) {
     ],
   };
 
-  return step_data && step_data.step_count > 0 ? (
-    <>
-      <div className="flex flex-col h-72 w-72 ml-4">
-        {active_time <= 60 ? (
-          <>
-            <div className="text-xs min-h-5 w-fit pl-2 pr-2 bg-graph_pink/20 border-2 border-graph_pink rounded-sm">
-              Active Time: {active_time} seconds
-            </div>
-          </>
-        ) : (
-          <div className="text-xs min-h-6 w-fit pl-2 pr-2 bg-graph_pink/20 border-2 border-graph_pink rounded-sm">
-            Active Time: {Math.floor(active_time / 60)} minutes,{" "}
-            {active_time % 60} seconds
+  return (
+    <div className="flex flex-col justify-around items-center ml-10">
+      {active_time == 0 ? (
+        <div className="bg-graph_pink/25 p-10 rounded-md border- border-2">
+          {"No active time detected!"}
+        </div>
+      ) : active_time <= 60 ? (
+        <div className="text-xs min-h-6 max-h-6 w-fit pl-2 pr-2 bg-graph_pink/25 border-2 border-graph_pink rounded-sm">
+          Active Time: {active_time} seconds
+        </div>
+      ) : (
+        <div className="text-xs min-h-6 max-h-6 w-fit pl-2 pr-2 bg-graph_pink/25 border-2 border-graph_pink rounded-sm">
+          Active Time: {Math.floor(active_time / 60)} minutes,{" "}
+          {active_time % 60} seconds
+        </div>
+      )}
+      {step_data && step_data.step_count > 0 ? (
+        <div className="flex flex-col h-72 w-72">
+          <div className="text-xs mt-4 min-h-5 w-fit pl-2 pr-2 bg-graph_blue/20 border-2 border-graph_blue rounded-sm">
+            Steps: {step_data.step_count}
           </div>
-        )}
-        <div className="text-xs mt-4 min-h-5 w-fit pl-2 pr-2 bg-graph_blue/20 border-2 border-graph_blue rounded-sm">
-          Steps: {step_data.step_count}
-        </div>
-        <div className="self-center mt-3 max-h-56">
-          <Doughnut
-            data={data}
-            options={{
-              plugins: {
-                legend: {
-                  display: true,
+          <div className="mt-3 max-h-56">
+            <Doughnut
+              data={data}
+              options={{
+                plugins: {
+                  legend: {
+                    display: true,
+                  },
+                  tooltip: {
+                    enabled: false,
+                  },
                 },
-                tooltip: {
-                  enabled: false,
-                },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
-      </div>
-    </>
-  ) : (
-    <div className="ml-4 min-h-full flex flex-col justify-center">
-      <div className="bg-carolina/25 p-10 rounded-md border-blue-900 border-2">
-        {"No activity detected!"}
-      </div>
+      ) : (
+        <div className="bg-carolina/25 p-10 rounded-md border-blue-900 border-2">
+          {"No steps detected!"}
+        </div>
+      )}
     </div>
   );
 }
