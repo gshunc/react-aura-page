@@ -6,62 +6,63 @@ export default function AlexaBox(props) {
     return;
   }
   const content_array = content.split(",");
-  if (content_array.length == 1) {
-    if (content === "step count query") {
-      origin = `${userid}`;
-      message = [`${userid} asked about their step count.`];
-    } else if (content === "heart rate query") {
-      origin = `${userid}`;
-      message = [`${userid} asked about their heart rate.`];
-    } else if (content === "calory query") {
-      origin = `${userid}`;
-      message = [`${userid} asked about calories burned.`];
-    } else if (content === "low step notification") {
-      origin = "System";
-      message = ["Not enough movement in the past two hours."];
-    } else if (content === "step goal achieved") {
-      origin = "System";
-      message = [`${userid} achieved their step goal.`];
-    } else {
-      origin = "System";
-      message = [content];
-    }
-  } else {
-    if (content_array[0] == "d") {
-      message = ["Morning Checkup." + " "];
-      origin = "System";
-      if (content_array[1] == "y") {
-        message.push(`${userid} had a good night's sleep.` + " ");
-      } else {
-        message.push(`${userid} did not have a good night's sleep.`) + " ";
-      }
-      if (content_array[3] == "y") {
-        message.push(`${userid} ate breakfast.`) + " ";
-      } else {
-        message.push(`${userid} did not eat breakfast.` + " ");
-      }
-    }
-    if (content_array[0] == "n") {
-      message = ["Evening Checkups." + " "];
-      origin = "System";
-      if (content_array[1] == "y") {
-        message.push(`${userid} drank enough water today. ` + " ");
-      } else {
-        message.push(`${userid} did not drink enough water today. ` + " ");
-      }
-      if (content_array[3] == "y") {
-        message.push(`${userid} ate dinner.` + " ");
-      } else {
-        message.push(`${userid} did not eat dinner. ` + " ");
-      }
-    }
-    message.push(`${userid} reported feeling: ` + content_array[2] + "." + " ");
-    if (content_array[4] == "y") {
-      message.push(`${userid} took their medicine. ` + " ");
-    } else {
-      message.push(`${userid} did not take their medicine. ` + " ");
-    }
-  }
+  // if (content_array.length == 1) {
+  //   if (content === "step count query") {
+  //     origin = `${userid}`;
+  //     message = [`${userid} asked about their step count.`];
+  //   } else if (content === "heart rate query") {
+  //     origin = `${userid}`;
+  //     message = [`${userid} asked about their heart rate.`];
+  //   } else if (content === "calory query") {
+  //     origin = `${userid}`;
+  //     message = [`${userid} asked about calories burned.`];
+  //   } else if (content === "low step notification") {
+  //     origin = "System";
+  //     message = ["Not enough movement in the past two hours."];
+  //   } else if (content === "step goal achieved") {
+  //     origin = "System";
+  //     message = [`${userid} achieved their step goal.`];
+  //   } else {
+  //     origin = "System";
+  //     message = [content];
+  //   }
+  // } else {
+  //   if (content_array[0] == "d") {
+  //     message = ["Morning Checkup." + " "];
+  //     origin = "System";
+  //     if (content_array[1] == "y") {
+  //       message.push(`${userid} had a good night's sleep.` + " ");
+  //     } else {
+  //       message.push(`${userid} did not have a good night's sleep.`) + " ";
+  //     }
+  //     if (content_array[3] == "y") {
+  //       message.push(`${userid} ate breakfast.`) + " ";
+  //     } else {
+  //       message.push(`${userid} did not eat breakfast.` + " ");
+  //     }
+  //   }
+  //   if (content_array[0] == "n") {
+  //     message = ["Evening Checkups." + " "];
+  //     origin = "System";
+  //     if (content_array[1] == "y") {
+  //       message.push(`${userid} drank enough water today. ` + " ");
+  //     } else {
+  //       message.push(`${userid} did not drink enough water today. ` + " ");
+  //     }
+  //     if (content_array[3] == "y") {
+  //       message.push(`${userid} ate dinner.` + " ");
+  //     } else {
+  //       message.push(`${userid} did not eat dinner. ` + " ");
+  //     }
+  //   }
+  //   message = [`${userid} reported feeling: ` + content_array[2] + "." + " "];
+  //   if (content_array[4] == "y") {
+  //     message.push(`${userid} took their medicine. ` + " ");
+  //   } else {
+  //     message.push(`${userid} did not take their medicine. ` + " ");
+  //   }
+  // }
+  message = content_array;
 
   return (
     <div className={`flex group min-h-home_box_height mb-4`}>
