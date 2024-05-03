@@ -1,5 +1,5 @@
-export const processMonitoringData = async (data, date, timezone) => {
-  const offset = Number(timezone);
+export const processMonitoringData = async (data, date, offset) => {
+  const num_offset = Number(offset);
   const selectedDate = new Date(date);
   if (
     (selectedDate.getDate() != new Date(Date.now()).getDate()) |
@@ -8,10 +8,10 @@ export const processMonitoringData = async (data, date, timezone) => {
     selectedDate.setHours(23 + offset, 59, 59, 999);
   }
   const midnight = new Date(date);
-  midnight.setHours(offset, 0, 0);
+  midnight.setHours(num_offset, 0, 0);
 
   const endOfDay = new Date(date);
-  endOfDay.setHours(offset + 24, 0, 0);
+  endOfDay.setHours(24 + num_offset, 0, 0);
 
   var timeList = [];
 

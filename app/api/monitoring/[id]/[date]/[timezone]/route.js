@@ -6,11 +6,12 @@ export async function GET(request, { params }) {
   await connectMongoDB();
 
   const { id, date, timezone } = params;
+  const num_timezone = Number(timezone);
   const startOfDay = new Date(date);
-  startOfDay.setHours(timezone, 0, 0);
+  startOfDay.setHours(num_timezone, 0, 0);
   const dateTime = startOfDay.getTime();
   const endOfDay = new Date(dateTime + 86400000);
-  
+
   let events = await Activity.aggregate([
     {
       $match: {
@@ -29,7 +30,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-  events = await processMonitoringData(events, date, timezone);
+  events = await processMonitoringData(events, date, num_timezone);
   events = events.length > 0 ? events : [];
   return Response.json({ response: events }, { status: 200 });
 }

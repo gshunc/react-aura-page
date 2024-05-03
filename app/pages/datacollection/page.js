@@ -4,7 +4,7 @@ import GraphBox from "../../components/analytics/graphing/GraphBox";
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
-import { pullMonitoringData } from "../../../service/api_service";
+import { getMonitoringDataById } from "@/helpers/api_helpers";
 import { useSearchParams, useRouter } from "next/navigation";
 import DataMonitoringGraph from "@/app/components/monitoring/DataMonitoringGraph";
 import DataMonitoringInformation from "@/app/components/monitoring/DataMonitoringInformation";
@@ -22,8 +22,8 @@ function DataCollectionContent() {
     const fetchActivity = async () => {
       setLoading(true);
       try {
-        const res = await pullMonitoringData(userid, date);
-        setData(res);
+        const res = await getMonitoringDataById(userid, date);
+        setData(res.response);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -61,7 +61,7 @@ function DataCollectionContent() {
               title={"Data Collection"}
               content={
                 !loading ? (
-                  <DataMonitoringGraph unformattedData={data} userid={userid} />
+                  <DataMonitoringGraph data={data} />
                 ) : (
                   <LoadingComponent />
                 )
@@ -70,7 +70,7 @@ function DataCollectionContent() {
             />
             <GraphBox
               title={"Data Collection Information"}
-              content={<DataMonitoringInformation unformattedData={data} />}
+              content={<DataMonitoringInformation data={data} />}
             ></GraphBox>
           </div>
         </main>

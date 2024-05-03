@@ -29,21 +29,20 @@ const formatDataForChart = (info) => {
 
   return data;
 };
-const DataMonitoringGraph = (unformattedData) => {
+const DataMonitoringGraph = (props) => {
+  const { data } = props;
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [formattedData, setFormattedData] = useState(null);
   useEffect(() => {
     setLoading(true);
-    if (unformattedData) {
-      if (unformattedData.unformattedData?.length != 0) {
-        var formattedData = formatDataForChart(
-          unformattedData?.unformattedData
-        );
+    if (data) {
+      if (data?.length != 0) {
+        var formattedData = formatDataForChart(data);
       }
-      setData(formattedData);
+      setFormattedData(formattedData);
       setLoading(false);
     }
-  }, [unformattedData, unformattedData?.unformattedData]);
+  }, [data]);
   var options = {
     borderWidth: 1,
     borderRadius: 2,
@@ -82,7 +81,11 @@ const DataMonitoringGraph = (unformattedData) => {
   }
   return (
     data &&
-    (!loading ? <Bar data={data} options={options} /> : <LoadingComponent />)
+    (!loading ? (
+      <Bar data={formattedData} options={options} />
+    ) : (
+      <LoadingComponent />
+    ))
   );
 };
 export default DataMonitoringGraph;

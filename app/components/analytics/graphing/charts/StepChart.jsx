@@ -9,20 +9,17 @@ ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
 function StepChart(props) {
-  const { unformattedData, step_data } = props;
+  const { step_data } = props;
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = () => {
-      if (unformattedData.length != 0 && step_data) {
-        const formattedData = formatDataForStepChart(
-          unformattedData,
-          step_data
-        );
+      if (step_data) {
+        const formattedData = formatDataForStepChart(step_data);
         setData(formattedData);
       }
     };
     fetchData();
-  }, [unformattedData, step_data]);
+  }, [step_data]);
 
   if (!data) {
     return (

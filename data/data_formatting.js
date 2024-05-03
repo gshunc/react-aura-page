@@ -2,7 +2,7 @@ import { formatDate } from "../utils/formatDate";
 
 export function formatDataForActivityProfile(info) {
   //Formats data for display in the activity doughnut chart. Categorizes all data into counts of each activity type in an array in a simple for loop. O(N) with N = length of activity_history.
-  var activity_history = info;
+  var activity_history = info.response;
   if (
     !activity_history ||
     activity_history.length === 0 ||
@@ -97,8 +97,7 @@ export function formatDataForActivityProfile(info) {
 
 export function formatDataForStepBar(info, step_data) {
   //Formats data for the step bar chart by binning step amounts into 15 minute sections.
-  var activity_history = info;
-
+  var activity_history = info.response;
   if (
     !activity_history ||
     activity_history.length === 0 ||
@@ -106,8 +105,6 @@ export function formatDataForStepBar(info, step_data) {
   ) {
     throw new Error("Data is not available or incomplete");
   }
-
-  //Looping through activity_history to count step events, same as stepchart but adding .
 
   const step_array = step_data?.step_array;
 
@@ -145,17 +142,7 @@ export function formatDataForStepBar(info, step_data) {
   return data;
 }
 
-export function formatDataForStepChart(info, step_data) {
-  //Formats data by counting every walking or running event as steps. Step amounts are somewhat arbitrary and can be improved with better stats on walking rates and info about users. O(N) with N = length of activity_history.
-  var activity_history = info;
-  if (
-    !activity_history ||
-    activity_history.length === 0 ||
-    !activity_history[0]?.probabilities
-  ) {
-    throw new Error("Data is not available or incomplete");
-  }
-
+export function formatDataForStepChart(step_data) {
   //Looping through all activity_history points and adding steps for running and walking.
   const step_array = step_data?.step_array;
   const times = step_data?.times;
@@ -177,7 +164,7 @@ export function formatDataForStepChart(info, step_data) {
 
 export function formatDataForActivityBar(info) {
   //Takes raw activity data and finds counts of different activities over 15 minute intervals for chart data. Complexity O(N), where N is length of activity history (up to 28800 data points).
-  var activity_history = info;
+  var activity_history = info.response;
   if (
     !activity_history ||
     activity_history.length === 0 ||
@@ -253,6 +240,36 @@ export function formatDataForActivityBar(info) {
         data: intervals,
         borderColor: borders,
         backgroundColor: colors,
+      },
+    ],
+  };
+
+  return data;
+}
+
+export function formatDataForAlexaGraph(info) {
+  //Takes raw activity data and finds counts of different activities over 15 minute intervals for chart data. Complexity O(N), where N is length of activity history (up to 28800 data points).
+  var alexa_history = info.response;
+  //Creating arrays to track 15 minute intervals, assign colors and times to each interval.
+  var intervals = [];
+  var times = [];
+  //Iterate through all data points to categorize.
+  for (let i = 0; i < alexa_history?.length - 300; i += 300) {
+    var count = 0;
+    //Looping through in chunks of 300 data points = 15 minutes of real time. 300 3 second intervals = 900 1 second intervals = 15 minutes. Each index in probabilities is equal to one type of activity.
+    for (let j = i; j < i + 300; j++) {
+      count += alexa_history[j]["events"];
+    }
+    intervals.push(count);
+    times.push(formatDate(alexa_history[i]["time"]));
+  }
+  const labels = times;
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Alexa Interaction Counts",
+        data: intervals,
       },
     ],
   };

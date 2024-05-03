@@ -2,7 +2,7 @@
 import DateComponent from "../../components/misc/DateComponent";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { pullAlexaInteractions } from "../../../service/api_service";
+import { getAlexaInteractionsById } from "@/helpers/api_helpers";
 import AlexaBox from "@/app/components/alexa/interactionVisualizations/AlexaBox";
 
 function AlexaInteractionsContent() {
@@ -15,8 +15,8 @@ function AlexaInteractionsContent() {
     const fetchActivity = async () => {
       try {
         setData(null);
-        const res = await pullAlexaInteractions(userid, date);
-        setData(res);
+        const res = await getAlexaInteractionsById(userid, date);
+        setData(res.response);
       } catch (error) {
         console.error("Error fetching user actvity", error);
       }
