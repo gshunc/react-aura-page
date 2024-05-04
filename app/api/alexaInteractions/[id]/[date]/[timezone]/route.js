@@ -5,7 +5,10 @@ export async function GET(request, { params }) {
   await connectMongoDB();
 
   const { id, date, timezone } = params;
-  const startOfDay = new Date(date);
+  var startOfDay = new Date(date);
+  if (startOfDay.getHours() - timezone < 0) {
+    startOfDay = new Date(startOfDay.getTime() - 86400000);
+  }
   startOfDay.setHours(Number(timezone), 0, 0);
   console.log(startOfDay);
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
@@ -39,6 +42,5 @@ export async function GET(request, { params }) {
     },
   ]);
   events = events.length > 0 ? events[0].events : [];
-  console.log(events);
   return Response.json({ response: events }, { status: 200 });
 }
