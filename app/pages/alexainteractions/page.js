@@ -5,17 +5,38 @@ import { useSearchParams } from "next/navigation";
 import { getAlexaInteractionsById } from "@/helpers/api_helpers";
 import AlexaBox from "@/app/components/alexa/interactionVisualizations/AlexaBox";
 
+const getUser = async (id) => {
+  //Makes call to API to fetch username and timezone from user.
+  try {
+    let res = await fetch(`/api/user_info/${id}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error("Error fetching user data.");
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error in getProfileInfoById:", error);
+    throw new Error(
+      "Error fetching information about user. Details: " + error.message
+    );
+  }
+};
+
 function AlexaInteractionsContent() {
   const searchParams = useSearchParams();
   const userid = searchParams.get("userid") ?? "";
   const [date, setDate] = useState(new Date(Date.now()));
   const [data, setData] = useState(null);
+  const [userOffset, setUserOffset] = useState(null);
 
   useEffect(() => {
     const fetchActivity = async () => {
       try {
+        const user = await getUser(userid);
+        setUserOffset(user.response.timezone_offset);
         setData(null);
-        const res = await getAlexaInteractionsById(userid, date);
+        const res = await getAlexaInteractionsById(userid, date, userOffset);
         setData(res.response);
       } catch (error) {
         console.error("Error fetching user actvity", error);

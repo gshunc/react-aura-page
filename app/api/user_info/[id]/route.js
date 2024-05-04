@@ -5,7 +5,10 @@ import { NextResponse } from "next/server";
 export async function GET(request, { params }) {
   const { id } = params;
   await connectMongoDB();
-  const user = await Personal.findOne({ userid: id }, { name: 1 });
+  const user = await Personal.findOne(
+    { userid: id },
+    { name: 1, timezone_offset: 1 }
+  );
   if (!user) {
     return NextResponse.json({ response: "User not found" }, { status: 404 });
   }

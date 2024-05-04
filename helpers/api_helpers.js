@@ -36,8 +36,7 @@ export const getAlexaInfoById = async (id, date) => {
   }
 };
 
-export const getAlexaInteractionsById = async (id, date) => {
-  const offset = new Date(date).getTimezoneOffset() / 60;
+export const getAlexaInteractionsById = async (id, date, offset) => {
   const currentDate = new Date();
   const isToday = date.setMilliseconds(0) === currentDate.setMilliseconds(0);
 
