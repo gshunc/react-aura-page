@@ -6,9 +6,11 @@ export async function GET(request, { params }) {
 
   const { id, date, timezone } = params;
   const startOfDay = new Date(date);
-  startOfDay.setHours(timezone, 0, 0);
+  startOfDay.setHours(Number(timezone), 0, 0);
+  console.log(startOfDay);
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
   endOfDay.setHours(0, 0, 0);
+  console.log(endOfDay);
 
   let events = await Personal.aggregate([
     {
@@ -37,5 +39,6 @@ export async function GET(request, { params }) {
     },
   ]);
   events = events.length > 0 ? events[0].events : [];
+  console.log(events);
   return Response.json({ response: events }, { status: 200 });
 }
