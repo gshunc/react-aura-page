@@ -1,13 +1,19 @@
 export const processMonitoringData = async (data, date, offset) => {
   const num_offset = Number(offset);
-  const selectedDate = new Date(date);
+  var selectedDate = new Date(date);
+  if (selectedDate.getHours() - timezone < 0) {
+    selectedDate = new Date(selectedDate.getTime() - 86400000);
+  }
   if (
     (selectedDate.getDate() != new Date(Date.now()).getDate()) |
     (selectedDate.getMonth() != new Date(Date.now()).getMonth())
   ) {
     selectedDate.setHours(23 + offset, 59, 59, 999);
   }
-  const midnight = new Date(date);
+  var midnight = new Date(date);
+  if (midnight.getHours() - timezone < 0) {
+    midnight = new Date(midnight.getTime() - 86400000);
+  }
   midnight.setHours(num_offset, 0, 0);
 
   const endOfDay = new Date(date);
