@@ -16,9 +16,6 @@ export const processMonitoringData = async (data, date, offset) => {
   }
   midnight.setHours(num_offset, 0, 0);
 
-  const endOfDay = new Date(date);
-  endOfDay.setHours(24 + num_offset, 0, 0);
-
   var timeList = [];
 
   //Creating list of all times from dataset
@@ -48,7 +45,7 @@ export const processMonitoringData = async (data, date, offset) => {
     });
     currentTime = currentEnd;
   }
-  while (currentTime < endOfDay) {
+  while (currentTime < selectedDate.getTime()) {
     res.push({
       time: currentTime,
       count: 0,
