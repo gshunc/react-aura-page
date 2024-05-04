@@ -32,7 +32,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-  events = await processMonitoringData(events, date, num_timezone);
+  events = await processMonitoringData(events, date, Number(timezone));
   events = events.length > 0 ? events : [];
   return Response.json({ response: events }, { status: 200 });
 }
