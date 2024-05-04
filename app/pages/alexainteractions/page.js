@@ -31,19 +31,31 @@ function AlexaInteractionsContent() {
   const [userOffset, setUserOffset] = useState(null);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await getUser(userid).then();
+        setUserOffset(Number(user?.response?.timezone_offset));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUser();
+  }, [userid]);
+
+  useEffect(() => {
     const fetchActivity = async () => {
       try {
-        const user = await getUser(userid);
-        setUserOffset(user.response.timezone_offset);
-        setData(null);
-        const res = await getAlexaInteractionsById(userid, date, userOffset);
-        setData(res.response);
+        if (userOffset) {
+          setData(null);
+          const res = await getAlexaInteractionsById(userid, date, userOffset);
+          setData(res.response);
+        }
       } catch (error) {
         console.error("Error fetching user actvity", error);
       }
     };
     fetchActivity();
-  }, [date, userid]);
+  }, [userOffset, date]);
 
   return (
     <main>
@@ -56,7 +68,7 @@ function AlexaInteractionsContent() {
         <div className="font-heavy text-lg mr-2 mt-5 mb-5 w-128 text-gray-700 italic">
           {"Boxes contain descriptions of all Alexa interactions of patients."}
         </div>
-        {data?.length != 0 ? (
+        {data && data?.length != 0 ? (
           data?.map((entry) => {
             return (
               <AlexaBox
@@ -64,6 +76,7 @@ function AlexaInteractionsContent() {
                 content={entry.event}
                 key={entry.time}
                 userid={userid}
+                offset={userOffset}
               />
             );
           })

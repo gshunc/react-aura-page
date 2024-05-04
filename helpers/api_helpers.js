@@ -36,13 +36,10 @@ export const getAlexaInfoById = async (id, date) => {
   }
 };
 
-export const getAlexaInteractionsById = async (id, date, offset) => {
-  const currentDate = new Date();
-  const isToday = date.setMilliseconds(0) === currentDate.setMilliseconds(0);
-
+export const getAlexaInteractionsById = async (id, date, timezone) => {
   try {
-    let res = await fetch(`/api/alexaInteractions/${id}/${date}/${offset}`, {
-      cache: isToday ? "no-store" : "default",
+    let res = await fetch(`/api/alexaInteractions/${id}/${date}/${timezone}`, {
+      cache: "no-store",
     });
     if (!res.ok) {
       throw new Error("Error fetching information from user.");
