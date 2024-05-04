@@ -12,6 +12,7 @@ export async function GET(request, { params }) {
   }
   startOfDay.setHours(Number(timezone), 0, 0);
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
+  endOfDay.setHours(Number(timezone), 0, 0);
 
   let events = await Activity.aggregate([
     {
@@ -31,7 +32,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-  events = await processMonitoringData(events, date, Number(timezone));
+  events = await processMonitoringData(events, date, timezone);
   events = events.length > 0 ? events : [];
   return Response.json({ response: events }, { status: 200 });
 }

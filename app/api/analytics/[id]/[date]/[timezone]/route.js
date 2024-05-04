@@ -12,8 +12,8 @@ export async function GET(request, { params }) {
   }
   startOfDay.setHours(Number(timezone), 0, 0);
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
-  console.log(startOfDay);
-  console.log(endOfDay);
+  endOfDay.setHours(Number(timezone), 0, 0);
+
   let events = await Activity.aggregate([
     {
       $match: {
@@ -32,6 +32,7 @@ export async function GET(request, { params }) {
       },
     },
   ]);
+  console.log(events);
 
   events = events.length > 0 ? events : [];
   events = await processUserData(events, date, timezone);
