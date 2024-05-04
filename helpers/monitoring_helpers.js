@@ -1,7 +1,7 @@
 export const processMonitoringData = async (data, date, offset) => {
   const num_offset = Number(offset);
   var selectedDate = new Date(date);
-  if (selectedDate.getHours() - timezone < 0) {
+  if (selectedDate.getHours() - offset < 0) {
     selectedDate = new Date(selectedDate.getTime() - 86400000);
   }
   if (
@@ -11,7 +11,7 @@ export const processMonitoringData = async (data, date, offset) => {
     selectedDate.setHours(23 + offset, 59, 59, 999);
   }
   var midnight = new Date(date);
-  if (midnight.getHours() - timezone < 0) {
+  if (midnight.getHours() - offset < 0) {
     midnight = new Date(midnight.getTime() - 86400000);
   }
   midnight.setHours(num_offset, 0, 0);
