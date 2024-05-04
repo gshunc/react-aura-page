@@ -4,8 +4,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 
-const getName = async (id) => {
-  //Makes call to API to fetch username.
+const getUser = async (id) => {
+  //Makes call to API to fetch username and timezone from user.
   try {
     let res = await fetch(`/api/user_info/${id}`, {
       cache: "no-store",
@@ -59,7 +59,7 @@ const HomeContent = () => {
   useEffect(() => {
     const fetchName = async () => {
       try {
-        const res = await getName(userid);
+        const res = await getUser(userid);
         setUsername(res?.response?.name);
       } catch (error) {
         console.error("Error fetching user actvity", error);
