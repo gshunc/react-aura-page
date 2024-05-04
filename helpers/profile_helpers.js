@@ -25,7 +25,10 @@ export const countSteps = (activity_history) => {
 
 export const processUserData = async (info, date, timezone) => {
   const offset = Number(timezone);
-  const selectedDate = new Date(date);
+  var selectedDate = new Date(date);
+  if (selectedDate.getHours() - timezone < 0) {
+    selectedDate = new Date(selectedDate.getTime() - 86400000);
+  }
   if (
     selectedDate.getDate() != new Date(Date.now()).getDate() ||
     selectedDate.getMonth() != new Date(Date.now()).getMonth()
@@ -38,7 +41,6 @@ export const processUserData = async (info, date, timezone) => {
     midnight = new Date(midnight.getTime() - 86400000);
   }
   midnight.setHours(timezone, 0, 0);
-  console.log(midnight);
 
   const timeMap = new Map();
 
