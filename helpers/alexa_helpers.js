@@ -8,7 +8,8 @@ export const processAlexaData = async (data, date, timezone) => {
     selectedDate.getDate() != new Date(Date.now()).getDate() ||
     selectedDate.getMonth() != new Date(Date.now()).getMonth()
   ) {
-    selectedDate.setHours(23 + offset, 59, 59, 999);
+    selectedDate.setDate(selectedDate.getDate() + 1);
+    selectedDate.setHours(offset, 0, 0, 0);
   }
   var midnight = new Date(date);
   if (midnight.getHours() - timezone < 0) {

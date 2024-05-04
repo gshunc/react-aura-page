@@ -9,7 +9,7 @@ export const processMonitoringData = async (data, date, offset) => {
     (selectedDate.getMonth() != new Date(Date.now()).getMonth())
   ) {
     selectedDate.setDate(selectedDate.getDate() + 1);
-    selectedDate.setHours(0, 0, 0, 0);
+    selectedDate.setHours(num_offset, 0, 0, 0);
   }
   var midnight = new Date(date);
   if (midnight.getHours() - offset < 0) {
