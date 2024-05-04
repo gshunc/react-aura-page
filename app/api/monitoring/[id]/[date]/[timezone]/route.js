@@ -6,11 +6,13 @@ export async function GET(request, { params }) {
   await connectMongoDB();
 
   const { id, date, timezone } = params;
-  const num_timezone = Number(timezone);
-  const startOfDay = new Date(date);
-  startOfDay.setHours(num_timezone, 0, 0);
-  const dateTime = startOfDay.getTime();
-  const endOfDay = new Date(dateTime + 86400000);
+  var startOfDay = new Date(date);
+  if (startOfDay.getHours() - timezone < 0) {
+    startOfDay = new Date(startOfDay.getTime() - 86400000);
+  }
+  startOfDay.setHours(Number(timezone), 0, 0);
+  const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
+  endOfDay.setHours(Number(timezone), 0, 0);
 
   let events = await Activity.aggregate([
     {

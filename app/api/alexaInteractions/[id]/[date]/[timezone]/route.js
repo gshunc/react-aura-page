@@ -10,10 +10,8 @@ export async function GET(request, { params }) {
     startOfDay = new Date(startOfDay.getTime() - 86400000);
   }
   startOfDay.setHours(Number(timezone), 0, 0);
-  console.log(startOfDay);
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
-  endOfDay.setHours(0, 0, 0);
-  console.log(endOfDay);
+  endOfDay.setHours(Number(timezone), 0, 0);
 
   let events = await Personal.aggregate([
     {
