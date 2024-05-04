@@ -33,7 +33,10 @@ export const processUserData = async (info, date, timezone) => {
     selectedDate.setHours(23 + offset, 59, 59, 999);
   }
   const time_series = info;
-  const midnight = new Date(date);
+  var midnight = new Date(date);
+  if (midnight.getHours() - timezone < 0) {
+    midnight = new Date(midnight.getTime() - 86400000);
+  }
   midnight.setHours(timezone, 0, 0);
   console.log(midnight);
 
