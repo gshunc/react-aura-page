@@ -8,7 +8,7 @@ import ActivityProfileContainer from "../../components/analytics/graphing/Activi
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
-import { pullUserData, pullAlexaGraphData } from "../../../service/api_service";
+import { getProfileInfoById, getAlexaInfoById } from "@/helpers/api_helpers";
 import { countSteps } from "../../../helpers/profile_helpers";
 import { useSearchParams, useRouter } from "next/navigation";
 import AlexaInteractions from "../../components/alexa/AlexaInteractionsGraph";
@@ -29,8 +29,8 @@ function AnalyticsContent() {
     const fetchActivity = async () => {
       setLoading(true);
       try {
-        const res = await pullUserData(userid, date);
-        const alexaRes = await pullAlexaGraphData(userid, date);
+        const res = await getProfileInfoById(userid, date);
+        const alexaRes = await getAlexaInfoById(userid, date);
         setData(res);
         setSteps(countSteps(res));
         setAlexaData(alexaRes);

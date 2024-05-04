@@ -1,14 +1,21 @@
 export const processAlexaData = async (data, date, timezone) => {
   const offset = Number(timezone);
-  const selectedDate = new Date(date);
+  var selectedDate = new Date(date);
+  if (selectedDate.getHours() - timezone < 0) {
+    selectedDate = new Date(selectedDate.getTime() - 86400000);
+  }
   if (
     selectedDate.getDate() != new Date(Date.now()).getDate() ||
     selectedDate.getMonth() != new Date(Date.now()).getMonth()
   ) {
-    selectedDate.setHours(23 + offset, 59, 59, 999);
+    selectedDate.setDate(selectedDate.getDate() + 1);
+    selectedDate.setHours(offset, 0, 0, 0);
   }
-  const midnight = new Date(date);
-  midnight.setHours(offset, 0, 0);
+  var midnight = new Date(date);
+  if (midnight.getHours() - timezone < 0) {
+    midnight = new Date(midnight.getTime() - 86400000);
+  }
+  midnight.setHours(timezone, 0, 0);
 
   const timeSet = new Set();
 
