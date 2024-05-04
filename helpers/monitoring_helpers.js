@@ -33,7 +33,7 @@ export const processMonitoringData = async (data, date, offset) => {
   if (currentTime >= selectedDate.getTime()) {
     currentTime -= 86400000;
   }
-
+  
   for (let i = 0; i < timeList.length; i++) {
     var count = 0;
     var currentEnd = currentTime + 900000;
