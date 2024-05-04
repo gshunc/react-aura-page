@@ -35,6 +35,7 @@ export const processUserData = async (info, date, timezone) => {
   const time_series = info;
   const midnight = new Date(date);
   midnight.setHours(timezone, 0, 0);
+  console.log(midnight);
 
   const timeMap = new Map();
 

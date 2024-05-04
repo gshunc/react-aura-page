@@ -32,7 +32,6 @@ export async function GET(request, { params }) {
       },
     },
   ]);
-  console.log(events);
 
   events = events.length > 0 ? events : [];
   events = await processUserData(events, date, timezone);
