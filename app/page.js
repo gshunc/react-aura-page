@@ -30,9 +30,7 @@ export default function Login() {
     const confirmed = userid === res.response.userid;
 
     if (confirmed) {
-      router.push(
-        `/pages/home?userid=${encodeURIComponent(res.response.userid)}`
-      );
+      router.push(`/pages/home/${res.response.userid}`);
     }
   }
   return (

@@ -1,15 +1,12 @@
-"use client";
-import HomeBox from "../../components/home/HomeBox";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect, Suspense } from "react";
+import HomeBox from "../../../components/home/HomeBox";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 
 const getUser = async (id) => {
   //Makes call to API to fetch username and timezone from user.
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   try {
-    let res = await fetch(`/api/user_info/${id}`, {
-      cache: "no-store",
-    });
+    let res = await fetch(`${baseURL}/api/user_info/${encodeURIComponent(id)}`);
     if (!res.ok) {
       throw new Error("Error fetching user data.");
     }
@@ -51,23 +48,16 @@ function AlexaContent({ name }) {
   );
 }
 
-const HomeContent = () => {
-  const searchParams = useSearchParams();
-  const userid = searchParams.get("userid") ?? "";
-  const [username, setUsername] = useState("Loading...");
-  const router = useRouter();
-  useEffect(() => {
-    const fetchName = async () => {
-      try {
-        const res = await getUser(userid);
-        setUsername(res?.response?.name);
-      } catch (error) {
-        console.error("Error fetching user actvity", error);
-      }
-    };
-    fetchName();
-  }, [userid]);
-
+export default async function Home({ params }) {
+  const userid = String(params.userid);
+  let res;
+  try {
+    res = await getUser(userid);
+  } catch (error) {
+    console.error("Error fetching user info:", error);
+    return redirect("/");
+  }
+  const username = res?.response?.name;
   return userid !== "" ? (
     <>
       <main className="flex min-h-screen flex-col mb-5">
@@ -78,7 +68,7 @@ const HomeContent = () => {
           <div className="mt-5 ml-5 mr-5 w-page flex flex-row justify-around">
             <Link
               className="rounded-lg border-2 hover:border-blue-900 max-h-{min}"
-              href={`/pages/analytics?userid=${encodeURIComponent(userid)}`}
+              href={`/pages/analytics/userid`}
             >
               <HomeBox
                 title={"Patient Analytics"}
@@ -114,14 +104,6 @@ const HomeContent = () => {
       </main>
     </>
   ) : (
-    router.push("/")
-  );
-};
-
-export default function Home() {
-  return (
-    <Suspense>
-      <HomeContent></HomeContent>
-    </Suspense>
+    redirect("/")
   );
 }

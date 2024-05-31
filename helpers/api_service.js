@@ -1,7 +1,9 @@
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export const getProfileInfoById = async (id, date) => {
   const offset = new Date(date).getTimezoneOffset() / 60;
   try {
-    let res = await fetch(`/api/analytics/${id}/${date}/${offset}`, {
+    let res = await fetch(`${baseURL}/api/analytics/${id}/${date}/${offset}`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -20,7 +22,7 @@ export const getProfileInfoById = async (id, date) => {
 export const getAlexaInfoById = async (id, date) => {
   const offset = new Date(date).getTimezoneOffset() / 60;
   try {
-    let res = await fetch(`/api/alexaGraph/${id}/${date}/${offset}`, {
+    let res = await fetch(`${baseURL}/api/alexaGraph/${id}/${date}/${offset}`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -38,9 +40,12 @@ export const getAlexaInfoById = async (id, date) => {
 
 export const getAlexaInteractionsById = async (id, date, timezone) => {
   try {
-    let res = await fetch(`/api/alexaInteractions/${id}/${date}/${timezone}`, {
-      cache: "no-store",
-    });
+    let res = await fetch(
+      `${baseURL}/api/alexaInteractions/${id}/${date}/${timezone}`,
+      {
+        cache: "no-store",
+      }
+    );
     if (!res.ok) {
       throw new Error("Error fetching information from user.");
     }
@@ -59,7 +64,7 @@ export const getMonitoringDataById = async (id, date) => {
   const currentDate = new Date();
   const isToday = date.setMilliseconds(0) === currentDate.setMilliseconds(0);
   try {
-    let res = await fetch(`/api/monitoring/${id}/${date}/${offset}`, {
+    let res = await fetch(`${baseURL}/api/monitoring/${id}/${date}/${offset}`, {
       cache: isToday ? "no-store" : "default",
     });
     if (!res.ok) {
