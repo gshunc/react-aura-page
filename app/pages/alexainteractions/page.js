@@ -2,7 +2,7 @@
 import DateComponent from "../../components/misc/DateComponent";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { getAlexaInteractionsById } from "@/helpers/api_helpers";
+import { getAlexaInteractionsById } from "@/helpers/api_service";
 import AlexaBox from "@/app/components/alexa/interactionVisualizations/AlexaBox";
 
 const getUser = async (id) => {

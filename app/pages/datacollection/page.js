@@ -4,7 +4,7 @@ import GraphBox from "../../components/analytics/graphing/GraphBox";
 import DateComponent from "../../components/misc/DateComponent";
 import LoadingComponent from "../../components/misc/LoadingComponent";
 import LoadingSpinner from "../../components/misc/LoadingSpinner";
-import { getMonitoringDataById } from "@/helpers/api_helpers";
+import { getMonitoringDataById } from "@/helpers/api_service";
 import { useSearchParams, useRouter } from "next/navigation";
 import DataMonitoringGraph from "@/app/components/monitoring/DataMonitoringGraph";
 import DataMonitoringInformation from "@/app/components/monitoring/DataMonitoringInformation";
