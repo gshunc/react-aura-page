@@ -16,4 +16,6 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-This portion of the project written by George Harris, 2024.
+This portion of the project was written by George Harris, 2024.
+
+TODO: Fix date being undefined and breaking things when using datepicker. Find a time with data and test things. Try to avoid prop tunneling.

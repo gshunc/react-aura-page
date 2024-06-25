@@ -1,39 +1,31 @@
 "use client";
 import Link from "next/link";
 import NameLabel from "../home/NameLabel";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import LoadingComponent from "../misc/LoadingComponent";
+import { useRouter, useParams } from "next/navigation";
+import { Suspense } from "react";
 
-function HeaderLinksContent() {
-  const searchParams = useSearchParams();
-  const userid = searchParams.get("userid") ?? "";
+export default function HeaderLinks() {
   const router = useRouter();
+  const params = useParams();
+  const { userid } = params;
 
   const handleLogout = () => {
     router.push("/");
   };
-
-  return (
-    <div className="text-blue-900 font-medium flex flex-row text-lg space-x-5 mr-5">
-      {userid && <NameLabel userid={userid} />}
-      <Link
-        href={`/pages/home?userid=${encodeURIComponent(userid)}`}
-        className="underline"
-      >
-        {"Home"}
-      </Link>
-      <button onClick={handleLogout} className="underline">
-        {"Log Out"}
-      </button>
-    </div>
-  );
-}
-
-export default function HeaderLinks() {
   return (
     <Suspense>
-      <HeaderLinksContent />
+      <div className="text-blue-900 font-medium flex flex-row text-lg space-x-5 mr-5">
+        {userid && <NameLabel userid={userid} />}
+        <Link
+          href={`/pages/home/${encodeURIComponent(userid)}`}
+          className="underline"
+        >
+          {"Home"}
+        </Link>
+        <button onClick={handleLogout} className="underline">
+          {"Log Out"}
+        </button>
+      </div>
     </Suspense>
   );
 }

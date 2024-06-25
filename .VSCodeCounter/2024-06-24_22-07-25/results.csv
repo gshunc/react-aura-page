@@ -1,0 +1,58 @@
+"filename", "language", "JSON with Comments", "JavaScript", "XML", "JSON", "Markdown", "CSS", "JavaScript JSX", "comment", "blank", "total"
+"/Users/georgeharris/Development/Research/react-aura-page/.eslintrc.json", "JSON with Comments", 3, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"/Users/georgeharris/Development/Research/react-aura-page/README.md", "Markdown", 0, 0, 0, 0, 15, 0, 0, 0, 7, 22
+"/Users/georgeharris/Development/Research/react-aura-page/app/api/alexaGraph/[id]/[date]/[timezone]/route.js", "JavaScript", 0, 43, 0, 0, 0, 0, 0, 0, 4, 47
+"/Users/georgeharris/Development/Research/react-aura-page/app/api/alexaInteractions/[id]/[date]/[timezone]/route.js", "JavaScript", 0, 41, 0, 0, 0, 0, 0, 0, 4, 45
+"/Users/georgeharris/Development/Research/react-aura-page/app/api/analytics/[id]/[date]/[timezone]/route.js", "JavaScript", 0, 35, 0, 0, 0, 0, 0, 0, 5, 40
+"/Users/georgeharris/Development/Research/react-aura-page/app/api/auth/login/[password]/route.js", "JavaScript", 0, 18, 0, 0, 0, 0, 0, 0, 2, 20
+"/Users/georgeharris/Development/Research/react-aura-page/app/api/monitoring/[id]/[date]/[timezone]/route.js", "JavaScript", 0, 35, 0, 0, 0, 0, 0, 0, 4, 39
+"/Users/georgeharris/Development/Research/react-aura-page/app/api/user_info/[id]/route.js", "JavaScript", 0, 21, 0, 0, 0, 0, 0, 0, 2, 23
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/alexa/AlexaInteractionsGraph.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 78, 0, 6, 84
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/alexa/interactionVisualizations/AlexaBox.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 47, 0, 2, 49
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/ActivityProfileContainer.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 38, 0, 4, 42
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/AnalyticsClient.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 70, 0, 2, 72
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/GraphBox.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 16, 0, 1, 17
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/SmallGraphBox.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 16, 0, 1, 17
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/ActivityBar.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 78, 1, 4, 83
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/ActivityProfile.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 29, 0, 5, 34
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/StatProfile.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 86, 0, 6, 92
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/StepBar.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 66, 0, 4, 70
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/StepChart.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 56, 0, 6, 62
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/home/HomeBox.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 16, 0, 1, 17
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/home/NameLabel.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 30, 1, 4, 35
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/layoutComps/Header.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 16, 0, 2, 18
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/layoutComps/HeaderLinks.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 29, 0, 3, 32
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/misc/DateComponent.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 18, 0, 1, 19
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/misc/LoadingComponent.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 9, 0, 1, 10
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/misc/LoadingSpinner.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 23, 0, 1, 24
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/misc/Question.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 16, 0, 2, 18
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/monitoring/DataMonitoringGraph.js", "JavaScript", 0, 86, 0, 0, 0, 0, 0, 0, 6, 92
+"/Users/georgeharris/Development/Research/react-aura-page/app/components/monitoring/DataMonitoringInformation.js", "JavaScript", 0, 17, 0, 0, 0, 0, 0, 0, 1, 18
+"/Users/georgeharris/Development/Research/react-aura-page/app/globals.css", "CSS", 0, 0, 0, 0, 0, 17, 0, 0, 4, 21
+"/Users/georgeharris/Development/Research/react-aura-page/app/layout.js", "JavaScript", 0, 20, 0, 0, 0, 0, 0, 0, 4, 24
+"/Users/georgeharris/Development/Research/react-aura-page/app/page.js", "JavaScript", 0, 62, 0, 0, 0, 0, 0, 0, 5, 67
+"/Users/georgeharris/Development/Research/react-aura-page/app/pages/alexainteractions/[userid]/page.js", "JavaScript", 0, 87, 0, 0, 0, 0, 0, 1, 9, 97
+"/Users/georgeharris/Development/Research/react-aura-page/app/pages/alexainteractions/page.js", "JavaScript", 0, 96, 0, 0, 0, 0, 0, 1, 8, 105
+"/Users/georgeharris/Development/Research/react-aura-page/app/pages/analytics/[userid]/page.js", "JavaScript", 0, 41, 0, 0, 0, 0, 0, 2, 5, 48
+"/Users/georgeharris/Development/Research/react-aura-page/app/pages/analytics/page.js", "JavaScript", 0, 98, 0, 0, 0, 0, 0, 1, 5, 104
+"/Users/georgeharris/Development/Research/react-aura-page/app/pages/datacollection/page.js", "JavaScript", 0, 96, 0, 0, 0, 0, 0, 0, 5, 101
+"/Users/georgeharris/Development/Research/react-aura-page/app/pages/home/[userid]/page.js", "JavaScript", 0, 104, 0, 0, 0, 0, 0, 1, 5, 110
+"/Users/georgeharris/Development/Research/react-aura-page/data/data_formatting.js", "JavaScript", 0, 245, 0, 0, 0, 0, 0, 14, 20, 279
+"/Users/georgeharris/Development/Research/react-aura-page/eslint.config.mjs", "JavaScript", 0, 8, 0, 0, 0, 0, 0, 0, 2, 10
+"/Users/georgeharris/Development/Research/react-aura-page/helpers/alexa_helpers.js", "JavaScript", 0, 42, 0, 0, 0, 0, 0, 0, 3, 45
+"/Users/georgeharris/Development/Research/react-aura-page/helpers/api_service.js", "JavaScript", 0, 77, 0, 0, 0, 0, 0, 0, 5, 82
+"/Users/georgeharris/Development/Research/react-aura-page/helpers/monitoring_helpers.js", "JavaScript", 0, 52, 0, 0, 0, 0, 0, 3, 4, 59
+"/Users/georgeharris/Development/Research/react-aura-page/helpers/profile_helpers.js", "JavaScript", 0, 71, 0, 0, 0, 0, 0, 40, 10, 121
+"/Users/georgeharris/Development/Research/react-aura-page/jsconfig.json", "JSON with Comments", 7, 0, 0, 0, 0, 0, 0, 0, 1, 8
+"/Users/georgeharris/Development/Research/react-aura-page/libs/mongoDB.js", "JavaScript", 0, 11, 0, 0, 0, 0, 0, 0, 4, 15
+"/Users/georgeharris/Development/Research/react-aura-page/models/Activity.js", "JavaScript", 0, 18, 0, 0, 0, 0, 0, 0, 4, 22
+"/Users/georgeharris/Development/Research/react-aura-page/models/Personal.js", "JavaScript", 0, 75, 0, 0, 0, 0, 0, 0, 11, 86
+"/Users/georgeharris/Development/Research/react-aura-page/next.config.mjs", "JavaScript", 0, 4, 0, 0, 0, 0, 0, 1, 2, 7
+"/Users/georgeharris/Development/Research/react-aura-page/package-lock.json", "JSON", 0, 0, 0, 5302, 0, 0, 0, 0, 1, 5303
+"/Users/georgeharris/Development/Research/react-aura-page/package.json", "JSON", 0, 0, 0, 37, 0, 0, 0, 0, 1, 38
+"/Users/georgeharris/Development/Research/react-aura-page/postcss.config.js", "JavaScript", 0, 6, 0, 0, 0, 0, 0, 0, 1, 7
+"/Users/georgeharris/Development/Research/react-aura-page/public/next.svg", "XML", 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"/Users/georgeharris/Development/Research/react-aura-page/public/vercel.svg", "XML", 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"/Users/georgeharris/Development/Research/react-aura-page/tailwind.config.js", "JavaScript", 0, 30, 0, 0, 0, 0, 0, 1, 2, 33
+"/Users/georgeharris/Development/Research/react-aura-page/utils/formatDate.js", "JavaScript", 0, 10, 0, 0, 0, 0, 0, 1, 1, 12
+"Total", "-", 10, 1549, 2, 5339, 15, 17, 737, 68, 214, 7951

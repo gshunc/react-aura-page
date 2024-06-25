@@ -1,0 +1,139 @@
+Date : 2024-06-24 22:07:25
+Directory : /Users/georgeharris/Development/Research/react-aura-page
+Total : 56 files,  7669 codes, 68 comments, 214 blanks, all 7951 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          2 |      5,339 |          0 |          2 |      5,341 |
+| JavaScript         |         29 |      1,549 |         66 |        143 |      1,758 |
+| JavaScript JSX     |         19 |        737 |          2 |         56 |        795 |
+| CSS                |          1 |         17 |          0 |          4 |         21 |
+| Markdown           |          1 |         15 |          0 |          7 |         22 |
+| JSON with Comments |          2 |         10 |          0 |          2 |         12 |
+| XML                |          2 |          2 |          0 |          0 |          2 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                       |         56 |      7,669 |         68 |        214 |      7,951 |
+| . (Files)                                                                                                               |          9 |      5,412 |          2 |         18 |      5,432 |
+| app                                                                                                                     |         36 |      1,654 |          8 |        134 |      1,796 |
+| app (Files)                                                                                                             |          3 |         99 |          0 |         13 |        112 |
+| app/api                                                                                                                 |          6 |        193 |          0 |         21 |        214 |
+| app/api/alexaGraph                                                                                                      |          1 |         43 |          0 |          4 |         47 |
+| app/api/alexaGraph/[id]                                                                                                 |          1 |         43 |          0 |          4 |         47 |
+| app/api/alexaGraph/[id]/[date]                                                                                          |          1 |         43 |          0 |          4 |         47 |
+| app/api/alexaGraph/[id]/[date]/[timezone]                                                                               |          1 |         43 |          0 |          4 |         47 |
+| app/api/alexaInteractions                                                                                               |          1 |         41 |          0 |          4 |         45 |
+| app/api/alexaInteractions/[id]                                                                                          |          1 |         41 |          0 |          4 |         45 |
+| app/api/alexaInteractions/[id]/[date]                                                                                   |          1 |         41 |          0 |          4 |         45 |
+| app/api/alexaInteractions/[id]/[date]/[timezone]                                                                        |          1 |         41 |          0 |          4 |         45 |
+| app/api/analytics                                                                                                       |          1 |         35 |          0 |          5 |         40 |
+| app/api/analytics/[id]                                                                                                  |          1 |         35 |          0 |          5 |         40 |
+| app/api/analytics/[id]/[date]                                                                                           |          1 |         35 |          0 |          5 |         40 |
+| app/api/analytics/[id]/[date]/[timezone]                                                                                |          1 |         35 |          0 |          5 |         40 |
+| app/api/auth                                                                                                            |          1 |         18 |          0 |          2 |         20 |
+| app/api/auth/login                                                                                                      |          1 |         18 |          0 |          2 |         20 |
+| app/api/auth/login/[password]                                                                                           |          1 |         18 |          0 |          2 |         20 |
+| app/api/monitoring                                                                                                      |          1 |         35 |          0 |          4 |         39 |
+| app/api/monitoring/[id]                                                                                                 |          1 |         35 |          0 |          4 |         39 |
+| app/api/monitoring/[id]/[date]                                                                                          |          1 |         35 |          0 |          4 |         39 |
+| app/api/monitoring/[id]/[date]/[timezone]                                                                               |          1 |         35 |          0 |          4 |         39 |
+| app/api/user_info                                                                                                       |          1 |         21 |          0 |          2 |         23 |
+| app/api/user_info/[id]                                                                                                  |          1 |         21 |          0 |          2 |         23 |
+| app/components                                                                                                          |         21 |        840 |          2 |         63 |        905 |
+| app/components/alexa                                                                                                    |          2 |        125 |          0 |          8 |        133 |
+| app/components/alexa (Files)                                                                                            |          1 |         78 |          0 |          6 |         84 |
+| app/components/alexa/interactionVisualizations                                                                          |          1 |         47 |          0 |          2 |         49 |
+| app/components/analytics                                                                                                |          9 |        455 |          1 |         33 |        489 |
+| app/components/analytics/graphing                                                                                       |          9 |        455 |          1 |         33 |        489 |
+| app/components/analytics/graphing (Files)                                                                               |          4 |        140 |          0 |          8 |        148 |
+| app/components/analytics/graphing/charts                                                                                |          5 |        315 |          1 |         25 |        341 |
+| app/components/home                                                                                                     |          2 |         46 |          1 |          5 |         52 |
+| app/components/layoutComps                                                                                              |          2 |         45 |          0 |          5 |         50 |
+| app/components/misc                                                                                                     |          4 |         66 |          0 |          5 |         71 |
+| app/components/monitoring                                                                                               |          2 |        103 |          0 |          7 |        110 |
+| app/pages                                                                                                               |          6 |        522 |          6 |         37 |        565 |
+| app/pages/alexainteractions                                                                                             |          2 |        183 |          2 |         17 |        202 |
+| app/pages/alexainteractions (Files)                                                                                     |          1 |         96 |          1 |          8 |        105 |
+| app/pages/alexainteractions/[userid]                                                                                    |          1 |         87 |          1 |          9 |         97 |
+| app/pages/analytics                                                                                                     |          2 |        139 |          3 |         10 |        152 |
+| app/pages/analytics (Files)                                                                                             |          1 |         98 |          1 |          5 |        104 |
+| app/pages/analytics/[userid]                                                                                            |          1 |         41 |          2 |          5 |         48 |
+| app/pages/datacollection                                                                                                |          1 |         96 |          0 |          5 |        101 |
+| app/pages/home                                                                                                          |          1 |        104 |          1 |          5 |        110 |
+| app/pages/home/[userid]                                                                                                 |          1 |        104 |          1 |          5 |        110 |
+| data                                                                                                                    |          1 |        245 |         14 |         20 |        279 |
+| helpers                                                                                                                 |          4 |        242 |         43 |         22 |        307 |
+| libs                                                                                                                    |          1 |         11 |          0 |          4 |         15 |
+| models                                                                                                                  |          2 |         93 |          0 |         15 |        108 |
+| public                                                                                                                  |          2 |          2 |          0 |          0 |          2 |
+| utils                                                                                                                   |          1 |         10 |          1 |          1 |         12 |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                                | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/georgeharris/Development/Research/react-aura-page/.eslintrc.json                                                 | JSON with Comments |          3 |          0 |          1 |          4 |
+| /Users/georgeharris/Development/Research/react-aura-page/README.md                                                      | Markdown           |         15 |          0 |          7 |         22 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/api/alexaGraph/[id]/[date]/[timezone]/route.js             | JavaScript         |         43 |          0 |          4 |         47 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/api/alexaInteractions/[id]/[date]/[timezone]/route.js      | JavaScript         |         41 |          0 |          4 |         45 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/api/analytics/[id]/[date]/[timezone]/route.js              | JavaScript         |         35 |          0 |          5 |         40 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/api/auth/login/[password]/route.js                         | JavaScript         |         18 |          0 |          2 |         20 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/api/monitoring/[id]/[date]/[timezone]/route.js             | JavaScript         |         35 |          0 |          4 |         39 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/api/user_info/[id]/route.js                                | JavaScript         |         21 |          0 |          2 |         23 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/alexa/AlexaInteractionsGraph.jsx                | JavaScript JSX     |         78 |          0 |          6 |         84 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/alexa/interactionVisualizations/AlexaBox.jsx    | JavaScript JSX     |         47 |          0 |          2 |         49 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/ActivityProfileContainer.jsx | JavaScript JSX     |         38 |          0 |          4 |         42 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/AnalyticsClient.jsx          | JavaScript JSX     |         70 |          0 |          2 |         72 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/GraphBox.jsx                 | JavaScript JSX     |         16 |          0 |          1 |         17 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/SmallGraphBox.jsx            | JavaScript JSX     |         16 |          0 |          1 |         17 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/ActivityBar.jsx       | JavaScript JSX     |         78 |          1 |          4 |         83 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/ActivityProfile.jsx   | JavaScript JSX     |         29 |          0 |          5 |         34 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/StatProfile.jsx       | JavaScript JSX     |         86 |          0 |          6 |         92 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/StepBar.jsx           | JavaScript JSX     |         66 |          0 |          4 |         70 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/analytics/graphing/charts/StepChart.jsx         | JavaScript JSX     |         56 |          0 |          6 |         62 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/home/HomeBox.jsx                                | JavaScript JSX     |         16 |          0 |          1 |         17 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/home/NameLabel.jsx                              | JavaScript JSX     |         30 |          1 |          4 |         35 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/layoutComps/Header.jsx                          | JavaScript JSX     |         16 |          0 |          2 |         18 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/layoutComps/HeaderLinks.jsx                     | JavaScript JSX     |         29 |          0 |          3 |         32 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/misc/DateComponent.jsx                          | JavaScript JSX     |         18 |          0 |          1 |         19 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/misc/LoadingComponent.jsx                       | JavaScript JSX     |          9 |          0 |          1 |         10 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/misc/LoadingSpinner.jsx                         | JavaScript JSX     |         23 |          0 |          1 |         24 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/misc/Question.jsx                               | JavaScript JSX     |         16 |          0 |          2 |         18 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/monitoring/DataMonitoringGraph.js               | JavaScript         |         86 |          0 |          6 |         92 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/components/monitoring/DataMonitoringInformation.js         | JavaScript         |         17 |          0 |          1 |         18 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/globals.css                                                | CSS                |         17 |          0 |          4 |         21 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/layout.js                                                  | JavaScript         |         20 |          0 |          4 |         24 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/page.js                                                    | JavaScript         |         62 |          0 |          5 |         67 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/pages/alexainteractions/[userid]/page.js                   | JavaScript         |         87 |          1 |          9 |         97 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/pages/alexainteractions/page.js                            | JavaScript         |         96 |          1 |          8 |        105 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/pages/analytics/[userid]/page.js                           | JavaScript         |         41 |          2 |          5 |         48 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/pages/analytics/page.js                                    | JavaScript         |         98 |          1 |          5 |        104 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/pages/datacollection/page.js                               | JavaScript         |         96 |          0 |          5 |        101 |
+| /Users/georgeharris/Development/Research/react-aura-page/app/pages/home/[userid]/page.js                                | JavaScript         |        104 |          1 |          5 |        110 |
+| /Users/georgeharris/Development/Research/react-aura-page/data/data_formatting.js                                        | JavaScript         |        245 |         14 |         20 |        279 |
+| /Users/georgeharris/Development/Research/react-aura-page/eslint.config.mjs                                              | JavaScript         |          8 |          0 |          2 |         10 |
+| /Users/georgeharris/Development/Research/react-aura-page/helpers/alexa_helpers.js                                       | JavaScript         |         42 |          0 |          3 |         45 |
+| /Users/georgeharris/Development/Research/react-aura-page/helpers/api_service.js                                         | JavaScript         |         77 |          0 |          5 |         82 |
+| /Users/georgeharris/Development/Research/react-aura-page/helpers/monitoring_helpers.js                                  | JavaScript         |         52 |          3 |          4 |         59 |
+| /Users/georgeharris/Development/Research/react-aura-page/helpers/profile_helpers.js                                     | JavaScript         |         71 |         40 |         10 |        121 |
+| /Users/georgeharris/Development/Research/react-aura-page/jsconfig.json                                                  | JSON with Comments |          7 |          0 |          1 |          8 |
+| /Users/georgeharris/Development/Research/react-aura-page/libs/mongoDB.js                                                | JavaScript         |         11 |          0 |          4 |         15 |
+| /Users/georgeharris/Development/Research/react-aura-page/models/Activity.js                                             | JavaScript         |         18 |          0 |          4 |         22 |
+| /Users/georgeharris/Development/Research/react-aura-page/models/Personal.js                                             | JavaScript         |         75 |          0 |         11 |         86 |
+| /Users/georgeharris/Development/Research/react-aura-page/next.config.mjs                                                | JavaScript         |          4 |          1 |          2 |          7 |
+| /Users/georgeharris/Development/Research/react-aura-page/package-lock.json                                              | JSON               |      5,302 |          0 |          1 |      5,303 |
+| /Users/georgeharris/Development/Research/react-aura-page/package.json                                                   | JSON               |         37 |          0 |          1 |         38 |
+| /Users/georgeharris/Development/Research/react-aura-page/postcss.config.js                                              | JavaScript         |          6 |          0 |          1 |          7 |
+| /Users/georgeharris/Development/Research/react-aura-page/public/next.svg                                                | XML                |          1 |          0 |          0 |          1 |
+| /Users/georgeharris/Development/Research/react-aura-page/public/vercel.svg                                              | XML                |          1 |          0 |          0 |          1 |
+| /Users/georgeharris/Development/Research/react-aura-page/tailwind.config.js                                             | JavaScript         |         30 |          1 |          2 |         33 |
+| /Users/georgeharris/Development/Research/react-aura-page/utils/formatDate.js                                            | JavaScript         |         10 |          1 |          1 |         12 |
+| Total                                                                                                                   |                    |      7,669 |         68 |        214 |      7,951 |
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

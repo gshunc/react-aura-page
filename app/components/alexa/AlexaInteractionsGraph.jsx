@@ -9,21 +9,22 @@ import { formatDataForAlexaGraph } from "@/data/data_formatting";
 ChartJS.register(CategoryScale, ...registerables);
 ChartJS.defaults.font.size = 8;
 
-const AlexaInteractionsGraph = (unformattedData, userid) => {
+const AlexaInteractionsGraph = (props) => {
+  const { userid, unformattedData } = props;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+
   useEffect(() => {
     setLoading(true);
     if (unformattedData) {
-      if (unformattedData.unformattedData?.length != 0) {
-        var formattedData = formatDataForAlexaGraph(
-          unformattedData?.unformattedData
-        );
+      if (unformattedData.length != 0) {
+        var formattedData = formatDataForAlexaGraph(unformattedData);
       }
       setData(formattedData);
       setLoading(false);
     }
-  }, [unformattedData, unformattedData?.unformattedData]);
+  }, [unformattedData]);
+
   var options = {
     borderWidth: 1,
     borderRadius: 2,
@@ -67,9 +68,7 @@ const AlexaInteractionsGraph = (unformattedData, userid) => {
         <Bar data={data} options={options} />{" "}
         <div>
           <Link
-            href={`/pages/alexainteractions?userid=${encodeURIComponent(
-              userid
-            )}`}
+            href={`/pages/alexainteractions/${userid}`}
             className="underline text-blue-900"
           >
             {"View Alexa Interaction Breakdown"}

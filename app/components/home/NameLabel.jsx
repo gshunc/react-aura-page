@@ -1,14 +1,10 @@
-"use client";
-
-import { useState, useEffect } from "react";
-
-export default function NameLabel({ userid }) {
-  const [name, setName] = useState("Loading...");
+export default async function NameLabel({ userid }) {
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const getName = async (id) => {
     //Makes call to API to fetch username.
     try {
-      let res = await fetch(`/api/user_info/${id}`);
+      let res = await fetch(`${baseURL}/api/user_info/${id}`);
       if (!res.ok) {
         throw new Error("Error fetching user data.");
       }
@@ -21,17 +17,13 @@ export default function NameLabel({ userid }) {
     }
   };
 
-  useEffect(() => {
-    const fetchName = async () => {
-      try {
-        const res = await getName(userid);
-        setName(res?.response?.name);
-      } catch (error) {
-        console.error("Error fetching name:", error);
-      }
-    };
-    fetchName();
-  }, [userid]);
+  let name;
+  try {
+    const res = await getName(userid);
+    name = res?.response?.name;
+  } catch (error) {
+    console.error("Error fetching name:", error);
+  }
 
   return (
     <div className="flex flex-row mr-10">
