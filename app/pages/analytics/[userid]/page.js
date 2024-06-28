@@ -1,5 +1,5 @@
 import AnalyticsClient from "@/app/components/analytics/graphing/AnalyticsClient";
-import { getProfileInfoById, getAlexaInfoById } from "@/helpers/api_service";
+import { getAnalyticsInfoById, getAlexaInfoById } from "@/helpers/api_service";
 import { countSteps } from "../../../../helpers/profile_helpers";
 
 export default async function Analytics({ params }) {
@@ -8,7 +8,7 @@ export default async function Analytics({ params }) {
 
   async function fetchData(date) {
     const [profileData, alexaData] = await Promise.all([
-      getProfileInfoById(userid, date),
+      getAnalyticsInfoById(userid, date),
       getAlexaInfoById(userid, date),
     ]);
 
@@ -26,7 +26,7 @@ export default async function Analytics({ params }) {
         onDateChange={async (newDate) => {
           "use server";
           const [profileData, alexaData] = await Promise.all([
-            getProfileInfoById(userid, newDate),
+            getAnalyticsInfoById(userid, newDate),
             getAlexaInfoById(userid, newDate),
           ]);
           const steps = countSteps(profileData);

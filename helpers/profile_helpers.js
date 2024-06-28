@@ -23,33 +23,36 @@ export const countSteps = (activity_history) => {
   return { step_array, times, step_count };
 };
 
-export const processUserData = async (info, date, timezone) => {
-  const offset = Number(timezone);
-  var selectedDate = new Date(date);
-  if (selectedDate.getHours() - timezone < 0) {
-    selectedDate = new Date(selectedDate.getTime() - 86400000);
-  }
-  if (
-    selectedDate.getDate() != new Date(Date.now()).getDate() ||
-    selectedDate.getMonth() != new Date(Date.now()).getMonth()
-  ) {
-    selectedDate.setDate(selectedDate.getDate() + 1);
-    selectedDate.setHours(offset, 0, 0, 0);
-  }
-  const time_series = info;
-  var midnight = new Date(date);
-  if (midnight.getHours() - timezone < 0) {
-    midnight = new Date(midnight.getTime() - 86400000);
-  }
-  midnight.setHours(timezone, 0, 0);
+export const processUserData = async (time_series, date, timezone) => {
+  //Local time in UTC time
+  const selectedDate = new Date(date);
+  selectedDate.setTime(selectedDate.getTime() - 3600000 * timezone);
 
+  //Local midnight as a UTC Time. -> Go back to local.
+  var startOfDay = new Date(new Date(date).getTime() - 3600000 * timezone);
+  startOfDay.setUTCHours(timezone, 0, 0, 0);
+  startOfDay.setTime(startOfDay.getTime() - 3600000 * timezone);
+
+  // Midnight after selectedDate or selectedDate, whichever is earlier.
+  const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
+  endOfDay.setUTCHours(timezone, 0, 0);
+  if (endOfDay.getTime() > new Date()) {
+    endOfDay.setTime(new Date().getTime());
+  }
+  endOfDay.setTime(endOfDay.getTime() - 3600000 * timezone);
+
+  // Creating a hashmap to store key values of times and their probability vectors. Allows us to then fill in blank times and pull data for the rest.
   const timeMap = new Map();
 
   for (let i = 0; i < time_series?.length; i++) {
-    const dateTime = new Date(time_series[i]?.time);
+    // For every entry in the time series, we find the UTC date and reduce by the timezone offset to match local times.
+    const dateTime = new Date(
+      new Date(time_series[i]?.time).getTime() - 3600000 * timezone
+    );
+    // Every 3 seconds we find the neares datapoint and insert it
     const secondsOffset = 3 - (dateTime.getSeconds() % 3);
     const adjustedTime = new Date(dateTime.getTime() + secondsOffset * 1000);
-    if (adjustedTime >= midnight) {
+    if (adjustedTime >= endOfDay) {
       timeMap.set(
         new Date(adjustedTime.setMilliseconds(0)).getTime(),
         time_series[i].probabilities
@@ -60,11 +63,9 @@ export const processUserData = async (info, date, timezone) => {
   //Filling in empty times, checking if a timestamp was found in the database and updating probabilities accordingly, else we assume the sensor detected empty.
   var res = [];
   const interval = 3000;
-  let currentTime = new Date(midnight.setMilliseconds(0));
-  if (currentTime.getTime() >= selectedDate.getTime()) {
-    currentTime.setTime(currentTime.getTime() - 86400000);
-  }
-  while (currentTime.getTime() < selectedDate.getTime()) {
+  //Here, start of day is already adjusted to local time.
+  let currentTime = new Date(startOfDay.setMilliseconds(0));
+  while (currentTime.getTime() < endOfDay.getTime()) {
     res.push({
       probabilities: timeMap.get(currentTime.getTime()) || [
         1, 0, 0, 0, 0, 0, 0, 0,
@@ -75,46 +76,3 @@ export const processUserData = async (info, date, timezone) => {
   }
   return res;
 };
-
-// Potential start to fix for processing. Remember, need to separate logic for 15 minute binning (i.e. put straight into bins rather than filling in fake data) and otherwise (keep similar logic, but instead we should loop through and sum the stepCounts we get? maybe).
-// export const processUserData = async (info, date, timezone) => {
-//   const offset = Number(timezone);
-//   const selectedDate = new Date(date);
-//   if (
-//     selectedDate.getDate() != new Date(Date.now()).getDate() ||
-//     selectedDate.getMonth() != new Date(Date.now()).getMonth()
-//   ) {
-//     selectedDate.setHours(23 + offset, 59, 59, 999);
-//   }
-//   const time_series = info;
-//   const midnight = new Date(date);
-//   midnight.setHours(timezone, 0, 0);
-
-//   var timeList = [];
-
-//   //This area is causing problems where if I have data that is, for example, 1:00 and then 1:01 and then 1:02, only 1:02 gets counted. Fix this.
-//   for (let i = 0; i < time_series?.length; i++) {
-//     const dateTime = new Date(time_series[i]?.time);
-//     if (adjustedTime >= midnight) {
-//       timeList.push([dateTime.getTime(), time_series[i].probabilities]);
-//     }
-//   }
-
-//   //Filling in empty times, checking if a timestamp was found in the database and updating probabilities accordingly, else we assume the sensor detected empty.
-//   var res = [];
-//   const interval = 3000;
-//   let currentTime = new Date(midnight.setMilliseconds(0));
-//   if (currentTime.getTime() >= selectedDate.getTime()) {
-//     currentTime.setTime(currentTime.getTime() - 86400000);
-//   }
-//   while (currentTime.getTime() < selectedDate.getTime()) {
-//     res.push({
-//       probabilities: timeMap.get(currentTime.getTime()) || [
-//         1, 0, 0, 0, 0, 0, 0, 0,
-//       ],
-//       time: new Date(currentTime.getTime()),
-//     });
-//     currentTime.setMilliseconds(currentTime.getMilliseconds() + interval);
-//   }
-//   return res;
-// };

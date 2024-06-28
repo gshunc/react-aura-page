@@ -4,15 +4,16 @@ import { processUserData } from "../../../../../../helpers/profile_helpers";
 
 export async function GET(request, { params }) {
   await connectMongoDB();
-
   const { id, date, timezone } = params;
-  var startOfDay = new Date(date);
-  if (startOfDay.getHours() - timezone < 0) {
-    startOfDay = new Date(startOfDay.getTime() - 86400000);
-  }
-  startOfDay.setHours(Number(timezone), 0, 0);
+
+  var startOfDay = new Date(new Date().getTime() - 3600000 * timezone);
+  startOfDay.setUTCHours(timezone, 0, 0);
+
   const endOfDay = new Date(new Date(date).setDate(startOfDay.getDate() + 1));
-  endOfDay.setHours(Number(timezone), 0, 0);
+  endOfDay.setHours(timezone);
+  if (endOfDay.getTime() > new Date()) {
+    endOfDay.setTime(new Date().getTime());
+  }
 
   let events = await Activity.aggregate([
     {
