@@ -1,19 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Frontend and Data Processing Service for AURA Project.
 
-## Getting Started
+> Developed in conjunction with Professor Shahriar Nijron and Mahathir Monjur.
 
-First, run the development server:
+### Project Details:
+* Frontend built in Next.JS, Chart.JS for data visualization.
+* Custom data processing service and API. API pulls time series data from MongoDB database where data is then processed into arrays of classifications with heuristic timestamps. This is then formatted for Chart.JS and displayed. Users can select a given day and recieve new charts.
+* Given the inconsistent nature of timestamps, algorithm bins classifications that within three second intervals and computes the sum activity from those timestamps.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-This portion of the project written by George Harris, 2024.
+  
+**George Harris, 2024.**
